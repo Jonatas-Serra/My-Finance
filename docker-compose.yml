@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  node:
+    build: .
+    working_dir: /usr/src/web
+    ports:
+      - '5173:5173'
