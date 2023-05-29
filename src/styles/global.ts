@@ -17,6 +17,12 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
   html {
     @media(max-width: 1080px) {
       font-size: 93.75%;

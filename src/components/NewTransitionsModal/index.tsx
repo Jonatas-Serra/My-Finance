@@ -37,7 +37,7 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
     setAmount(0);
     setCategory('');
     setType('deposit');
-  }
+  }  
 
   return (
     <Modal 
@@ -60,7 +60,7 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
         placeholder="Título" 
         value={title}
         onChange={event => setTitle(event.target.value)}
-        />
+        />      
         <input 
           type="number"
           placeholder="Valor"
