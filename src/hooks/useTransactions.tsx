@@ -18,9 +18,11 @@ interface TransactionsProviderProps {
 
 interface TransactionsContextData {
   transactions: Transaction[];
+  selectedTransaction: Transaction;
   createTransaction: (transaction: TransactionInput) => Promise<void>;
   handleEditTransaction: (transaction: Transaction) => void;
   handleDeleteTransaction: (id: string) => void;
+  handleSelectTransaction: (transaction: Transaction) => void;
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
@@ -30,6 +32,8 @@ const TransactionsContext = createContext<TransactionsContextData>(
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction>({} as Transaction)
+
 
   useEffect(() => {
     api.get('/transactions')
@@ -42,19 +46,25 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
 
   async function handleEditTransaction(transaction: Transaction) {
-    await api.put(`/transactions/${transaction._id}`, transaction)
+    await api.patch(`/transactions/${transaction._id}`, transaction)
   }
 
   async function handleDeleteTransaction(id: string) {
     await api.delete(`/transactions/${id}`)
   }
+
+  function handleSelectTransaction(transaction: Transaction) {
+    setSelectedTransaction(transaction)
+  }
   
   return (
     <TransactionsContext.Provider value={{ 
-      transactions, 
+      transactions,
+      selectedTransaction,
       createTransaction, 
       handleEditTransaction, 
-      handleDeleteTransaction
+      handleDeleteTransaction,
+      handleSelectTransaction,
       }}>
       {children}
     </TransactionsContext.Provider>

@@ -6,6 +6,8 @@ import deleteImg from '../../assets/delete-icon.svg';
 import editImg from '../../assets/pencil-icon.svg';
 import { useState } from "react";
 
+import { EditTransitionModal } from "../EditTransactionModal";
+
 interface Transaction {
   _id: string;
   title: string;
@@ -17,13 +19,19 @@ interface Transaction {
 
 export function TransactionsTable () {
   const [isOpenDel, setIsOpenDel] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
   const { transactions } = useTransactions();
   const [selectedTransaction, setSelectedTransaction] = useState({} as Transaction);
 
   const { handleDeleteTransaction } = useTransactions();
-  
+    
   return (
     <>
+      <EditTransitionModal
+        isOpen={isOpenEdit}
+        onRequestClose={() => setIsOpenEdit(false)}
+        selectedTransaction={selectedTransaction}
+      />
       <Modal
         isOpen={isOpenDel}
         onRequestClose={() => setIsOpenDel(false)}
@@ -32,7 +40,7 @@ export function TransactionsTable () {
       >
         <ContentModalDelete>
           <h2>Excluir Transação?</h2>
-          <img src={deleteImg} alt="lixiera" />
+          <img src={deleteImg} alt="lixeira" />
           <p>Tem certeza que deseja excluir
             <strong> {selectedTransaction.title}</strong> ?
           </p>
@@ -86,6 +94,10 @@ export function TransactionsTable () {
               <td className="actions">
                 <button 
                   type="button"
+                  onClick={() => {
+                    setIsOpenEdit(true)
+                    setSelectedTransaction(transaction)
+                  }}
                 
                 >
                   <img 
@@ -102,7 +114,7 @@ export function TransactionsTable () {
                 >
                 <img 
                 src={deleteImg} 
-                alt="Editar transação"           
+                alt="Deletar transação"           
                 />
                 </button>
               </td>

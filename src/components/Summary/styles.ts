@@ -10,6 +10,36 @@ export const Container = styled.div`
   max-width: 1120px;
   width: 100%;
   
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+    flex-direction: column;
+    gap: 1rem;
+
+    margin-top: -6rem;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+
+      strong {
+        font-size: 1.5rem;
+
+        &.highlight-background {
+          font-size: 2rem;
+        }
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+  }
+}
   
   div {
     background-color: var(--quinary);
@@ -24,10 +54,17 @@ export const Container = styled.div`
 
       p {
         font-size: 1.5rem;
+        @media screen and (max-width: 768px) {
+          font-size: 1rem;
+        }
       }
     }
 
     strong {
+      @media screen and (max-width: 768px) {
+          font-size: 1.5rem;
+        }
+
       display: block;
       margin-top: 1rem;
       font-size: 2rem;

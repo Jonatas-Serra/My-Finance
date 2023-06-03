@@ -3,12 +3,18 @@ import styled from "styled-components";
 export const Container = styled.header`
   background-color: var(--primary);
 
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
 export const Content = styled.div`
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;    
+  }
+
   max-width: 1120px;
   width: 100%;
   margin: 0 auto;
