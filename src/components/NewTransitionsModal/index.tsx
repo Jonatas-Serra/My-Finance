@@ -61,8 +61,10 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
         value={title}
         onChange={event => setTitle(event.target.value)}
         />      
+        {/* Validar somente numeros positivos */}
         <input 
           type="number"
+          min={0}
           placeholder="Valor"
           value={amount}
           onChange={event => setAmount(Number(event.target.value))}
