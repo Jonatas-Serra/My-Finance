@@ -82,6 +82,7 @@ export function EditTransitionModal ({ isOpen, onRequestClose, selectedTransacti
         />
         <input 
           type="number"
+          step="any"
           min={0}
           placeholder="Valor"
           value={amount}
