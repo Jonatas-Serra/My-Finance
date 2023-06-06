@@ -31,6 +31,10 @@ export const Container = styled.div`
     }
 
     td {
+      @media screen and (max-width: 660px) {
+        padding: 0.5rem 1rem;
+      }
+      
       padding: 1rem 2rem;
       background-color: var(--quinary);
       color: var(--white);
