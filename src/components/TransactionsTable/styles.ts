@@ -3,6 +3,17 @@ import styled from "styled-components";
 export const Container = styled.div`
   @media screen and (max-width: 660px) {
     overflow-x: scroll;
+
+    &.deposit {
+      color: var(--quaternary);
+      padding: 0.5rem 1rem;
+    }
+
+    &.withdraw {
+      color: var(--tertiary);
+      padding: 0.5rem 1rem;
+    }
+
   }
 
 
@@ -30,11 +41,7 @@ export const Container = styled.div`
       }
     }
 
-    td {
-      @media screen and (max-width: 660px) {
-        padding: 0.5rem 1rem;
-      }
-      
+    td {  
       padding: 1rem 2rem;
       background-color: var(--quinary);
       color: var(--white);
