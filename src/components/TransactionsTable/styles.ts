@@ -5,7 +5,7 @@ export const Container = styled.div`
     overflow-x: scroll;
 
     td {
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 0.8rem;
     }
   }
 
