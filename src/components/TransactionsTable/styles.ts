@@ -4,16 +4,9 @@ export const Container = styled.div`
   @media screen and (max-width: 660px) {
     overflow-x: scroll;
 
-    &.deposit {
-      color: var(--quaternary);
+    td {
       padding: 0.5rem 1rem;
     }
-
-    &.withdraw {
-      color: var(--tertiary);
-      padding: 0.5rem 1rem;
-    }
-
   }
 
 
