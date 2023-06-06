@@ -3,10 +3,6 @@ import styled from "styled-components";
 export const Container = styled.div`
   @media screen and (max-width: 660px) {
     overflow-x: scroll;
-
-    td {
-      padding: 0.4rem 0.8rem;
-    }
   }
 
 
@@ -71,6 +67,10 @@ export const Container = styled.div`
       img {
         width: 1.8rem;
         height: 1.8rem;
+      }
+
+      @media screen and (max-width: 768px) {
+        padding: 0.4rem 0.8rem;
       }
     }
   }
