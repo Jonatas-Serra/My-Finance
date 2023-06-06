@@ -71,7 +71,6 @@ export function TransactionsTable () {
               <th>Categoria</th>
               <th>Data</th>
               <th>Ações</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
