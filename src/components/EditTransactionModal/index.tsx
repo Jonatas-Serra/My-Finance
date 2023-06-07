@@ -114,16 +114,16 @@ export function EditTransitionModal ({ isOpen, onRequestClose, selectedTransacti
           onChange={event => setCategory(event.target.value)}
           />
         <div className='formaction'>
-          <button 
-            type="submit"
-          >
-            Salvar
-          </button>
           <button
             type="button"
             onClick={onRequestClose}
           >
             Cancelar
+          </button>
+          <button 
+            type="submit"
+          >
+            Salvar
           </button>
         </div>
       </Container>

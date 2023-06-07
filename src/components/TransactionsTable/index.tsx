@@ -7,6 +7,7 @@ import editImg from '../../assets/pencil-icon.svg';
 import { useState } from "react";
 
 import { EditTransitionModal } from "../EditTransactionModal";
+import { Pagination } from "../Pagination";
 
 interface Transaction {
   _id: string;
@@ -22,6 +23,14 @@ export function TransactionsTable () {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const { transactions } = useTransactions();
   const [selectedTransaction, setSelectedTransaction] = useState({} as Transaction);
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const [transactionsPerPage] = useState(5)
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
+
+  const indexOfLastTransaction = currentPage * transactionsPerPage
+  const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage
+  const currentTransactions = transactions.slice(indexOfFirstTransaction, indexOfLastTransaction)
 
   const { handleDeleteTransaction } = useTransactions();
     
@@ -47,18 +56,18 @@ export function TransactionsTable () {
           <div>
             <button
               type="button"
-              onClick={() => {
-                handleDeleteTransaction(selectedTransaction._id)
-                setIsOpenDel(false)
-              }}
-            >Sim</button>
-            <button
-              type="button"
               onClick={() => setIsOpenDel(false)}
               className="cancel"
             >
                 Não
             </button>
+            <button
+              type="button"
+              onClick={() => {
+                handleDeleteTransaction(selectedTransaction._id)
+                setIsOpenDel(false)
+              }}
+            >Sim</button>
           </div>
         </ContentModalDelete>
       </Modal>
@@ -74,7 +83,7 @@ export function TransactionsTable () {
             </tr>
           </thead>
           <tbody>
-            {transactions.map(transaction => (
+            {currentTransactions.map(transaction => (
               <tr key={transaction._id}>
               <td>{transaction.title}</td>
               <td className={transaction.type}>
@@ -122,6 +131,12 @@ export function TransactionsTable () {
           </tbody>
         </table>
       </Container>
+      <Pagination
+        transactionsPerPage={transactionsPerPage}
+        total={transactions.length}
+        current={currentPage}
+        setCurrentPage={paginate}
+       />
     </>
   )
 }

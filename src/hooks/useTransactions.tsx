@@ -34,23 +34,30 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction>({} as Transaction)
 
+  const getTransactions = async () => {
+    const response = await api.get('/transactions')
+    setTransactions(response.data)
+  }
+
 
   useEffect(() => {
-    api.get('/transactions')
-      .then(response => setTransactions(response.data))
+    getTransactions()
   }, [])
   
   async function createTransaction(transactionInput: TransactionInput) {
     await api.post('/transactions', transactionInput )
+    getTransactions()
   }
 
 
   async function handleEditTransaction(transaction: Transaction) {
     await api.patch(`/transactions/${transaction._id}`, transaction)
+    getTransactions()
   }
 
   async function handleDeleteTransaction(id: string) {
     await api.delete(`/transactions/${id}`)
+    getTransactions()
   }
 
   function handleSelectTransaction(transaction: Transaction) {

@@ -21,6 +21,13 @@ export function Header({ onOpenNewTransactionModal } : HeaderProps) {
         >
           Novo Lançamento
         </button>
+        <button
+          type="button"
+          className="button-mobile"
+          onClick={onOpenNewTransactionModal}
+        >
+          +
+        </button>
       </Content>
     </Container>
   );

@@ -38,6 +38,10 @@ export const Content = styled.div`
   }
 
   button {
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+
     font-size: 1.2rem;
     color: var(--background);
     background-color: var(--quaternary);
@@ -53,6 +57,39 @@ export const Content = styled.div`
       filter: brightness(0.9);
     }
   }
+
+  .button-mobile {
+    @media screen and (min-width: 768px) {
+      display: none;
+    }
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: var(--background);
+    background-color: var(--quaternary);
+    border: 0;
+    padding: 2rem;
+    border-radius: 50%;
+    height: 4.5rem;
+    width: 4.5rem;
+    font-weight: 600;
+
+    position: fixed;
+    bottom: 1.4rem;
+    right: 1.4rem;
+
+    z-index: 999;
+
+
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+
 
   h1 {
     color: var(--quaternary);

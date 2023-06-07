@@ -15,7 +15,7 @@ export const Container = styled.div`
     flex-direction: column;
     gap: 1rem;
 
-    margin-top: -6rem;
+    margin-top: -12rem;
 
     div {
       display: flex;

@@ -34,6 +34,8 @@ export const Container = styled.div`
       padding: 1rem 2rem;
       background-color: var(--quinary);
       color: var(--white);
+      white-space: nowrap;
+      
 
       &:first-child {
         color: var(--white);
