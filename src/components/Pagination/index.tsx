@@ -28,7 +28,17 @@ export const Pagination = ({ total, transactionsPerPage, current, setCurrentPage
         <button
           key={page}
           className={current === page ? 'active' : ''}
-          onClick={() => setCurrentPage(page)}
+          onClick={() => {
+            setCurrentPage(page)
+            setTimeout(() => {
+              window.scrollTo({
+                top: 700,
+                behavior: "smooth"
+              })
+            }
+              , 200)
+          }
+          }
         >
           {page}
         </button>
