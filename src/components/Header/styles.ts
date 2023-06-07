@@ -72,8 +72,8 @@ export const Content = styled.div`
     border: 0;
     padding: 2rem;
     border-radius: 50%;
-    height: 4.5rem;
-    width: 4.5rem;
+    height: 28px;
+    width: 28px;
     font-weight: 600;
 
     position: fixed;
