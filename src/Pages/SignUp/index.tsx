@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import {Container, Content, Info, TopLogin, Login, Button} from './styles';
 import { Input } from '../../components/Input';
-import imgLogin from '../../assets/imgLogin.png';
+import imgSignUp from '../../assets/imgSignUp.png';
 import logoImg from '../../assets/logo.svg';
 
 import { FiUser, FiPhone, FiMail, FiLock } from "react-icons/fi";
@@ -115,7 +115,7 @@ export default function Signup () {
         <Info>
           <h1>Cadastre-se</h1>
           <p>Com uma interface amigável e funcionalidades abrangentes, oferecemos uma solução completa para manter suas finanças pessoais sob controle. </p>
-          <img src={imgLogin} alt=""/>
+          <img src={imgSignUp} alt=""/>
         </Info>
         <Form onSubmit={handleSubmit} ref={formRef}>
             <TopLogin>

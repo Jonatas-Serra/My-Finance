@@ -46,7 +46,7 @@ export default function Login() {
           password: data.password,
         });
 
-        navigate('/App')
+        navigate('/dashboard')
         addToast({
           type: 'success',
           title: 'Login realizado com sucesso!',

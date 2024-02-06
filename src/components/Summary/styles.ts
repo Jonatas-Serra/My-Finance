@@ -4,7 +4,6 @@ export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-top: -10rem;
 
 
   max-width: 1120px;
@@ -14,8 +13,6 @@ export const Container = styled.div`
     grid-template-columns: repeat(1, 1fr);
     flex-direction: column;
     gap: 1rem;
-
-    margin-top: -12rem;
 
     div {
       display: flex;
@@ -44,7 +41,7 @@ export const Container = styled.div`
   div {
     background-color: var(--quinary);
     padding: 1.5rem 2rem;
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
     color: var(--white);
     
     header {

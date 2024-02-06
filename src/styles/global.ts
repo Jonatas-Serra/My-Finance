@@ -1,4 +1,3 @@
-import { Input } from './../Pages/ResetPassword/styles';
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
@@ -17,6 +16,25 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
+
+  * {
+  scrollbar-width: thin;
+  scrollbar-color: blue orange;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--quinary);
+  border-radius: 20px;
+  border: 3px solid var(--background);
+}
 
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button { 
@@ -46,7 +64,6 @@ export const GlobalStyle = createGlobalStyle`
     background-color: var(--background);
     -webkit-font-smoothing: antialiased;
     font-family: 'Montserrat', sans-serif;
-
     textarea:focus, input:focus, select:focus {
     box-shadow: 0 0 0 0;
     border: 0 none;

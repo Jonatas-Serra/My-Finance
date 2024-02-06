@@ -13,6 +13,7 @@ export const Container = styled.div`
     border-spacing: 0 0.5rem;
 
     th {  
+      background-color: var(--background);
       color: var(--white);
       font-weight: 400;
       padding: 1rem 2rem;
@@ -43,7 +44,7 @@ export const Container = styled.div`
       }
 
       &:last-child {
-        border-radius: 0 0.25rem 0.25rem 0;
+        border-radius: 0 0.5rem 0.5rem 0;
       }
 
       &.deposit {
