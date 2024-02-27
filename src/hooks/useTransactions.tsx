@@ -65,7 +65,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     if (token) { 
       getTransactions();
     }
-  }, [token])
+  }, [getTransactions, token])
 
   async function createTransaction(transactionInput: TransactionInput) {
     await api.post('/transactions', {

@@ -69,7 +69,7 @@ export function WalletsProvider({ children }: WalletsProviderProps) {
     if (token) { 
       getWallets();
     }
-  }, [token]);
+  }, [getWallets, token]);
 
   const createWallet = async (wallet: WalletInput) => {
     try {
