@@ -1,5 +1,3 @@
-import { Outlet } from "react-router-dom";
-
 import { NavSide } from "../components/NavSide"; 
 
 function App() {

@@ -8,9 +8,20 @@ interface Wallet {
   _id: string;
   name: string;
   amount: number;
-  createdAt: string;
-  createdBy: string;
+  createdAt?: string;
+  createdBy?: string;
 }
+
+interface WalletEdit {
+  _id: string;
+  name: string;
+  amount?: number;
+  createdAt?: string;
+  createdBy?: string;
+  initialBalance?: number;
+  balance?: number;
+}
+
 
 interface EditWalletModalProps {
   isOpen: boolean;
@@ -32,11 +43,13 @@ export function EditWalletModal({ isOpen, onRequestClose, selectedWallet }: Edit
   async function handleEdit(event: FormEvent) {
     event.preventDefault();
 
-    handleEditWallet({
+    const wallet: WalletEdit = {
       _id: selectedWallet._id,
       name
-    });
+    }
 
+    handleEditWallet(wallet);
+  
     onRequestClose();
   }
 

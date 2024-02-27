@@ -15,6 +15,11 @@ interface Wallet {
 
 type WalletInput = Omit<Wallet, '_id' | 'createdAt' | 'balance' | 'currency'>;
 
+type WalletEdit = {
+  _id: string;
+  name: string;
+};
+
 interface WalletsProviderProps {
   children: React.ReactNode;
 }
@@ -24,7 +29,7 @@ interface WalletsContextData {
   selectedWallet: Wallet;
   loading: boolean;
   createWallet: (wallet: WalletInput) => Promise<void>;
-  handleEditWallet: (wallet: Wallet) => void;
+  handleEditWallet: (wallet: WalletEdit) => void; // Alterada para esperar um WalletEdit
   handleDeleteWallet: (id: string) => void;
   handleSelectWallet: (wallet: Wallet) => void;
   getWallets: () => Promise<void>;
@@ -79,16 +84,20 @@ export function WalletsProvider({ children }: WalletsProviderProps) {
     }
   }
 
-  // editar carteira somente o name da carteira usando o patch
-
-  const handleEditWallet = async (wallet: Wallet) => {
+  const handleEditWallet = async (wallet: WalletEdit) => {
     try {
-      await api.patch(`/wallets/${wallet._id}`, wallet, {
+      const updatedWallet = wallets.find(w => w._id === wallet._id);
+      if (!updatedWallet) {
+        return;
+      }
+      updatedWallet.name = wallet.name;
+      
+      await api.patch(`/wallets/${wallet._id}`, updatedWallet, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      setWallets(wallets.map(item => item._id === wallet._id ? wallet : item));
+      setWallets(wallets.map(w => w._id === wallet._id ? updatedWallet : w));
     } catch (error) {
       console.error('Erro ao editar carteira:', error);
     }

@@ -23,7 +23,6 @@ export default function Wallets() {
   const [selectedWallet, setSelectedWallet] = useState({} as Wallet);
   const [isOpenNew, setIsOpenNew] = useState(false);
   const [isOpenDel, setIsOpenDel] = useState(false);
-  const [isOpenEdit, setIsOpenEdit] = useState(false);
 
   return (
     <>
@@ -95,7 +94,6 @@ export default function Wallets() {
                   type="button"
                   className='edit'
                   onClick={() => {
-                    setIsOpenEdit(true)
                     setSelectedWallet(wallet)
                   }}
                 >

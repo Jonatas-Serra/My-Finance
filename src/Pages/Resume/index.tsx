@@ -1,6 +1,5 @@
-import { Container, Header, Content, MainContent, SecondaryContent } from './styles';
+import { Container, Header, Content, MainContent } from './styles';
 import { Summary } from '../../components/Summary';
-import { TransactionsTable } from '../../components/TransactionsTable';
 import { Chart } from '../../components/Chart';
 
 import 'chart.js/auto';
