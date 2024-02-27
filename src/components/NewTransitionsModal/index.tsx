@@ -1,6 +1,8 @@
 import { FormEvent, useState } from 'react';
 import Modal from "react-modal";
 import { useTransactions } from '../../hooks/useTransactions';
+import { useWallets } from '../../hooks/useWallets';
+import { useUser } from '../../hooks/User';
 
 import { Container, TransactionTypeContainer, RadioBox } from './styles';
 
@@ -15,29 +17,44 @@ interface NewTransitionModalProps {
 
 export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionModalProps) {
   const { createTransaction } = useTransactions();
+  const { user } = useUser();
+  const { wallets } = useWallets();
 
-  const [title, setTitle] = useState('');
+  const currentDate = new Date().toISOString().split('T')[0];
+
+  const [description, setDescription] = useState('');
   const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState('');
-  const [type, setType] = useState('deposit');
+  const [type, setType] = useState('Deposit');
+  const [walletId, setWalletId] = useState('');
+  const [date, setDate] = useState('');
+  const createdBy = user._id;
 
   async function handleCreateNewTransition(event: FormEvent) {
     event.preventDefault();
 
     await createTransaction({
-      title,
+      description,
       amount,
       category,
-      type
+      type,
+      createdBy,
+      walletId,
+      date
     })
 
     onRequestClose();
+    handleClear();
+  }  
 
-    setTitle('');
+  const handleClear = () => {
+    setDescription('');
     setAmount(0);
     setCategory('');
-    setType('deposit');
-  }  
+    setType('Deposit');
+    setWalletId('');
+    setDate('');
+  }
 
   return (
     <Modal 
@@ -48,7 +65,10 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
       >
       <button
         type="button"
-        onClick={onRequestClose}
+        onClick={() => {
+          onRequestClose();
+          handleClear();
+        }}
         className="react-modal-close"
         >
         <img src={closeImg} alt="Fechar modal" />
@@ -58,32 +78,38 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
         <h2>Cadastrar Transação</h2>
         <input 
         placeholder="Título" 
-        value={title}
-        onChange={event => setTitle(event.target.value)}
+        value={description}
+        onChange={event => setDescription(event.target.value)}
         />
         <input 
-          type="number"
-          step="any"
-          min={0}
+          type="text"
           placeholder="Valor"
-          value={amount}
-          onChange={event => setAmount(Number(event.target.value))}
-          />
+          value={amount === 0 ? '' : new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          }).format(amount)}
+          onChange={event => {
+            const newValue = event.target.value;
+            setTimeout(() => {
+              setAmount(Number(newValue.replace(/\D/g, '')) / 100);
+            } , 1);
+          }}
+        />
         <TransactionTypeContainer>
           <RadioBox 
             type="button"
-            onClick={() => { setType('deposit'); }}
-            isActive={type === 'deposit'}
-            className={type === 'deposit' ? 'deposit' : ''}
+            onClick={() => { setType('Deposit'); }}
+            isActive={type === 'Deposit'}
+            className={type === 'Deposit' ? 'Deposit' : ''}
             >
             <img src={incomeImg} alt="Entrada" />
             <span>Entrada</span>
           </RadioBox>
           <RadioBox 
             type="button"
-            onClick={() => { setType('withdraw'); }}
-            isActive={type === 'withdraw'}
-            className={type === 'withdraw' ? 'withdraw' : ''}
+            onClick={() => { setType('Withdrawal'); }}
+            isActive={type === 'Withdrawal'}
+            className={type === 'Withdrawal' ? 'Withdrawal' : ''}
           >
             <img src={outcomeImg} alt="Saída" />
             <span>Saída</span>
@@ -94,6 +120,28 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
           value={category}
           onChange={event => setCategory(event.target.value)}
           />
+        <input
+          type="hidden"
+          value={createdBy}
+          />
+        <select
+          placeholder='Selecione a carteira'
+          value={walletId}
+          onChange={event => setWalletId(event.target.value)}
+        >
+          <option value="" disabled>Selecione a carteira</option>
+          {wallets.map(wallet => (
+            <option key={wallet._id} value={wallet._id}>
+              {wallet.name}
+            </option>
+          ))}
+        </select>
+        <input 
+          type="date"
+          max={currentDate}
+          value={date}
+          onChange={event => setDate(event.target.value)}
+          />          
         <button type="submit">Cadastrar</button>
       </Container>
     </Modal>

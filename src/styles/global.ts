@@ -100,7 +100,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     max-width: 576px;
 
-    background-color: var(--quinary);
+    background-color: var(--white);
     padding: 3rem;
     position: relative;
     border-radius: 0.25rem;
@@ -124,5 +124,4 @@ export const GlobalStyle = createGlobalStyle`
       filter: brightness(0.8);
     }
   }
-  
 `;
