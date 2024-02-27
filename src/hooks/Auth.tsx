@@ -29,7 +29,7 @@ interface Props {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-const AuthProvider: React.FC<Props> = ({ children }) => {
+const AuthProvider: React.FC<Props> = ({ children }) => { 
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@Myfinance:token');
     const userString = localStorage.getItem('@Myfinance:user');
