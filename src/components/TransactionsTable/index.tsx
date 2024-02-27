@@ -85,7 +85,7 @@ export function TransactionsTable () {
           <tbody>
             {currentTransactions.map(transaction => (
               <tr key={transaction._id}>
-              <td>{transaction.title}</td>
+              <td>{transaction.description}</td>
               <td className={transaction.type}>
                 {transaction.type === 'withdraw' && '- '}
                 {new Intl.NumberFormat('pt-BR', {

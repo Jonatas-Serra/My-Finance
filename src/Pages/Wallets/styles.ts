@@ -49,7 +49,7 @@ export const WalletsContent = styled.div`
   gap: 20px;
 
   .wallet {
-    width: 200px;
+    width: 240px;
     height: 200px;
     background-color: var(--quinary);
     color: var(--white);
@@ -99,3 +99,68 @@ export const WalletsContent = styled.div`
     }
   }
 `;
+
+export const ContentModalDelete = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+    
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: var(--tertiary);
+    }
+
+    img {
+      width: 5rem;
+      height: 5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      color: var(--background);
+    }
+
+    strong {
+      font-size: 1.2rem;
+      color: var(--tertiary);
+
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      button {
+        font-size: 1.5rem;
+        font-weight: 600;
+        height: 4rem;
+        margin-top: 1.5rem;
+        padding: 0 1.5rem;
+        transition: filter 0.2s;
+        width: 45%;
+        background-color: var(--secondary);
+        color: var(--white);
+        border: 0;
+        border-radius: 0.25rem;
+
+        &:hover {
+          filter: brightness(0.9);
+        }
+
+        &.cancel {
+          background-color: var(--tertiary);
+
+          &:hover {
+            filter: brightness(0.9);
+          }        
+      } 
+
+    }
+  }
+      
+  `;
