@@ -142,9 +142,7 @@ export function EditTransitionModal ({ isOpen, onRequestClose, selectedTransacti
           placeholder='Selecione a carteira'
           value={walletId}
           onChange={(event) => {
-            setWalletId(event.target.value)
-            console.log(event.target.value);
-            
+            setWalletId(event.target.value)            
           }}
         >
           <option className='styledOption' value="" disabled>Selecione a carteira</option>

@@ -4,7 +4,9 @@ import { Container, Header, AddContent, AddButton, WalletsContent, ContentModalD
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import deleteImg from '../../assets/delete-icon.svg';
 
-import { NewWalletsModal } from '../../components/NewWalletsModal';
+import { NewWalletsModal } from '../../components/NewWalletModal';
+import { EditWalletModal } from '../../components/EditWalletModal';
+import { TransferModal } from '../../components/TransferModal';
 
 import { useWallets } from '../../hooks/useWallets';
 
@@ -23,12 +25,25 @@ export default function Wallets() {
   const [selectedWallet, setSelectedWallet] = useState({} as Wallet);
   const [isOpenNew, setIsOpenNew] = useState(false);
   const [isOpenDel, setIsOpenDel] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenTransfer, setIsOpenTransfer] = useState(false);
+
+
 
   return (
     <>
+      <TransferModal
+        isOpen={isOpenTransfer}
+        onRequestClose={() => setIsOpenTransfer(false)}
+      />
       <NewWalletsModal
         isOpen={isOpenNew}
         onRequestClose={() => setIsOpenNew(false)}
+      />
+      <EditWalletModal
+        isOpen={isOpenEdit}
+        onRequestClose={() => setIsOpenEdit(false)}
+        selectedWallet={selectedWallet}
       />
       <Modal
         isOpen={isOpenDel}
@@ -68,7 +83,7 @@ export default function Wallets() {
         </Header>
         <AddContent>
         <AddButton
-            onClick={() => console.log('teste')}
+            onClick={() => setIsOpenTransfer(true)}
           >
             Transferencias entre carteiras
           </AddButton>
@@ -95,6 +110,7 @@ export default function Wallets() {
                   className='edit'
                   onClick={() => {
                     setSelectedWallet(wallet)
+                    setIsOpenEdit(true)
                   }}
                 >
                   <FiEdit size={20} />

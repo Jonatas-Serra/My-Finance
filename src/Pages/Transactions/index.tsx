@@ -157,7 +157,10 @@ export default function Transactions() {
                       new Date(transaction.date)
                     )}</td>
                     <td className={transaction.type === 'Deposit' ? 'deposit' : 'withdraw'}>{
-                      transaction.type === 'Deposit' ? 'Entrada' : 'Saída'
+                      transaction.type === 'Deposit' ? 'Entrada' :
+                      transaction.type === 'Withdrawal' ? 'Saída' :
+                      transaction.type === 'Transfer' ? 'Transf. entre carteiras' :
+                      'Desconhecido'
                     }</td>
                     <td>{transaction.category}</td>
                     <td>
@@ -170,13 +173,15 @@ export default function Transactions() {
                       }
                     </td>
                     <td>
-                      <a
-                        className='edit'
-                        type="button"
-                        onClick={() => {
-                          setIsOpenEdit(true)
-                          setSelectedTransaction(transaction)
-                        }}
+                    <a
+                      className={`edit ${transaction.type === 'Transfer' ? 'disabled' : ''}`}
+                      type="button"
+                      onClick={() => {
+                        if (transaction.type !== 'Transfer') {
+                          setIsOpenEdit(true);
+                          setSelectedTransaction(transaction);
+                        }
+                      }}
                       >
                         <FiEdit size={20} />
                       </a>
@@ -184,8 +189,8 @@ export default function Transactions() {
                         className='delete'
                         type="button"
                         onClick={() => {
-                          setIsOpenDel(true)
-                          setSelectedTransaction(transaction)
+                          setIsOpenDel(true);
+                          setSelectedTransaction(transaction);
                         }}
                       >
                         <FiTrash2 size={20} />

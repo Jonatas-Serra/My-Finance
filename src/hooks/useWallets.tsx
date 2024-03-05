@@ -13,6 +13,16 @@ interface Wallet {
   currency?: string;
 }
 
+interface Transfer {
+  sourceWalletId: string;
+  targetWalletId: string;
+  amount: number;
+  description: string;
+  createdBy: string;
+  date: string;
+
+}
+
 type WalletInput = Omit<Wallet, '_id' | 'createdAt' | 'balance' | 'currency'>;
 
 type WalletEdit = {
@@ -29,10 +39,11 @@ interface WalletsContextData {
   selectedWallet: Wallet;
   loading: boolean;
   createWallet: (wallet: WalletInput) => Promise<void>;
-  handleEditWallet: (wallet: WalletEdit) => void; // Alterada para esperar um WalletEdit
+  handleEditWallet: (wallet: WalletEdit) => void;
   handleDeleteWallet: (id: string) => void;
   handleSelectWallet: (wallet: Wallet) => void;
   getWallets: () => Promise<void>;
+  handleTransferWallet: (transfer: Transfer) => void;
 }
 
 const WalletsContext = createContext<WalletsContextData>(
@@ -121,8 +132,25 @@ export function WalletsProvider({ children }: WalletsProviderProps) {
     setSelectedWallet(wallet);
   }
 
+  const handleTransferWallet = async (transfer: Transfer) => {
+    try {
+      const response = await api.post(`/wallets/transfer`, transfer, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      getTransactions();
+      getWallets();
+      console.log('Transferência realizada com sucesso:', response.data);
+      return response.data;
+      
+    } catch (error) {
+      console.error('Erro ao fazer transferência entre carteira:', error);
+    }
+  }
+
   return (
-    <WalletsContext.Provider value={{ wallets, selectedWallet, loading, createWallet, handleEditWallet, handleDeleteWallet, handleSelectWallet, getWallets }}>
+    <WalletsContext.Provider value={{ wallets, selectedWallet, loading, createWallet, handleEditWallet, handleDeleteWallet, handleSelectWallet, getWallets, handleTransferWallet }}>
       {children}
     </WalletsContext.Provider>
   )

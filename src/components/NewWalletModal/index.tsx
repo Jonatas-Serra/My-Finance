@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import Modal from "react-modal";
 import { useWallets } from '../../hooks/useWallets';
 import { useUser } from '../../hooks/User';
+import { useToast } from '../../hooks/Toast';
 
 import { Container } from './styles';
 
@@ -15,6 +16,7 @@ interface NewWalletsModalProps {
 export function NewWalletsModal ({ isOpen, onRequestClose} : NewWalletsModalProps) {
   const { createWallet } = useWallets();
   const { user } = useUser();
+  const { addToast } = useToast();
 
   const [name, setName] = useState('');
   const [initialBalance, setInitialBalance] = useState(0);
@@ -31,6 +33,12 @@ export function NewWalletsModal ({ isOpen, onRequestClose} : NewWalletsModalProp
 
     onRequestClose();
     handleClear();
+
+    addToast({
+      type: 'success',
+      title: 'Carteira criada com sucesso!',
+      description: `A carteira ${name} foi criada com sucesso.`
+    });
   }  
 
   const handleClear = () => {

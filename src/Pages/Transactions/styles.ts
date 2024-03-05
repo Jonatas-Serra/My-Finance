@@ -156,6 +156,12 @@ export const TransactionsTable = styled.div`
     justify-content: space-around;
   }
 
+  .disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
   .edit {
     color: var(--primary);
     cursor: pointer;

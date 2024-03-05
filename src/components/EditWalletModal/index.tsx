@@ -1,13 +1,15 @@
 import Modal from "react-modal";
 import { FormEvent, useEffect, useState } from "react";
 import { useWallets } from "../../hooks/useWallets";
+import { useToast } from '../../hooks/Toast';
+
+import { Container } from './styles';
 
 import closeImg from '../../assets/close.svg';
 
 interface Wallet {
   _id: string;
   name: string;
-  amount: number;
   createdAt?: string;
   createdBy?: string;
 }
@@ -15,7 +17,6 @@ interface Wallet {
 interface WalletEdit {
   _id: string;
   name: string;
-  amount?: number;
   createdAt?: string;
   createdBy?: string;
   initialBalance?: number;
@@ -31,13 +32,12 @@ interface EditWalletModalProps {
 
 export function EditWalletModal({ isOpen, onRequestClose, selectedWallet }: EditWalletModalProps) {
   const { handleEditWallet } = useWallets();
+  const { addToast } = useToast();
 
   const [name, setName] = useState(selectedWallet.name);
-  const [amount, setAmount] = useState(selectedWallet.amount);
 
   useEffect(() => {
     setName(selectedWallet.name);
-    setAmount(selectedWallet.amount);
   }, [selectedWallet])
 
   async function handleEdit(event: FormEvent) {
@@ -51,6 +51,12 @@ export function EditWalletModal({ isOpen, onRequestClose, selectedWallet }: Edit
     handleEditWallet(wallet);
   
     onRequestClose();
+
+    addToast({
+      type: 'success',
+      title: 'Carteira editada com sucesso!',
+      description: `A carteira ${name} foi editada com sucesso.`
+    });
   }
 
   return (
@@ -67,25 +73,16 @@ export function EditWalletModal({ isOpen, onRequestClose, selectedWallet }: Edit
       >
         <img src={closeImg} alt="Fechar modal" />
       </button>
-
-      <h2>Editar Carteira</h2>
-
-      <form onSubmit={handleEdit}>
+      <Container onSubmit={handleEdit}>
+        <h2>Editar Carteira</h2>
         <input
           type="text"
           placeholder="Nome"
           value={name}
           onChange={event => setName(event.target.value)}
         />
-        <input
-          type="number"
-          placeholder="Saldo"
-          value={amount}
-          onChange={event => setAmount(Number(event.target.value))}
-        />
-
         <button type="submit">Salvar</button>
-      </form>
+      </Container>
     </Modal>
   );
 }
