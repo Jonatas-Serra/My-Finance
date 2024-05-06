@@ -9,7 +9,7 @@ import {
   ReceivablesTable,
  } from './styles';
 
- import { FiSearch, FiEdit, FiTrash2, FiCheckSquare } from "react-icons/fi";
+ import { FiSearch, FiEdit, FiTrash2, FiCheckSquare, FiSquare  } from "react-icons/fi";
 
 export default function Receables() {
   return (

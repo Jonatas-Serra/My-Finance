@@ -93,7 +93,7 @@ export function EditTransitionModal ({ isOpen, onRequestClose, selectedTransacti
       </button>
 
       <Container onSubmit={handleEditTransition}>
-        <h2>Editar Transação</h2>
+        <h2>Editar Lançamento</h2>
         <input 
         placeholder="Título" 
         value={description}

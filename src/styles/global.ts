@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
 
   * {
   scrollbar-width: thin;
-  scrollbar-color: blue orange;
+  scrollbar-color: #733cf8 #F5F5F5;
 }
 
 *::-webkit-scrollbar {

@@ -75,7 +75,7 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
       </button>
 
       <Container onSubmit={handleCreateNewTransition}>
-        <h2>Cadastrar Transação</h2>
+        <h2>Cadastrar Lançamento</h2>
         <input 
         placeholder="Título" 
         value={description}

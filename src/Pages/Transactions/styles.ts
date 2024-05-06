@@ -190,6 +190,10 @@ export const TransactionsTable = styled.div`
   .withdraw {
     color: var(--tertiary);
   }
+
+  .transfer {
+    color: var(--primary);
+  }
   
 `;
 

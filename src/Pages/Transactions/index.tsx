@@ -48,7 +48,7 @@ export default function Transactions() {
   };
 
   const filteredTransactions = transactions.filter(transaction =>
-    transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    transaction.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     transaction.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
     transaction.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
     transaction.walletId.toLowerCase().includes(searchTerm.toLowerCase())
@@ -82,7 +82,7 @@ export default function Transactions() {
         className="react-modal-content"
       >
         <ContentModalDelete>
-          <h2>Excluir Transação?</h2>
+          <h2>Excluir Lançamento?</h2>
           <img src={deleteImg} alt="lixeira" />
           <p>Tem certeza que deseja excluir
             <strong> {selectedTransaction.description}</strong> ?
@@ -107,7 +107,7 @@ export default function Transactions() {
       </Modal>
       <Container onScroll={handleScroll}>
         <Header>
-          <h1>Transações</h1>
+          <h1>Lançamentos</h1>
         </Header>
         <Search>
           <div className='flex'>
@@ -125,7 +125,7 @@ export default function Transactions() {
         <AddContent>
           <AddButton
             onClick={() => setIsOpen(true)}
-          >Nova transação</AddButton>
+          >Novo Lançamento</AddButton>
         </AddContent>
         <TransactionsTable>
           {loading ? (
@@ -156,12 +156,18 @@ export default function Transactions() {
                     }).format(
                       new Date(transaction.date)
                     )}</td>
-                    <td className={transaction.type === 'Deposit' ? 'deposit' : 'withdraw'}>{
-                      transaction.type === 'Deposit' ? 'Entrada' :
-                      transaction.type === 'Withdrawal' ? 'Saída' :
-                      transaction.type === 'Transfer' ? 'Transf. entre carteiras' :
-                      'Desconhecido'
-                    }</td>
+                    <td className={
+                      transaction.type === 'Deposit' ? 'deposit' : 
+                      transaction.type === 'Withdrawal' ? 'withdraw' : 
+                      transaction.type === 'Transfer' ? 'transfer' : '' }
+                    >
+                      {
+                        transaction.type === 'Deposit' ? 'Entrada' :
+                        transaction.type === 'Withdrawal' ? 'Saída' :
+                        transaction.type === 'Transfer' ? 'Transf. entre carteiras' :
+                        'Desconhecido'
+                      }
+                    </td>
                     <td>{transaction.category}</td>
                     <td>
                       {
