@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import api from '../services/api';
 import { useUser } from './User';
 import { useTransactions } from './useTransactions';
-
 interface Account {
   _id: string;
   type: string;
@@ -11,6 +10,7 @@ interface Account {
   issueDate: string;
   documentNumber: string;
   category: string;
+  isPaid: boolean;
   documentType: string;
   description: string;
   payeeOrPayer: string;
@@ -140,12 +140,22 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
   }
 
   useEffect(() => {
-    getAccounts();
-  }, [])
+    if(token) {
+        getAccounts()
+        }
+  }, [getAccounts, token])
 
   return (
     <AccountsContext.Provider value={{ payables, receivables, selectedAccount, loading, createAccount, handleEditAccount, handleDeleteAccount, handleSelectAccount, handlePayAccount, handleUnpayAccount, getAccounts }}>
       {children}
     </AccountsContext.Provider>
   )
+}  
+
+export function useAccounts() {
+  const context = useContext(AccountsContext);
+  if(!context) {
+    throw new Error('useAccounts must be used within a AccountsProvider');
+  }
+  return context;
 }

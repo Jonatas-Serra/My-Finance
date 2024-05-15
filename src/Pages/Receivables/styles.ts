@@ -177,13 +177,24 @@ export const ReceivablesTable = styled.div`
     }
   }
 
+  .paid {
+    color: var(--secondary);
+  }
+
+  .late {
+    color: var(--tertiary);
+  }
+
+  .pending {
+    color: var(--primary);
+  }
+
   .tooltip {
       position: relative;
       display: inline-block;
 
       .tooltiptext {
         visibility: hidden;
-        width: 100px;
         background-color: var(--background);
         color: var(--white);
         text-align: center;

@@ -184,7 +184,6 @@ export const PayablesTable = styled.div`
 
       .tooltiptext {
         visibility: hidden;
-        width: 100px;
         background-color: var(--background);
         color: var(--white);
         text-align: center;

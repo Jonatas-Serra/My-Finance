@@ -51,7 +51,7 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
     addToast({
       type: 'success',
       title: 'Transferência realizada com sucesso!',
-      description: `A transferência no valor de ${amount} foi realizada com sucesso.`
+      description: `A transferência no valor R$ ${amount} foi realizada com sucesso.`
     });
   }
 

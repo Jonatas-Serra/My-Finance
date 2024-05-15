@@ -78,7 +78,7 @@ export function WalletsProvider({ children }: WalletsProviderProps) {
 
   useEffect(() => {
     if (token) { 
-      getWallets();
+        getWallets()
     }
   }, [getWallets, token]);
 
@@ -141,7 +141,6 @@ export function WalletsProvider({ children }: WalletsProviderProps) {
       });
       getTransactions();
       getWallets();
-      console.log('Transferência realizada com sucesso:', response.data);
       return response.data;
       
     } catch (error) {

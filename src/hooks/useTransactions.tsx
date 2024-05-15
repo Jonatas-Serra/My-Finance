@@ -65,7 +65,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     if (token) { 
       getTransactions();
     }
-  }, [getTransactions, token])
+  }, [getTransactions, token]);
 
   async function createTransaction(transactionInput: TransactionInput) {
     await api.post('/transactions', {
@@ -85,8 +85,8 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         Authorization: `Bearer ${token}`
       }
     })
-    getTransactions()
     getWallets()
+    getTransactions()
   }
 
   async function handleDeleteTransaction(id: string) {
@@ -95,8 +95,8 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         Authorization: `Bearer ${token}`
       }
     })
-    getTransactions()
     getWallets()
+    getTransactions()
   }
 
   function handleSelectTransaction(transaction: Transaction) {

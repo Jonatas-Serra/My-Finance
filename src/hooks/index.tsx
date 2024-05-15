@@ -5,6 +5,7 @@ import { ToastProvider } from './Toast';
 import { UserProvider } from './User';
 import { TransactionsProvider } from './useTransactions';
 import { WalletsProvider } from './useWallets';
+import { AccountsProvider } from './useAccounts';
 
 interface Props {
   children: React.ReactNode;
@@ -15,9 +16,11 @@ const AppProvider: React.FC<Props> = ({ children }) => (
     <ToastProvider>
       <UserProvider>
         <WalletsProvider>
-          <TransactionsProvider>
-            {children}
-          </TransactionsProvider>
+          <AccountsProvider>
+            <TransactionsProvider>
+              {children}
+            </TransactionsProvider>
+          </AccountsProvider>
         </WalletsProvider>
       </UserProvider>
     </ToastProvider>
