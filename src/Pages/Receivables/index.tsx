@@ -15,28 +15,28 @@ import {
 
  import { useAccounts } from '../../hooks/useAccounts';
 
- interface Reaceable {
-  _id: string;
-  type: string;
-  description: string;
-  value: number;
-  dueDate: string;
-  issueDate: string;
-  documentNumber: string;
-  category: string;
-  payeeOrPayer: string;
-  repeat: number;
-  isPaid: boolean;
-  createdBy: string;
- }
+//  interface Reaceable {
+//   _id: string;
+//   type: string;
+//   description: string;
+//   value: number;
+//   dueDate: string;
+//   issueDate: string;
+//   documentNumber: string;
+//   category: string;
+//   payeeOrPayer: string;
+//   repeat: number;
+//   isPaid: boolean;
+//   createdBy: string;
+//  }
 
 export default function Receables() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenDel, setIsOpenDel] = useState(false);
-  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [isOpenDel, setIsOpenDel] = useState(false);
+  // const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const { receivables } = useAccounts()
-  const [selectedAccount, setSelectedAccount] = useState({} as Reaceable) 
+  // const [selectedAccount, setSelectedAccount] = useState({} as Reaceable) 
   const [page, setPage] = useState(1);
 
   const loadMore = () => {
@@ -137,10 +137,10 @@ const handleScroll = (event: React.UIEvent<HTMLTableElement>) => {
                 <a 
                   className='delete'
                   type='button'
-                  onClick={() => {
-                    setIsOpenDel(true);
-                    setSelectedAccount(receivable);
-                  }}
+                  // onClick={() => {
+                  //   setIsOpenDel(true);
+                  //   setSelectedAccount(receivable);
+                  // }}
                 >
                   <div className='tooltip'>
                     <FiTrash2 size={20} />

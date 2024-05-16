@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext, useContext, useEffect, useState } from 'react';
 import api from '../services/api';
 import { useUser } from './User';
 import { useTransactions } from './useTransactions';
-import { AxiosError } from 'axios';
 
 interface Wallet {
   _id: string;
@@ -135,7 +135,7 @@ export function WalletsProvider({ children }: WalletsProviderProps) {
 
   const handleTransferWallet = async (transfer: Transfer): Promise<{ success: boolean } | { error: string }> => {
     try {
-      const response = await api.post(`/wallets/transfer`, transfer, {
+      await api.post(`/wallets/transfer`, transfer, {
         headers: {
           Authorization: `Bearer ${token}`
         }
