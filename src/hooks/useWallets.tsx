@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import api from '../services/api';
 import { useUser } from './User';
 import { useTransactions } from './useTransactions';
+import { AxiosError } from 'axios';
 
 interface Wallet {
   _id: string;
@@ -132,7 +133,7 @@ export function WalletsProvider({ children }: WalletsProviderProps) {
     setSelectedWallet(wallet);
   }
 
-  const handleTransferWallet = async (transfer: Transfer) => {
+  const handleTransferWallet = async (transfer: Transfer): Promise<{ success: boolean } | { error: string }> => {
     try {
       const response = await api.post(`/wallets/transfer`, transfer, {
         headers: {
@@ -141,12 +142,15 @@ export function WalletsProvider({ children }: WalletsProviderProps) {
       });
       getTransactions();
       getWallets();
-      return response.data;
-      
-    } catch (error) {
-      console.error('Erro ao fazer transferência entre carteira:', error);
+      return { success: true };
+    } catch (error: any) {
+      return error.response?.data || { error: 'UnknownError' };
     }
   }
+  
+  
+  
+  
 
   return (
     <WalletsContext.Provider value={{ wallets, selectedWallet, loading, createWallet, handleEditWallet, handleDeleteWallet, handleSelectWallet, getWallets, handleTransferWallet }}>

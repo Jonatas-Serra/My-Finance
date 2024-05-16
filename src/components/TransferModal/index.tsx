@@ -35,25 +35,49 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
 
   async function handleTransfer(event: FormEvent) {
     event.preventDefault();
+  
+    const sourceWallet = wallets.find(wallet => wallet._id === sourceWalletId);
+    if (!sourceWallet || sourceWallet.balance < amount) {
+      addToast({
+        type: 'error',
+        title: 'Saldo insuficiente',
+        description: 'O saldo da carteira de origem é insuficiente para realizar a transferência.'
+      });
+      onRequestClose();
+      handleClear();
+      return;
+    }
+  
+    try {
+      await handleTransferWallet({
+        sourceWalletId,
+        targetWalletId,
+        amount,
+        description,
+        createdBy,
+        date: new Date().toISOString(),
+      });
+  
+      onRequestClose();
+      handleClear();
+  
+      addToast({
+        type: 'success',
+        title: 'Transferência realizada com sucesso!',
+        description: `A transferência no valor R$ ${amount} foi realizada com sucesso.`
+      });
+    } catch (err) {
+      addToast({
+        type: 'error',
+        title: 'Erro na transferência',
+        description: 'Ocorreu um erro ao tentar realizar a transferência. Tente novamente.'
+      });
 
-    await handleTransferWallet({
-      sourceWalletId,
-      targetWalletId,
-      amount,
-      description,
-      createdBy,
-      date: new Date().toISOString(),
-    })
-
-    onRequestClose();
-    handleClear();
-
-    addToast({
-      type: 'success',
-      title: 'Transferência realizada com sucesso!',
-      description: `A transferência no valor R$ ${amount} foi realizada com sucesso.`
-    });
+      onRequestClose();
+      handleClear();
+    }
   }
+  
 
   const handleClear = () => {
     setSourceWalletId('');

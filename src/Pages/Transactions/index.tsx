@@ -171,11 +171,7 @@ export default function Transactions() {
                     <td>{transaction.category}</td>
                     <td>
                       {
-                        wallets.map(wallet => {
-                          if (wallet._id === transaction.walletId) {
-                            return wallet.name
-                          }
-                        })
+                        wallets.find(wallet => wallet._id === transaction.walletId)?.name
                       }
                     </td>
                     <td>
