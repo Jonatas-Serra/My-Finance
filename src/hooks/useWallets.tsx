@@ -136,8 +136,9 @@ export function WalletsProvider({ children }: WalletsProviderProps) {
           Authorization: `Bearer ${token}`
         }
       });
-      getTransactions();
-      getWallets();
+      setTimeout(() => {
+        getWallets();
+      }, 1000);
       return { success: true };
     } catch (error: any) {
       return error.response?.data || { error: 'UnknownError' };

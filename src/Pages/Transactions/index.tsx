@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from "react-modal";
 import { 
   Container, 
@@ -38,7 +38,7 @@ export default function Transactions() {
   const [isOpenDel, setIsOpenDel] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const { transactions, loading, handleDeleteTransaction } = useTransactions();
+  const { transactions, loading, handleDeleteTransaction, getTransactions } = useTransactions();
   const [selectedTransaction, setSelectedTransaction] = useState({} as Transaction);
   const { wallets } = useWallets();
   const [page, setPage] = useState(1);
@@ -67,7 +67,10 @@ export default function Transactions() {
     }
   }
 
-
+  useEffect(() => {
+    getTransactions();
+  }, [getTransactions]);
+  
   return (
     <>
       <EditTransitionModal

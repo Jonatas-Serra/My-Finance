@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from "react-modal";
 import { Container, Header, AddContent, AddButton, WalletsContent, ContentModalDelete } from "./styles"
 import { FiEdit, FiTrash2 } from "react-icons/fi";
@@ -21,14 +21,17 @@ interface Wallet {
 }
 
 export default function Wallets() {
-  const { wallets, handleDeleteWallet } = useWallets();
+  const { wallets, handleDeleteWallet, getWallets } = useWallets();
   const [selectedWallet, setSelectedWallet] = useState({} as Wallet);
   const [isOpenNew, setIsOpenNew] = useState(false);
   const [isOpenDel, setIsOpenDel] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenTransfer, setIsOpenTransfer] = useState(false);
 
-
+useEffect(() => {
+  getWallets();
+}
+, [getWallets]);
 
   return (
     <>
