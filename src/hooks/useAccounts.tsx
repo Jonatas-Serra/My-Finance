@@ -1,7 +1,8 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import api from '../services/api';
 import { useUser } from './User';
 import { useTransactions } from './useTransactions';
+
 interface Account {
   _id: string;
   type: string;
@@ -44,34 +45,41 @@ interface AccountsContextData {
 
 const AccountsContext = createContext<AccountsContextData>(
   {} as AccountsContextData
-)
+);
 
 export function AccountsProvider({ children }: AccountsProviderProps) {
   const { user } = useUser();
-  const [payables, setPayables] = useState<Account[]>([])
-  const [receivables, setReceivables] = useState<Account[]>([])
-  const [selectedAccount, setSelectedAccount] = useState<Account>({} as Account)
+  const [payables, setPayables] = useState<Account[]>([]);
+  const [receivables, setReceivables] = useState<Account[]>([]);
+  const [selectedAccount, setSelectedAccount] = useState<Account>({} as Account);
   const [loading, setLoading] = useState(true);
   const { getTransactions } = useTransactions();
 
   const token = localStorage.getItem('@Myfinance:token');
 
-  const getAccounts = async () => {
+  const getAccounts = useCallback(async () => {
+    if (!user?._id || !token) return;
+
+    setLoading(true);
     try {
       const response = await api.get(`/accounts/user/${user._id}`, {
-        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      setPayables(response.data.filter((account: Account) => account.type === 'payable'));
-      setReceivables(response.data.filter((account: Account) => account.type === 'receivable'));
-      setLoading(false);
+      const accounts = response.data;
+      setPayables(accounts.filter((account: Account) => account.type === 'payable'));
+      setReceivables(accounts.filter((account: Account) => account.type === 'receivable'));
     } catch (error) {
       console.error('Erro ao obter contas:', error);
-      setLoading(false); 
+    } finally {
+      setLoading(false);
     }
-  }
+  }, [user, token]);
+
+  useEffect(() => {
+    getAccounts();
+  }, [getAccounts]);
 
   const createAccount = async (account: AccountInput) => {
     try {
@@ -84,11 +92,11 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
     } catch (error) {
       console.error('Erro ao criar conta:', error);
     }
-  }
+  };
 
   const handleEditAccount = (account: Account) => {
     setSelectedAccount(account);
-  }
+  };
 
   const handleDeleteAccount = async (id: string) => {
     try {
@@ -101,11 +109,11 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
     } catch (error) {
       console.error('Erro ao deletar conta:', error);
     }
-  }
+  };
 
   const handleSelectAccount = (account: Account) => {
     setSelectedAccount(account);
-  }
+  };
 
   const handlePayAccount = async (id: string, walletId: string, payday: Date) => {
     try {
@@ -122,7 +130,7 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
     } catch (error) {
       console.error('Erro ao pagar conta:', error);
     }
-  }
+  };
 
   const handleUnpayAccount = async (id: string) => {
     try {
@@ -135,27 +143,33 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
       });
       getAccounts();
     } catch (error) {
-      console.error('Erro ao desfazer pagamento', error);
+      console.error('Erro ao desfazer pagamento:', error);
     }
-  }
-
-  useEffect(() => {
-    if(token) {
-        getAccounts()
-        }
-  }, [getAccounts, token])
+  };
 
   return (
-    <AccountsContext.Provider value={{ payables, receivables, selectedAccount, loading, createAccount, handleEditAccount, handleDeleteAccount, handleSelectAccount, handlePayAccount, handleUnpayAccount, getAccounts }}>
+    <AccountsContext.Provider value={{
+      payables,
+      receivables,
+      selectedAccount,
+      loading,
+      createAccount,
+      handleEditAccount,
+      handleDeleteAccount,
+      handleSelectAccount,
+      handlePayAccount,
+      handleUnpayAccount,
+      getAccounts
+    }}>
       {children}
     </AccountsContext.Provider>
-  )
-}  
+  );
+}
 
 export function useAccounts() {
   const context = useContext(AccountsContext);
-  if(!context) {
-    throw new Error('useAccounts must be used within a AccountsProvider');
+  if (!context) {
+    throw new Error('useAccounts must be used within an AccountsProvider');
   }
   return context;
 }

@@ -1,7 +1,8 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import api from '../services/api';
 import { useUser } from './User';
 import { useWallets } from './useWallets';
+
 interface Transaction {
   _id: string;
   description: string;
@@ -12,7 +13,6 @@ interface Transaction {
   createdBy: string;
   walletId: string;
   date: string;
-
 }
 
 type TransactionInput = Omit<Transaction, '_id' | 'createdAt'>
@@ -45,62 +45,72 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   const token = localStorage.getItem('@Myfinance:token');
 
-  const getTransactions = async () => {
+  const getTransactions = useCallback(async () => {
+    if (!user?._id || !token) return;
+    
+    setLoading(true);
     try {
       const response = await api.get(`/transactions/${user._id}`, {
-        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       setTransactions(response.data);
-      setLoading(false);
     } catch (error) {
       console.error('Erro ao obter transações:', error);
+    } finally {
       setLoading(false); 
     }
-  }
+  }, [user, token]);
 
   useEffect(() => {
-    if (token) { 
-      getTransactions();
-    }
-  }, [getTransactions, token]);
+    getTransactions();
+  }, [getTransactions]);
 
   async function createTransaction(transactionInput: TransactionInput) {
-    await api.post('/transactions', {
-      ...transactionInput
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    getTransactions()
-    getWallets()
+    try {
+      await api.post('/transactions', transactionInput, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      getTransactions();
+      getWallets();
+    } catch (error) {
+      console.error('Erro ao criar transação:', error);
+    }
   }
 
   async function handleEditTransaction(transaction: Transaction) {
-    await api.patch(`/transactions/${transaction._id}`, transaction, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    getWallets()
-    getTransactions()
+    try {
+      await api.patch(`/transactions/${transaction._id}`, transaction, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      getTransactions();
+      getWallets();
+    } catch (error) {
+      console.error('Erro ao editar transação:', error);
+    }
   }
 
   async function handleDeleteTransaction(id: string) {
-    await api.delete(`/transactions/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    getWallets()
-    getTransactions()
+    try {
+      await api.delete(`/transactions/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      getTransactions();
+      getWallets();
+    } catch (error) {
+      console.error('Erro ao deletar transação:', error);
+    }
   }
 
   function handleSelectTransaction(transaction: Transaction) {
-    setSelectedTransaction(transaction)
+    setSelectedTransaction(transaction);
   }
   
   return (
