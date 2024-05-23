@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { useTransactions } from '../../hooks/useTransactions';
 import { useWallets } from '../../hooks/useWallets';
 import { useUser } from '../../hooks/User';
+import { useToast } from '../../hooks/Toast';
 
 import { Container, TransactionTypeContainer, RadioBox } from './styles';
 
@@ -19,6 +20,7 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
   const { createTransaction } = useTransactions();
   const { user } = useUser();
   const { wallets } = useWallets();
+  const { addToast } = useToast();
 
   const currentDate = new Date().toISOString().split('T')[0];
 
@@ -42,6 +44,12 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
       walletId,
       date
     })
+
+    addToast({
+      type: 'success',
+      title: 'Lançamento criado com sucesso!',
+      description: `O lançamento ${description} foi criado com sucesso.`
+    });
 
     onRequestClose();
     handleClear();

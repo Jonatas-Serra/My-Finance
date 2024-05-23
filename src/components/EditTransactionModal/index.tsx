@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import Modal from "react-modal";
 import { useTransactions } from '../../hooks/useTransactions';
 import { useWallets } from '../../hooks/useWallets';
+import { useToast } from '../../hooks/Toast';
 
 import { Container, TransactionTypeContainer, RadioBox } from './styles';
 
@@ -29,6 +30,7 @@ interface EditTransitionModalProps {
 
 export function EditTransitionModal ({ isOpen, onRequestClose, selectedTransaction} : EditTransitionModalProps) {
   const { handleEditTransaction } = useTransactions();
+  const { addToast } = useToast();
 
   const { wallets } = useWallets();
 
@@ -66,6 +68,12 @@ export function EditTransitionModal ({ isOpen, onRequestClose, selectedTransacti
       createdBy: selectedTransaction.createdBy,
       walletId
     })
+
+    addToast({
+      type: 'success',
+      title: 'Lançamento editado com sucesso!',
+      description: `O lançamento ${description} foi editado com sucesso.`
+    });
     onRequestClose();
 
     setDescription('');

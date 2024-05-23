@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import Modal from "react-modal";
 import { useWallets } from "../../hooks/useWallets";
 import { useAccounts } from '../../hooks/useAccounts';
+import { useToast } from '../../hooks/Toast';
 
 import { Container } from './styles';
 
@@ -29,6 +30,7 @@ interface EditAccountsModalProps {
 
 export function EditAccountModal ({ typeOfAccount, isOpen, onRequestClose, selectedAccount} : EditAccountsModalProps) {
   const { wallets } = useWallets();
+  const { addToast } = useToast();
   const { EditAccount } = useAccounts();
 
   const [type, setType] = useState(selectedAccount.type);
@@ -69,6 +71,11 @@ export function EditAccountModal ({ typeOfAccount, isOpen, onRequestClose, selec
       walletId
     });
 
+    addToast({
+      type: 'success',
+      title: 'Conta editada com sucesso!',
+      description: 'A conta foi editada com sucesso.'
+    });
     onRequestClose();
   }
 

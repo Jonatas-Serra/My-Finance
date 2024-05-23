@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { useWallets } from '../../hooks/useWallets';
 import { useUser } from '../../hooks/User';
 import { useAccounts } from '../../hooks/useAccounts';
+import { useToast } from '../../hooks/Toast';
 
 import { Container } from './styles';
 
@@ -17,6 +18,7 @@ interface NewAccountModalProps {
 export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewAccountModalProps) {
   const { user } = useUser();
   const { wallets } = useWallets();
+  const { addToast } = useToast();
 
   const [type, setType] = useState(typeOfAccount);
   const [value, setValue] = useState(0);
@@ -58,6 +60,12 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
       createdBy,
       walletId,
       isPaid
+    });
+
+    addToast({
+      type: 'success',
+      title: 'Conta criada com sucesso!',
+      description: `A conta ${description} foi criada com sucesso.`
     });
 
     onRequestClose();
