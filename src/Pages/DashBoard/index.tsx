@@ -18,12 +18,13 @@ const DashBoard: React.FC = () => {
     const token = localStorage.getItem('@Myfinance:token');
 
     if (!token) {
-      signOut()
       addToast({
         type: 'info',
         title: 'Usuario não autenticado',
         description: 'Faça login para continuar',
       })
+      signOut()
+      return
     } else {
       api.post('/auth/check', { token }).catch(() => {
         addToast({

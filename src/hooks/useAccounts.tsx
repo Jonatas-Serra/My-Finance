@@ -15,12 +15,25 @@ interface Account {
   documentType: string;
   description: string;
   payeeOrPayer: string;
-  status: string;
-  repeat: number;
+  status?: string;
+  repeat?: number;
   createdBy: string;
   repeatInterval: number;
   walletId: string;
   createdAt: string;
+}
+
+interface EditAccountInput {
+    _id: string;
+    type: string;
+    value: number;
+    description: string;
+    documentType: string;
+    dueDate: string;
+    documentNumber: string;
+    category: string;
+    payeeOrPayer: string;
+    walletId: string;
 }
 
 type AccountInput = Omit<Account, '_id' | 'createdAt'>
@@ -35,7 +48,7 @@ interface AccountsContextData {
   selectedAccount: Account;
   loading: boolean;
   createAccount: (account: AccountInput) => Promise<void>;
-  handleEditAccount: (account: Account) => void;
+  EditAccount: (account: EditAccountInput) => void;
   handleDeleteAccount: (id: string) => void;
   handleSelectAccount: (account: Account) => void;
   handlePayAccount: (id: string, walletId: string, payday: Date) => void;
@@ -94,8 +107,17 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
     }
   };
 
-  const handleEditAccount = (account: Account) => {
-    setSelectedAccount(account);
+  const EditAccount = async (account: EditAccountInput) => {
+    try {
+      await api.patch(`/accounts/${account._id}`, account, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      getAccounts();
+    } catch (error) {
+      console.error('Erro ao editar conta:', error);
+    }
   };
 
   const handleDeleteAccount = async (id: string) => {
@@ -154,7 +176,7 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
       selectedAccount,
       loading,
       createAccount,
-      handleEditAccount,
+      EditAccount,
       handleDeleteAccount,
       handleSelectAccount,
       handlePayAccount,
