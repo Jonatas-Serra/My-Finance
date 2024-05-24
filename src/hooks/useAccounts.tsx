@@ -51,8 +51,8 @@ interface AccountsContextData {
   EditAccount: (account: EditAccountInput) => void;
   handleDeleteAccount: (id: string) => void;
   handleSelectAccount: (account: Account) => void;
-  handlePayAccount: (id: string, walletId: string, payday: Date) => void;
-  handleUnpayAccount: (id: string) => void;
+  PayAccount: (id: string, walletId: string, payday: Date) => void;
+  UnpayAccount: (id: string) => void;
   getAccounts: () => Promise<void>;
 }
 
@@ -137,9 +137,9 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
     setSelectedAccount(account);
   };
 
-  const handlePayAccount = async (id: string, walletId: string, payday: Date) => {
+  const PayAccount = async (id: string, walletId: string, payday: Date) => {
     try {
-      await api.post(`/accounts/${id}`, {
+      await api.post(`/accounts/${id}/pay`, {
         walletId,
         payday
       }, {
@@ -154,10 +154,9 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
     }
   };
 
-  const handleUnpayAccount = async (id: string) => {
+  const UnpayAccount = async (id: string) => {
     try {
-      await api.patch(`/accounts/${id}`, {
-        status: new Date(selectedAccount.dueDate) > new Date() ? 'Pending' : 'Late'
+      await api.post(`/accounts/${id}/underPay`, {
       }, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -179,8 +178,8 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
       EditAccount,
       handleDeleteAccount,
       handleSelectAccount,
-      handlePayAccount,
-      handleUnpayAccount,
+      PayAccount,
+      UnpayAccount,
       getAccounts
     }}>
       {children}
