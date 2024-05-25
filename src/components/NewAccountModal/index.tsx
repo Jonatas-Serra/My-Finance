@@ -20,9 +20,12 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
   const { wallets } = useWallets();
   const { addToast } = useToast();
 
+  const currentDate = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+
   const [type, setType] = useState(typeOfAccount);
   const [value, setValue] = useState(0);
-  const [dueDate, setDueDate] = useState('');
+  const [dueDate, setDueDate] = useState(currentDate);
   const issueDate = new Date().toISOString();
   const [documentNumber, setDocumentNumber] = useState('');
   const [category, setCategory] = useState('');
@@ -41,6 +44,17 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
 
   async function handleCreateNewAccount(event: FormEvent) {
     event.preventDefault();
+
+    // Verifique se o valor é menor que 0,01
+    if (value < 0.01) {
+      addToast({
+        type: 'error',
+        title: 'Erro',
+        description: 'O valor da conta deve ser maior que R$ 0,01.'
+      });
+      setBtnDisabled(false);
+      return;
+    }
 
     setBtnDisabled(true);
     const repeatValue = customRepeat ? parseInt(customRepeat, 10) : repeat;
@@ -75,7 +89,7 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
   const handleClear = () => {
     setType(typeOfAccount);
     setValue(0);
-    setDueDate('');
+    setDueDate(currentDate);
     setDocumentNumber('');
     setCategory('');
     setDocumentType('');
@@ -84,6 +98,7 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
     setRepeat(0);
     setCustomRepeat('');
     setWalletId('');
+    setBtnDisabled(false);
   }
 
   const handleRepeatChange = (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
@@ -99,12 +114,12 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
         if (numericValue > 0) {
           setTimeout(() => {
             setRepeat(numericValue);
-          }, 500);
+          }, 1000);
         }
       }
     } else {
       setCustomRepeat('');
-      setRepeat(13); // This will allow us to show the input field
+      setRepeat(13);
     }
   };
 
@@ -129,12 +144,15 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
       <Container onSubmit={handleCreateNewAccount}>
         <h2>Nova Conta {typeOfAccount === 'receivable' ? 'a receber': 'a pagar' }</h2>
         <input
+          required
           placeholder="Descrição"
           value={description}
           onChange={event => setDescription(event.target.value)}
         />
         <div className='flex'>
           <input 
+            required
+            min={0.01}
             type="text"
             placeholder="Valor"
             value={value === 0 ? '' : new Intl.NumberFormat('pt-BR', {
@@ -149,20 +167,22 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
             }}
           />
           <input
+            alt='Data de Vencimento'
             type="date"
-            placeholder="Data de Vencimento"
             value={dueDate}
             onChange={event => setDueDate(event.target.value)}
           />
         </div>
         <div className='flex'>
           <input
+            required
             type="text"
             placeholder="Número do Documento"
             value={documentNumber}
             onChange={event => setDocumentNumber(event.target.value)}
           />
           <select
+          required
           placeholder="Tipo de Documento"
           value={documentType}
           onChange={event => setDocumentType(event.target.value)}
@@ -175,12 +195,14 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
         </div>
         <div className="flex">
           <input
+            required
             type="text"
             placeholder="Categoria"
             value={category}
             onChange={event => setCategory(event.target.value)}
           />
           <select
+            required
             placeholder='Selecione a carteira'
             value={walletId}
             onChange={event => setWalletId(event.target.value)}
@@ -192,6 +214,7 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
           </select>
         </div>
         <input
+          required
           type="text"
           placeholder={typeOfAccount === 'receivable' ? 'Pagador' : 'Beneficiário'}
           value={payeeOrPayer}
@@ -202,7 +225,10 @@ export function NewAccountModal ({ typeOfAccount, isOpen, onRequestClose} : NewA
           <input
             className='checkbox'
             type="checkbox"
-            onChange={event => setRepeat(event.target.checked ? 1 : 0)}
+            onChange={event =>{ 
+              setRepeat(event.target.checked ? 1 : 0)
+              setCustomRepeat('')
+            }}
           />
         </div>
         {repeat > 0 && (

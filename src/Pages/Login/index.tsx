@@ -23,6 +23,7 @@ export default function Login() {
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
 
   const { signIn } = useAuth();
@@ -30,6 +31,7 @@ export default function Login() {
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
+      setBtnDisabled(true)
       try {
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
@@ -52,6 +54,7 @@ export default function Login() {
           title: 'Login realizado com sucesso!',
           description: 'Você já pode acessar sua conta.',
         });
+        setBtnDisabled(false)
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -66,6 +69,7 @@ export default function Login() {
           title: 'Erro na autenticação',
           description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
         });
+        setBtnDisabled(false)
       }
     }
     ,
@@ -105,8 +109,12 @@ export default function Login() {
             </LoginForm>
             <Link to="/forgot">Esqueci minha senha</Link>
             <br/>
-            <Button type='submit'>Entrar</Button>
-
+            <Button 
+              disabled={btnDisabled} 
+              type='submit'
+              >
+                Entrar
+              </Button>
             <p>Não possui uma conta?{' '}  
               <Link
                 to="/signup"

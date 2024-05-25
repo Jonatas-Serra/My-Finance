@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { NavSide } from "../../components/NavSide";
@@ -14,7 +14,7 @@ const DashBoard: React.FC = () => {
   const { addToast } = useToast()
   const { signOut } = useAuth()
 
-  const verifyToken = () => {
+  const verifyToken = useCallback(() => {
     const token = localStorage.getItem('@Myfinance:token');
 
     if (!token) {
@@ -35,14 +35,11 @@ const DashBoard: React.FC = () => {
         signOut()
       })
     }
-  }
+  }, [addToast, signOut])
 
   useEffect(() => {
-    setTimeout(() => {
     verifyToken()
-    }
-    , 1000)
-  }, [])
+  }, [verifyToken])
 
   return (
     <Container>

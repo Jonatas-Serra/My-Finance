@@ -42,6 +42,7 @@ export function EditTransitionModal ({ isOpen, onRequestClose, selectedTransacti
   const [type, setType] = useState(selectedTransaction.type);
   const [date, setDate] = useState(selectedTransaction.date);
   const [walletId, setWalletId] = useState(selectedTransaction.walletId);
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
 
   useEffect(() => {
@@ -57,6 +58,7 @@ export function EditTransitionModal ({ isOpen, onRequestClose, selectedTransacti
   async function handleEditTransition(event: FormEvent) {
     event.preventDefault();
 
+    setBtnDisabled(true);
     handleEditTransaction({
       _id: selectedTransaction._id,
       description,
@@ -82,6 +84,7 @@ export function EditTransitionModal ({ isOpen, onRequestClose, selectedTransacti
     setType('deposit');
     setDate('');
     setWalletId('');
+    setBtnDisabled(false);
 
   }
 
@@ -173,7 +176,8 @@ export function EditTransitionModal ({ isOpen, onRequestClose, selectedTransacti
           >
             Cancelar
           </button>
-          <button 
+          <button
+            disabled={btnDisabled}
             type="submit"
           >
             Salvar

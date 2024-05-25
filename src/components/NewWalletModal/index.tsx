@@ -21,9 +21,11 @@ export function NewWalletsModal ({ isOpen, onRequestClose} : NewWalletsModalProp
   const [name, setName] = useState('');
   const [initialBalance, setInitialBalance] = useState(0);
   const createdBy = user._id;
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   async function handleCreateNewWallet(event: FormEvent) {
     event.preventDefault();
+    setBtnDisabled(true);
 
     await createWallet({
       name,
@@ -44,6 +46,7 @@ export function NewWalletsModal ({ isOpen, onRequestClose} : NewWalletsModalProp
   const handleClear = () => {
     setName('');
     setInitialBalance(0);
+    setBtnDisabled(false);
   }
 
   return (
@@ -68,7 +71,8 @@ export function NewWalletsModal ({ isOpen, onRequestClose} : NewWalletsModalProp
       <Container onSubmit={handleCreateNewWallet}>
         <h2>Criar nova carteira</h2>
 
-        <input 
+        <input
+          required
           type="text" 
           placeholder="Nome" 
           value={name}
@@ -83,7 +87,7 @@ export function NewWalletsModal ({ isOpen, onRequestClose} : NewWalletsModalProp
         <input 
           type="text" 
           placeholder="Saldo inicial" 
-          value={initialBalance === 0 ? '' : new Intl.NumberFormat('pt-BR', {
+          value={initialBalance === -1 ? '' : new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'
           }).format(initialBalance)}
@@ -95,7 +99,12 @@ export function NewWalletsModal ({ isOpen, onRequestClose} : NewWalletsModalProp
           }}
         />
 
-        <button type="submit">Criar</button>
+        <button 
+          type="submit"
+          disabled={btnDisabled}
+        >
+          Criar
+        </button>
       </Container>
     </Modal>
   );

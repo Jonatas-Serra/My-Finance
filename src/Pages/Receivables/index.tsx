@@ -172,7 +172,8 @@ useEffect(() => {
         <ContentModalPaid>
           <h2>Receber</h2>
           <img src={moneyImg} alt='Marcar como pago' />
-          <p>Tem certeza que deseja receber a conta <strong>{selectedAccount.description}</strong> ?</p>
+          <p>Tem certeza que deseja receber a conta <strong>{selectedAccount.description}</strong> ?
+          </p>
           <div className='flex'>
             <div className='block'>
               <h5>Carteira de recebimento:</h5>
@@ -275,8 +276,8 @@ useEffect(() => {
           </AddContent>
         <ReceivablesTable>
         {loading ? (
-            <Spinner />
-          ) : (
+          <Spinner />
+            ) : (
           <table>
             <thead>
               <tr>
@@ -319,49 +320,49 @@ useEffect(() => {
                       }
                       </td>
                       <td>
-                  <a 
-                    className='edit'
-                    type='button'
-                    onClick={() => {
-                      setIsOpenEdit(true);
-                      setSelectedAccount(receivable);
-                    }}                  
-                  >
+                        <a 
+                          className='edit'
+                          type='button'
+                          onClick={() => {
+                            setIsOpenEdit(true);
+                            setSelectedAccount(receivable);
+                          }}                  
+                        >
+                      <div className='tooltip'>
+                        <FiEdit size={20} />
+                        <span className='tooltiptext'>Editar</span>
+                      </div>
+                    </a>
+                    <a 
+                      className='delete'
+                      type='button'
+                      onClick={() => {
+                        setIsOpenDel(true);
+                        setSelectedAccount(receivable);
+                      }}
+                    >
+                      <div className='tooltip'>
+                        <FiTrash2 size={20} />
+                        <span className='tooltiptext'>Excluir</span>
+                      </div>
+                    </a>
+                    <a 
+                      className='check'
+                      type='button'
+                      onClick={() => {
+                        setSelectedAccount(receivable);
+                        if(receivable.isPaid) {
+                          setIsOpenUnderPay(true);
+                        } else {
+                          setIsOpenCheck(true);
+                        }
+                      }}
+                    >
                     <div className='tooltip'>
-                      <FiEdit size={20} />
-                      <span className='tooltiptext'>Editar</span>
-                    </div>
-                  </a>
-                  <a 
-                    className='delete'
-                    type='button'
-                    onClick={() => {
-                      setIsOpenDel(true);
-                      setSelectedAccount(receivable);
-                    }}
-                  >
-                    <div className='tooltip'>
-                      <FiTrash2 size={20} />
-                      <span className='tooltiptext'>Excluir</span>
-                    </div>
-                  </a>
-                  <a 
-                    className='check'
-                    type='button'
-                    onClick={() => {
-                      setSelectedAccount(receivable);
-                      if(receivable.isPaid) {
-                        setIsOpenUnderPay(true);
-                      } else {
-                        setIsOpenCheck(true);
-                      }
-                    }}
-                  >
-                  <div className='tooltip'>
-                  {receivable.isPaid ? <FiCheckSquare size={20} /> : <FiSquare color='#181d29' size={20} />}
-                      <span className='tooltiptext'>{receivable.isPaid ? 'Desfazer recebimento' : 'Receber conta'}</span>
-                    </div>
-                  </a>
+                    {receivable.isPaid ? <FiCheckSquare size={20} /> : <FiSquare color='#181d29' size={20} />}
+                        <span className='tooltiptext'>{receivable.isPaid ? 'Desfazer recebimento' : 'Receber conta'}</span>
+                      </div>
+                    </a>
                 </td>
                 </tr>
               ))}

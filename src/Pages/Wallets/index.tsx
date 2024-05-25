@@ -27,6 +27,15 @@ export default function Wallets() {
   const [isOpenDel, setIsOpenDel] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenTransfer, setIsOpenTransfer] = useState(false);
+  const [btnDisabled, setBtnDisabled] = useState(false);
+
+  useEffect(() => {
+    if(wallets.length < 2) {
+      setBtnDisabled(true);
+    } else {
+      setBtnDisabled(false);
+    }
+  }, [wallets]);
 
 useEffect(() => {
   getWallets();
@@ -86,6 +95,7 @@ useEffect(() => {
         </Header>
         <AddContent>
         <AddButton
+            disabled={btnDisabled}
             onClick={() => setIsOpenTransfer(true)}
           >
             Transferencias entre carteiras

@@ -47,38 +47,41 @@ export default function Signup () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
       try {
         formRef.current?.setErrors({})
-
+        
         const schema = Yup.object().shape({
           name: Yup.string().required('Nome obrigatório'),
           phone: Yup.string().required('Telefone obrigatório'),
           email: Yup.string()
-            .required('E-mail obrigatório')
-            .email('Digite um e-mail válido'),
+          .required('E-mail obrigatório')
+          .email('Digite um e-mail válido'),
           password: Yup.string().min(6, 'No mínimo 6 dígitos'),
           confirm: Yup.string().oneOf(
             [Yup.ref('password'), undefined],
             'Confirmação incorreta'
           ),
         })
-
+        
         await schema.validate(data, {
           abortEarly: false
         })
-
+        
         await api.post('/users/signup', data)
-
+        setBtnDisabled(true)
+        
         navigate('/')
-
+        
         addToast({
           type: 'success',
           title: 'Cadastro realizado!',
           description: 'Você já pode fazer seu logon no My Finance!'
         })
+        setBtnDisabled(false)
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err)
@@ -94,6 +97,7 @@ export default function Signup () {
           description: 'Ocorreu um erro ao fazer cadastro, tente novamente.'
         })
       }
+      setBtnDisabled(false)
     },
     [addToast, navigate]
   )
@@ -167,7 +171,12 @@ export default function Signup () {
             />
             </Login>
             
-            <Button>Criar conta</Button>
+            <Button
+              disabled={btnDisabled}
+              type='submit'
+            >
+              Criar conta
+            </Button>
 
             <p>Já possui uma conta? <Link to='/'>Entrar</Link></p>
           </Form>

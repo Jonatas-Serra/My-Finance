@@ -42,6 +42,7 @@ export function EditAccountModal ({ typeOfAccount, isOpen, onRequestClose, selec
   const [category, setCategory] = useState(selectedAccount.category);
   const [payeeOrPayer, setPayeeOrPayer] = useState(selectedAccount.payeeOrPayer);
   const [walletId, setWalletId] = useState(selectedAccount.walletId);
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   useEffect(() => {
     setType(selectedAccount.type);
@@ -57,6 +58,7 @@ export function EditAccountModal ({ typeOfAccount, isOpen, onRequestClose, selec
 
   async function handleEditAccount(event: FormEvent) {
     event.preventDefault();
+    setBtnDisabled(true);
 
     EditAccount({
       _id: selectedAccount._id,
@@ -77,6 +79,7 @@ export function EditAccountModal ({ typeOfAccount, isOpen, onRequestClose, selec
       description: 'A conta foi editada com sucesso.'
     });
     onRequestClose();
+    setBtnDisabled(false);
   }
 
 
@@ -173,6 +176,7 @@ export function EditAccountModal ({ typeOfAccount, isOpen, onRequestClose, selec
             Cancelar
           </button>
           <button 
+            disabled={btnDisabled}
             type="submit"
           >
             Salvar

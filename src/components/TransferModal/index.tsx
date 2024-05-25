@@ -23,6 +23,7 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState('');
   const createdBy = user._id;
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   const filterAvailableSourceWallets = (selectedTargetId: string) => {
     return wallets.filter(wallet => wallet._id !== selectedTargetId && wallet._id !== targetWalletId);
@@ -35,6 +36,7 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
 
   async function handleTransfer(event: FormEvent) {
     event.preventDefault();
+    setBtnDisabled(true);
   
     const sourceWallet = wallets.find(wallet => wallet._id === sourceWalletId);
     if (!sourceWallet || sourceWallet.balance < amount) {
@@ -47,7 +49,8 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
       handleClear();
       return;
     }
-  
+    
+
     try {
       await handleTransferWallet({
         sourceWalletId,
@@ -84,6 +87,7 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
     setTargetWalletId('');
     setAmount(0);
     setDescription('');
+    setBtnDisabled(false);
   }
 
   return (
@@ -108,6 +112,7 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
         <h2>Transferir</h2>
         <div className='flex'>
         <select
+          required
           placeholder="Selecione a carteira de origem"
           value={sourceWalletId}
           onChange={event => setSourceWalletId(event.target.value)}
@@ -120,6 +125,7 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
           ))}
         </select>
         <select
+          required
           placeholder="Selecione a carteira de destino"
           value={targetWalletId}
           onChange={event => setTargetWalletId(event.target.value)}
@@ -135,7 +141,7 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
         <input
           type="text"
           placeholder="Valor"
-          value={amount === 0 ? '' : new Intl.NumberFormat('pt-BR', {
+          value={amount === -1 ? '' : new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'
           }).format(amount)}
@@ -147,6 +153,7 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
           }}
         />
         <input
+          required
           type="text"
           placeholder="Descrição"
           value={description}
@@ -156,7 +163,12 @@ export function TransferModal({ isOpen, onRequestClose }: TransferModalProps) {
           type="hidden"
           value={createdBy}
           />
-        <button type="submit">Transferir</button>
+        <button
+          disabled={btnDisabled}
+          type="submit"
+        >
+          Transferir
+        </button>
       </Container>
     </Modal>
   )

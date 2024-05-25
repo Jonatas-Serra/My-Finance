@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
 
 export const Container = styled.div`
   width: 100%;
@@ -7,6 +16,12 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+
+  @media (max-width: 375px) {
+    min-width: 440px;
+  
+  }
+
 `;
 
 export const Header = styled.div`
@@ -76,8 +91,6 @@ export const AddButton = styled.button`
 `;
 
 export const PayablesTable = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,10 +101,6 @@ export const PayablesTable = styled.div`
     margin-top: 20px;
 
     @media (max-width: 850px) {
-      th:nth-child(1), td:nth-child(1) {
-        display: none;
-      }
-
       th:nth-child(5), td:nth-child(5) {
         display: none;
       }
@@ -127,6 +136,7 @@ export const PayablesTable = styled.div`
     text-align: center;
     white-space: nowrap;
   }
+
 
   tr {
     border-bottom: 1px solid var(--quaternary);
@@ -178,6 +188,18 @@ export const PayablesTable = styled.div`
     }
   }
 
+  .paid {
+    color: var(--secondary);
+  }
+
+  .late {
+    color: var(--tertiary);
+  }
+
+  .pending {
+    color: var(--primary);
+  }
+
   .tooltip {
       position: relative;
       display: inline-block;
@@ -206,3 +228,186 @@ export const PayablesTable = styled.div`
     }
   
 `;
+
+export const ContentModalDelete = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+    
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: var(--tertiary);
+    }
+
+    img {
+      width: 5rem;
+      height: 5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      color: var(--background);
+    }
+
+    strong {
+      font-size: 1.2rem;
+      color: var(--tertiary);
+
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      button {
+        font-size: 1.5rem;
+        font-weight: 600;
+        height: 4rem;
+        margin-top: 1.5rem;
+        padding: 0 1.5rem;
+        transition: filter 0.2s;
+        width: 45%;
+        background-color: var(--secondary);
+        color: var(--white);
+        border: 0;
+        border-radius: 0.25rem;
+
+        &:hover {
+          filter: brightness(0.9);
+        }
+
+        &.cancel {
+          background-color: var(--tertiary);
+
+          &:hover {
+            filter: brightness(0.9);
+          }        
+      } 
+
+    }
+
+    
+  }
+      
+  `;
+
+export const ContentModalPaid = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+  
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--secondary);
+  }
+
+  img {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--background);
+  }
+
+  strong {
+    font-size: 1.2rem;
+    color: var(--secondary);
+
+  }
+
+  input, select {
+    background-color: transparent;
+    border: 1px solid var(--background);
+    border-radius: 0.25rem;
+    color: var(--background);
+    font-size: 1rem;
+    font-weight: 400;
+    height: 4rem;
+    padding: 0 1.5rem;
+    width: 100%;
+    transition: border-color 0.6s;
+    margin-top: 1rem;
+
+    &:focus {
+      border:  1px solid var(--secondary);
+    }
+
+    &::placeholder {
+      color: var(--background);
+    }
+
+  }
+
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    button {
+      font-size: 1.5rem;
+      font-weight: 600;
+      height: 4rem;
+      margin-top: 1.5rem;
+      padding: 0 1.5rem;
+      transition: filter 0.2s;
+      width: 45%;
+      background-color: var(--secondary);
+      color: var(--white);
+      border: 0;
+      border-radius: 0.25rem;
+
+      &:hover {
+        filter: brightness(0.9);
+      }
+
+      &.cancel {
+        background-color: var(--tertiary);
+
+        &:hover {
+          filter: brightness(0.9);
+        }        
+    } 
+
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;  
+  }
+
+  .block {
+    display: block;
+    flex-direction: column;
+    width: 45%;
+    white-space: nowrap;
+  
+  }
+
+}
+    
+`;
+
+export const Spinner = styled.div`
+border: 4px solid rgba(0, 0, 0, 0.1);
+border-left-color: var(--primary);
+border-radius: 50%;
+width: 50px;
+height: 50px;
+animation: ${spin} 1s linear infinite;
+margin: 20px auto;
+`;
+

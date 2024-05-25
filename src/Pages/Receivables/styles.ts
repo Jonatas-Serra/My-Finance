@@ -16,6 +16,12 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+
+  @media (max-width: 375px) {
+    min-width: 440px;
+  
+  }
+
 `;
 
 export const Header = styled.div`
@@ -95,10 +101,6 @@ export const ReceivablesTable = styled.div`
     margin-top: 20px;
 
     @media (max-width: 850px) {
-      th:nth-child(1), td:nth-child(1) {
-        display: none;
-      }
-
       th:nth-child(5), td:nth-child(5) {
         display: none;
       }

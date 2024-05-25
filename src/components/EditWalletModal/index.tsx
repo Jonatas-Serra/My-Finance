@@ -35,6 +35,7 @@ export function EditWalletModal({ isOpen, onRequestClose, selectedWallet }: Edit
   const { addToast } = useToast();
 
   const [name, setName] = useState(selectedWallet.name);
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   useEffect(() => {
     setName(selectedWallet.name);
@@ -42,7 +43,7 @@ export function EditWalletModal({ isOpen, onRequestClose, selectedWallet }: Edit
 
   async function handleEdit(event: FormEvent) {
     event.preventDefault();
-
+    setBtnDisabled(true);
     const wallet: WalletEdit = {
       _id: selectedWallet._id,
       name
@@ -57,6 +58,7 @@ export function EditWalletModal({ isOpen, onRequestClose, selectedWallet }: Edit
       title: 'Carteira editada com sucesso!',
       description: `A carteira ${name} foi editada com sucesso.`
     });
+    setBtnDisabled(false);
   }
 
   return (
@@ -81,7 +83,12 @@ export function EditWalletModal({ isOpen, onRequestClose, selectedWallet }: Edit
           value={name}
           onChange={event => setName(event.target.value)}
         />
-        <button type="submit">Salvar</button>
+        <button
+          type="submit"
+          disabled={btnDisabled}
+        >
+          Salvar
+        </button>
       </Container>
     </Modal>
   );

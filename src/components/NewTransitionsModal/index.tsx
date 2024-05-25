@@ -29,12 +29,14 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
   const [category, setCategory] = useState('');
   const [type, setType] = useState('Deposit');
   const [walletId, setWalletId] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(currentDate);
   const createdBy = user._id;
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   async function handleCreateNewTransition(event: FormEvent) {
     event.preventDefault();
 
+    setBtnDisabled(true);
     await createTransaction({
       description,
       amount,
@@ -61,7 +63,8 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
     setCategory('');
     setType('Deposit');
     setWalletId('');
-    setDate('');
+    setDate(currentDate);
+    setBtnDisabled(false);
   }
 
   return (
@@ -84,15 +87,17 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
 
       <Container onSubmit={handleCreateNewTransition}>
         <h2>Cadastrar Lançamento</h2>
-        <input 
-        placeholder="Título" 
-        value={description}
-        onChange={event => setDescription(event.target.value)}
+        <input
+          required
+          placeholder="Título" 
+          value={description}
+          onChange={event => setDescription(event.target.value)}
         />
-        <input 
+        <input
+          required
           type="text"
           placeholder="Valor"
-          value={amount === 0 ? '' : new Intl.NumberFormat('pt-BR', {
+          value={amount === -1 ? '' : new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'
           }).format(amount)}
@@ -123,7 +128,8 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
             <span>Saída</span>
           </RadioBox>
         </TransactionTypeContainer>
-        <input 
+        <input
+          required
           placeholder="Categoria"
           value={category}
           onChange={event => setCategory(event.target.value)}
@@ -133,6 +139,7 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
           value={createdBy}
           />
         <select
+          required
           placeholder='Selecione a carteira'
           value={walletId}
           onChange={event => setWalletId(event.target.value)}
@@ -150,7 +157,10 @@ export function NewTransitionModal ({ isOpen, onRequestClose} : NewTransitionMod
           value={date}
           onChange={event => setDate(event.target.value)}
           />          
-        <button type="submit">Cadastrar</button>
+        <button
+          disabled={btnDisabled}
+          type="submit"
+        >Cadastrar</button>
       </Container>
     </Modal>
 

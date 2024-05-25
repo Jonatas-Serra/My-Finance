@@ -24,6 +24,13 @@ export const AddContent = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+
+  @media (max-width: 440px) {
+    justify-content: center;
+    margin-left: 1rem;
+    margin-top: 5px;
+  }
+
 `;
 
 export const AddButton = styled.button`
