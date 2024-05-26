@@ -1,16 +1,16 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Login from '../Pages/Login';
-import SignUp from '../Pages/SignUp';
-import Forgot from '../Pages/Forgot';
-import DashBoard from '../Pages/DashBoard';
-import Resume from '../Pages/Resume';
-import Transactions from '../Pages/Transactions';
-import Wallets from '../Pages/Wallets';
-import Receivables from '../Pages/Receivables';
-import Payables from '../Pages/Payables';
-import Settings from '../Pages/Settings';
+import { Routes, Route, Navigate } from 'react-router-dom'
+import Login from '../Pages/Login'
+import SignUp from '../Pages/SignUp'
+import Forgot from '../Pages/Forgot'
+import DashBoard from '../Pages/DashBoard'
+import Resume from '../Pages/Resume'
+import Transactions from '../Pages/Transactions'
+import Wallets from '../Pages/Wallets'
+import Receivables from '../Pages/Receivables'
+import Payables from '../Pages/Payables'
+import Settings from '../Pages/Settings'
 
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoute from './ProtectedRoute'
 
 export function Router() {
   return (
@@ -40,7 +40,10 @@ export function Router() {
           </ProtectedRoute>
         }
       >
-        <Route path="/dashboard" element={<Navigate to="/dashboard/resume" />} />
+        <Route
+          path="/dashboard"
+          element={<Navigate to="/dashboard/resume" />}
+        />
         <Route path="resume" element={<Resume />} />
         <Route path="transactions" element={<Transactions />} />
         <Route path="wallets" element={<Wallets />} />
@@ -49,5 +52,5 @@ export function Router() {
         <Route path="settings" element={<Settings />} />
       </Route>
     </Routes>
-  );
+  )
 }

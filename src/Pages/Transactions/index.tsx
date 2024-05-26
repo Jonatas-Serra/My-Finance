@@ -1,76 +1,82 @@
-import { useEffect, useState } from 'react';
-import Modal from "react-modal";
-import { 
-  Container, 
-  Header, 
-  Search, 
-  SearchInput, 
+import { useEffect, useState } from 'react'
+import Modal from 'react-modal'
+import {
+  Container,
+  Header,
+  Search,
+  SearchInput,
   SearchButton,
   AddContent,
   AddButton,
   TransactionsTable,
   ContentModalDelete,
-  Spinner
-} from './styles';
-import { FiSearch, FiEdit, FiTrash2 } from "react-icons/fi";
-import deleteImg from '../../assets/delete-icon.svg';
+  Spinner,
+} from './styles'
+import { FiSearch, FiEdit, FiTrash2 } from 'react-icons/fi'
+import deleteImg from '../../assets/delete-icon.svg'
 
-import { NewTransitionModal } from '../../components/NewTransitionsModal';
-import { EditTransitionModal } from '../../components/EditTransactionModal';
+import { NewTransitionModal } from '../../components/NewTransitionsModal'
+import { EditTransitionModal } from '../../components/EditTransactionModal'
 
-import { useTransactions } from '../../hooks/useTransactions';
-import { useWallets } from '../../hooks/useWallets';
+import { useTransactions } from '../../hooks/useTransactions'
+import { useWallets } from '../../hooks/useWallets'
 
 interface Transaction {
-  _id: string;
-  description: string;
-  type: string;
-  category: string;
-  amount: number;
-  createdAt: string;
-  createdBy: string;
-  walletId: string;
-  date: string;
+  _id: string
+  description: string
+  type: string
+  category: string
+  amount: number
+  createdAt: string
+  createdBy: string
+  walletId: string
+  date: string
 }
 
 export default function Transactions() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenDel, setIsOpenDel] = useState(false);
-  const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const { transactions, loading, handleDeleteTransaction, getTransactions } = useTransactions();
-  const [selectedTransaction, setSelectedTransaction] = useState({} as Transaction);
-  const { wallets } = useWallets();
-  const [page, setPage] = useState(1);
+  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenDel, setIsOpenDel] = useState(false)
+  const [isOpenEdit, setIsOpenEdit] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const { transactions, loading, handleDeleteTransaction, getTransactions } =
+    useTransactions()
+  const [selectedTransaction, setSelectedTransaction] = useState(
+    {} as Transaction,
+  )
+  const { wallets } = useWallets()
+  const [page, setPage] = useState(1)
 
   const loadMore = () => {
-    setPage(prevPage => prevPage + 1);
-  };
+    setPage((prevPage) => prevPage + 1)
+  }
 
-  const filteredTransactions = transactions.filter(transaction =>
-    transaction.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    transaction.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    transaction.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    transaction.walletId.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredTransactions = transactions.filter(
+    (transaction) =>
+      transaction.description
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      transaction.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.walletId.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
 
   const sortedTransactions = filteredTransactions.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+    return new Date(b.date).getTime() - new Date(a.date).getTime()
+  })
 
-  const paginatedTransactions = sortedTransactions.slice(0, page * 15);
+  const paginatedTransactions = sortedTransactions.slice(0, page * 15)
 
   const handleScroll = (event: React.UIEvent<HTMLTableElement>) => {
-    const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
+    const { scrollTop, clientHeight, scrollHeight } = event.currentTarget
     if (scrollHeight - scrollTop === clientHeight) {
-      loadMore();
+      loadMore()
     }
   }
 
   useEffect(() => {
-    getTransactions();
-  }, [getTransactions]);
-  
+    getTransactions()
+  }, [getTransactions])
+
   return (
     <>
       <EditTransitionModal
@@ -87,7 +93,8 @@ export default function Transactions() {
         <ContentModalDelete>
           <h2>Excluir Lançamento?</h2>
           <img src={deleteImg} alt="lixeira" />
-          <p>Tem certeza que deseja excluir
+          <p>
+            Tem certeza que deseja excluir
             <strong> {selectedTransaction.description}</strong> ?
           </p>
           <div>
@@ -104,7 +111,9 @@ export default function Transactions() {
                 handleDeleteTransaction(selectedTransaction._id)
                 setIsOpenDel(false)
               }}
-            >Sim</button>
+            >
+              Sim
+            </button>
           </div>
         </ContentModalDelete>
       </Modal>
@@ -113,10 +122,10 @@ export default function Transactions() {
           <h1>Lançamentos</h1>
         </Header>
         <Search>
-          <div className='flex'>
-            <SearchInput 
-              type="text" 
-              placeholder='Buscar transação' 
+          <div className="flex">
+            <SearchInput
+              type="text"
+              placeholder="Buscar transação"
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
             />
@@ -126,9 +135,7 @@ export default function Transactions() {
           </div>
         </Search>
         <AddContent>
-          <AddButton
-            onClick={() => setIsOpen(true)}
-          >Novo Lançamento</AddButton>
+          <AddButton onClick={() => setIsOpen(true)}>Novo Lançamento</AddButton>
         </AddContent>
         <TransactionsTable>
           {loading ? (
@@ -147,55 +154,66 @@ export default function Transactions() {
                 </tr>
               </thead>
               <tbody>
-                {paginatedTransactions.map(transaction => (
+                {paginatedTransactions.map((transaction) => (
                   <tr key={transaction._id}>
                     <td>{transaction.description}</td>
-                    <td>{new Intl.NumberFormat('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    }).format(transaction.amount)}</td>
-                    <td>{new Intl.DateTimeFormat('pt-BR',{
-                      timeZone: 'UTC'
-                    }).format(
-                      new Date(transaction.date)
-                    )}</td>
-                    <td className={
-                      transaction.type === 'Deposit' ? 'deposit' : 
-                      transaction.type === 'Withdrawal' ? 'withdraw' : 
-                      transaction.type === 'Transfer' ? 'transfer' : '' }
-                    >
-                      {
-                        transaction.type === 'Deposit' ? 'Entrada' :
-                        transaction.type === 'Withdrawal' ? 'Saída' :
-                        transaction.type === 'Transfer' ? 'Transf. entre carteiras' :
-                        'Desconhecido'
+                    <td>
+                      {new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      }).format(transaction.amount)}
+                    </td>
+                    <td>
+                      {new Intl.DateTimeFormat('pt-BR', {
+                        timeZone: 'UTC',
+                      }).format(new Date(transaction.date))}
+                    </td>
+                    <td
+                      className={
+                        transaction.type === 'Deposit'
+                          ? 'deposit'
+                          : transaction.type === 'Withdrawal'
+                            ? 'withdraw'
+                            : transaction.type === 'Transfer'
+                              ? 'transfer'
+                              : ''
                       }
+                    >
+                      {transaction.type === 'Deposit'
+                        ? 'Entrada'
+                        : transaction.type === 'Withdrawal'
+                          ? 'Saída'
+                          : transaction.type === 'Transfer'
+                            ? 'Transf. entre carteiras'
+                            : 'Desconhecido'}
                     </td>
                     <td>{transaction.category}</td>
                     <td>
                       {
-                        wallets.find(wallet => wallet._id === transaction.walletId)?.name
+                        wallets.find(
+                          (wallet) => wallet._id === transaction.walletId,
+                        )?.name
                       }
                     </td>
                     <td>
-                    <a
-                      className={`edit ${transaction.type === 'Transfer' ? 'disabled' : ''}`}
-                      type="button"
-                      onClick={() => {
-                        if (transaction.type !== 'Transfer') {
-                          setIsOpenEdit(true);
-                          setSelectedTransaction(transaction);
-                        }
-                      }}
+                      <a
+                        className={`edit ${transaction.type === 'Transfer' ? 'disabled' : ''}`}
+                        type="button"
+                        onClick={() => {
+                          if (transaction.type !== 'Transfer') {
+                            setIsOpenEdit(true)
+                            setSelectedTransaction(transaction)
+                          }
+                        }}
                       >
                         <FiEdit size={20} />
                       </a>
                       <a
-                        className='delete'
+                        className="delete"
                         type="button"
                         onClick={() => {
-                          setIsOpenDel(true);
-                          setSelectedTransaction(transaction);
+                          setIsOpenDel(true)
+                          setSelectedTransaction(transaction)
                         }}
                       >
                         <FiTrash2 size={20} />

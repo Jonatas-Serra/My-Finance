@@ -1,25 +1,38 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { FiHome, FiBookOpen, FiTrendingDown, FiTrendingUp, FiLogOut, FiSettings } from 'react-icons/fi';
-import { IoWalletOutline } from 'react-icons/io5';
-import logoImg from '../../assets/logo.svg';
+import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import {
+  FiHome,
+  FiBookOpen,
+  FiTrendingDown,
+  FiTrendingUp,
+  FiLogOut,
+  FiSettings,
+} from 'react-icons/fi'
+import { IoWalletOutline } from 'react-icons/io5'
+import logoImg from '../../assets/logo.svg'
 
-import { useAuth } from '../../hooks/Auth';
+import { useAuth } from '../../hooks/Auth'
 
-import { NavSideContainer, NavSideList, NavSideItem, NavSideFooter, Logo } from './styles';
+import {
+  NavSideContainer,
+  NavSideList,
+  NavSideItem,
+  NavSideFooter,
+  Logo,
+} from './styles'
 
 export function NavSide() {
-  const { signOut } = useAuth();
-  const location = useLocation();
-  const [activeLink, setActiveLink] = useState<string>(location.pathname);
+  const { signOut } = useAuth()
+  const location = useLocation()
+  const [activeLink, setActiveLink] = useState<string>(location.pathname)
 
-  const handleLinkClick = (link: string) => {    
-    setActiveLink(link);
+  const handleLinkClick = (link: string) => {
+    setActiveLink(link)
   }
 
-  useEffect(() => {    
-    setActiveLink(location.pathname);
-  }, [location]);
+  useEffect(() => {
+    setActiveLink(location.pathname)
+  }, [location])
 
   return (
     <NavSideContainer>
@@ -35,7 +48,10 @@ export function NavSide() {
           </Link>
         </NavSideItem>
         <NavSideItem isActive={activeLink === '/dashboard/transactions'}>
-          <Link to="transactions" onClick={() => handleLinkClick('/transactions')}>
+          <Link
+            to="transactions"
+            onClick={() => handleLinkClick('/transactions')}
+          >
             <FiBookOpen />
             Lançamentos
           </Link>
@@ -47,7 +63,10 @@ export function NavSide() {
           </Link>
         </NavSideItem>
         <NavSideItem isActive={activeLink === '/dashboard/receivables'}>
-          <Link to="receivables" onClick={() => handleLinkClick('/receivables')}>
+          <Link
+            to="receivables"
+            onClick={() => handleLinkClick('/receivables')}
+          >
             <FiTrendingUp />
             Contas a receber
           </Link>
@@ -72,5 +91,5 @@ export function NavSide() {
         </Link>
       </NavSideFooter>
     </NavSideContainer>
-  );
+  )
 }

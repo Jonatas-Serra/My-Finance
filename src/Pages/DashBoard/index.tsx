@@ -1,21 +1,19 @@
-import React, { useCallback, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useCallback, useEffect } from 'react'
+import { Outlet } from 'react-router-dom'
 
-import { NavSide } from "../../components/NavSide";
-import { Container, Content } from './styles';
+import { NavSide } from '../../components/NavSide'
+import { Container, Content } from './styles'
 
-import api from '../../services/api';
-import { useToast } from '../../hooks/Toast';
-import { useAuth } from '../../hooks/Auth';
-
-
+import api from '../../services/api'
+import { useToast } from '../../hooks/Toast'
+import { useAuth } from '../../hooks/Auth'
 
 const DashBoard: React.FC = () => {
   const { addToast } = useToast()
   const { signOut } = useAuth()
 
   const verifyToken = useCallback(() => {
-    const token = localStorage.getItem('@Myfinance:token');
+    const token = localStorage.getItem('@Myfinance:token')
 
     if (!token) {
       addToast({
@@ -24,7 +22,6 @@ const DashBoard: React.FC = () => {
         description: 'Faça login para continuar',
       })
       signOut()
-      return
     } else {
       api.post('/auth/check', { token }).catch(() => {
         addToast({
@@ -48,7 +45,7 @@ const DashBoard: React.FC = () => {
         <Outlet />
       </Content>
     </Container>
-  );
+  )
 }
 
-export default DashBoard;
+export default DashBoard

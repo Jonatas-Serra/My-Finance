@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
-import { Container } from "./styles";
+import { Container } from './styles'
 
 interface PaginationProps {
-  total: number;
-  transactionsPerPage: number;
-  current: number;
+  total: number
+  transactionsPerPage: number
+  current: number
   setCurrentPage: (pageNumber: number) => void
 }
 
-export const Pagination = ({ total, transactionsPerPage, current, setCurrentPage }: PaginationProps) => {
-
+export const Pagination = ({
+  total,
+  transactionsPerPage,
+  current,
+  setCurrentPage,
+}: PaginationProps) => {
   const [pages, setPages] = useState<number[]>([])
 
   useEffect(() => {
@@ -20,7 +24,6 @@ export const Pagination = ({ total, transactionsPerPage, current, setCurrentPage
     }
     setPages(pages)
   }, [total, transactionsPerPage])
-
 
   return (
     <Container>
@@ -33,12 +36,10 @@ export const Pagination = ({ total, transactionsPerPage, current, setCurrentPage
             setTimeout(() => {
               window.scrollTo({
                 top: 700,
-                behavior: "smooth"
+                behavior: 'smooth',
               })
-            }
-              , 200)
-          }
-          }
+            }, 200)
+          }}
         >
           {page}
         </button>

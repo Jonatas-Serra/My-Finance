@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
@@ -7,7 +7,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-`;
+`
 
 export const Header = styled.div`
   width: 100%;
@@ -17,7 +17,7 @@ export const Header = styled.div`
   h1 {
     margin: 20px;
   }
-`;
+`
 
 export const Content = styled.div`
   width: 90%;
@@ -26,15 +26,14 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 20px auto;
-`;
-
+`
 
 export const MainContent = styled.div`
   width: 100%;
   display: flex;
   flex: 1;
   flex-direction: column;
-`;
+`
 
 export const SecondaryContent = styled.div`
   min-width: 250px;
@@ -54,4 +53,4 @@ export const SecondaryContent = styled.div`
   @media (max-width: 768px) {
     margin-left: 0;
   }
-`;
+`

@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components'
 
 const spin = keyframes`
   0% {
@@ -7,7 +7,7 @@ const spin = keyframes`
   100% {
     transform: rotate(360deg);
   }
-`;
+`
 
 export const Container = styled.div`
   width: 100%;
@@ -19,10 +19,8 @@ export const Container = styled.div`
 
   @media (max-width: 375px) {
     min-width: 440px;
-  
   }
-
-`;
+`
 
 export const Header = styled.div`
   width: 100%;
@@ -32,7 +30,7 @@ export const Header = styled.div`
   h1 {
     margin: 20px;
   }
-`;
+`
 
 export const Search = styled.div`
   width: 100%;
@@ -47,7 +45,7 @@ export const Search = styled.div`
     justify-content: center;
     flex: 1;
   }
-`;
+`
 
 export const SearchInput = styled.input`
   width: 100%;
@@ -56,7 +54,7 @@ export const SearchInput = styled.input`
   border: 1px solid var(--gray);
   border-radius: 5px;
   padding: 0 10px;
-`;
+`
 
 export const SearchButton = styled.button`
   height: 40px;
@@ -68,14 +66,14 @@ export const SearchButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
+`
 
 export const AddContent = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
-`;
+`
 
 export const AddButton = styled.button`
   height: 40px;
@@ -88,10 +86,10 @@ export const AddButton = styled.button`
   align-items: center;
   margin-right: 20px;
   padding: 0 10px;
-`;
+`
 
 export const PayablesTable = styled.div`
-   display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
 
@@ -101,20 +99,23 @@ export const PayablesTable = styled.div`
     margin-top: 20px;
 
     @media (max-width: 850px) {
-      th:nth-child(5), td:nth-child(5) {
+      th:nth-child(5),
+      td:nth-child(5) {
         display: none;
       }
     }
 
     @media (max-width: 560px) {
-      th:nth-child(6), td:nth-child(6) {
+      th:nth-child(6),
+      td:nth-child(6) {
         display: none;
       }
     }
 
-    th:last-child, td:last-child {
-        border-top-right-radius: 5px;
-      }
+    th:last-child,
+    td:last-child {
+      border-top-right-radius: 5px;
+    }
   }
 
   th {
@@ -136,7 +137,6 @@ export const PayablesTable = styled.div`
     text-align: center;
     white-space: nowrap;
   }
-
 
   tr {
     border-bottom: 1px solid var(--quaternary);
@@ -201,111 +201,43 @@ export const PayablesTable = styled.div`
   }
 
   .tooltip {
-      position: relative;
-      display: inline-block;
+    position: relative;
+    display: inline-block;
 
-      .tooltiptext {
-        visibility: hidden;
-        background-color: var(--background);
-        color: var(--white);
-        text-align: center;
-        border-radius: 5px;
-        padding: 5px;
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        margin-left: -120px;
-        opacity: 0;
-        transition: opacity 0.2s;
-        font-size: 12px;
-      }
-
-      :hover .tooltiptext {
-        visibility: visible;
-        opacity: 1;
-      }
+    .tooltiptext {
+      visibility: hidden;
+      background-color: var(--background);
+      color: var(--white);
+      text-align: center;
+      border-radius: 5px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -120px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      font-size: 12px;
     }
-  
-`;
+
+    :hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+`
 
 export const ContentModalDelete = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-    
-    h2 {
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-      color: var(--tertiary);
-    }
 
-    img {
-      width: 5rem;
-      height: 5rem;
-    }
-
-    p {
-      margin-bottom: 1rem;
-      font-size: 1rem;
-      color: var(--background);
-    }
-
-    strong {
-      font-size: 1.2rem;
-      color: var(--tertiary);
-
-    }
-
-    div {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-
-      button {
-        font-size: 1.5rem;
-        font-weight: 600;
-        height: 4rem;
-        margin-top: 1.5rem;
-        padding: 0 1.5rem;
-        transition: filter 0.2s;
-        width: 45%;
-        background-color: var(--secondary);
-        color: var(--white);
-        border: 0;
-        border-radius: 0.25rem;
-
-        &:hover {
-          filter: brightness(0.9);
-        }
-
-        &.cancel {
-          background-color: var(--tertiary);
-
-          &:hover {
-            filter: brightness(0.9);
-          }        
-      } 
-
-    }
-
-    
-  }
-      
-  `;
-
-export const ContentModalPaid = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-  
   h2 {
     margin-bottom: 1rem;
     font-size: 1.5rem;
-    color: var(--secondary);
+    color: var(--tertiary);
   }
 
   img {
@@ -321,33 +253,8 @@ justify-content: center;
 
   strong {
     font-size: 1.2rem;
-    color: var(--secondary);
-
+    color: var(--tertiary);
   }
-
-  input, select {
-    background-color: transparent;
-    border: 1px solid var(--background);
-    border-radius: 0.25rem;
-    color: var(--background);
-    font-size: 1rem;
-    font-weight: 400;
-    height: 4rem;
-    padding: 0 1.5rem;
-    width: 100%;
-    transition: border-color 0.6s;
-    margin-top: 1rem;
-
-    &:focus {
-      border:  1px solid var(--secondary);
-    }
-
-    &::placeholder {
-      color: var(--background);
-    }
-
-  }
-
 
   div {
     display: flex;
@@ -377,37 +284,117 @@ justify-content: center;
 
         &:hover {
           filter: brightness(0.9);
-        }        
-    } 
+        }
+      }
+    }
+  }
+`
 
+export const ContentModalPaid = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--secondary);
   }
 
-  .flex {
+  img {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--background);
+  }
+
+  strong {
+    font-size: 1.2rem;
+    color: var(--secondary);
+  }
+
+  input,
+  select {
+    background-color: transparent;
+    border: 1px solid var(--background);
+    border-radius: 0.25rem;
+    color: var(--background);
+    font-size: 1rem;
+    font-weight: 400;
+    height: 4rem;
+    padding: 0 1.5rem;
+    width: 100%;
+    transition: border-color 0.6s;
+    margin-top: 1rem;
+
+    &:focus {
+      border: 1px solid var(--secondary);
+    }
+
+    &::placeholder {
+      color: var(--background);
+    }
+  }
+
+  div {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;  
-  }
+    justify-content: space-between;
+    width: 100%;
 
-  .block {
-    display: block;
-    flex-direction: column;
-    width: 45%;
-    white-space: nowrap;
-  
-  }
+    button {
+      font-size: 1.5rem;
+      font-weight: 600;
+      height: 4rem;
+      margin-top: 1.5rem;
+      padding: 0 1.5rem;
+      transition: filter 0.2s;
+      width: 45%;
+      background-color: var(--secondary);
+      color: var(--white);
+      border: 0;
+      border-radius: 0.25rem;
 
-}
-    
-`;
+      &:hover {
+        filter: brightness(0.9);
+      }
+
+      &.cancel {
+        background-color: var(--tertiary);
+
+        &:hover {
+          filter: brightness(0.9);
+        }
+      }
+    }
+
+    .flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .block {
+      display: block;
+      flex-direction: column;
+      width: 45%;
+      white-space: nowrap;
+    }
+  }
+`
 
 export const Spinner = styled.div`
-border: 4px solid rgba(0, 0, 0, 0.1);
-border-left-color: var(--primary);
-border-radius: 50%;
-width: 50px;
-height: 50px;
-animation: ${spin} 1s linear infinite;
-margin: 20px auto;
-`;
-
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--primary);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: ${spin} 1s linear infinite;
+  margin: 20px auto;
+`

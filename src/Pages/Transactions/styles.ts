@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components'
 
 const spin = keyframes`
   0% {
@@ -7,7 +7,7 @@ const spin = keyframes`
   100% {
     transform: rotate(360deg);
   }
-`;
+`
 
 export const Container = styled.div`
   width: 100%;
@@ -16,7 +16,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-`;
+`
 
 export const Header = styled.div`
   width: 100%;
@@ -26,7 +26,7 @@ export const Header = styled.div`
   h1 {
     margin: 20px;
   }
-`;
+`
 
 export const Search = styled.div`
   width: 100%;
@@ -41,7 +41,7 @@ export const Search = styled.div`
     justify-content: center;
     flex: 1;
   }
-`;
+`
 
 export const SearchInput = styled.input`
   width: 100%;
@@ -50,7 +50,7 @@ export const SearchInput = styled.input`
   border: 1px solid var(--gray);
   border-radius: 5px;
   padding: 0 10px;
-`;
+`
 
 export const SearchButton = styled.button`
   height: 40px;
@@ -62,14 +62,14 @@ export const SearchButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
+`
 
 export const AddContent = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
-`;
+`
 
 export const AddButton = styled.button`
   height: 40px;
@@ -82,7 +82,7 @@ export const AddButton = styled.button`
   align-items: center;
   margin-right: 20px;
   padding: 0 10px;
-`;
+`
 
 export const TransactionsTable = styled.div`
   width: 100%;
@@ -98,25 +98,28 @@ export const TransactionsTable = styled.div`
     margin-top: 20px;
 
     @media (max-width: 830px) {
-      th:nth-child(3), td:nth-child(3) {
+      th:nth-child(3),
+      td:nth-child(3) {
         display: none;
       }
 
-      th:nth-child(5), td:nth-child(5) {
+      th:nth-child(5),
+      td:nth-child(5) {
         display: none;
       }
 
-      th:last-child, td:last-child {
+      th:last-child,
+      td:last-child {
         border-top-right-radius: 5px;
       }
     }
 
     @media (max-width: 560px) {
-      th:nth-child(6), td:nth-child(6) {
+      th:nth-child(6),
+      td:nth-child(6) {
         display: none;
       }
     }
-
   }
 
   th {
@@ -157,10 +160,10 @@ export const TransactionsTable = styled.div`
   }
 
   .disabled {
-  cursor: not-allowed;
-  pointer-events: none;
-  opacity: 0.8;
-}
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.8;
+  }
 
   .edit {
     color: var(--primary);
@@ -194,80 +197,76 @@ export const TransactionsTable = styled.div`
   .transfer {
     color: var(--primary);
   }
-  
-`;
+`
 
 export const ContentModalDelete = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-    
-    h2 {
-      margin-bottom: 1rem;
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--tertiary);
+  }
+
+  img {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--background);
+  }
+
+  strong {
+    font-size: 1.2rem;
+    color: var(--tertiary);
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    button {
       font-size: 1.5rem;
-      color: var(--tertiary);
-    }
+      font-weight: 600;
+      height: 4rem;
+      margin-top: 1.5rem;
+      padding: 0 1.5rem;
+      transition: filter 0.2s;
+      width: 45%;
+      background-color: var(--secondary);
+      color: var(--white);
+      border: 0;
+      border-radius: 0.25rem;
 
-    img {
-      width: 5rem;
-      height: 5rem;
-    }
+      &:hover {
+        filter: brightness(0.9);
+      }
 
-    p {
-      margin-bottom: 1rem;
-      font-size: 1rem;
-      color: var(--background);
-    }
-
-    strong {
-      font-size: 1.2rem;
-      color: var(--tertiary);
-
-    }
-
-    div {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-
-      button {
-        font-size: 1.5rem;
-        font-weight: 600;
-        height: 4rem;
-        margin-top: 1.5rem;
-        padding: 0 1.5rem;
-        transition: filter 0.2s;
-        width: 45%;
-        background-color: var(--secondary);
-        color: var(--white);
-        border: 0;
-        border-radius: 0.25rem;
+      &.cancel {
+        background-color: var(--tertiary);
 
         &:hover {
           filter: brightness(0.9);
         }
-
-        &.cancel {
-          background-color: var(--tertiary);
-
-          &:hover {
-            filter: brightness(0.9);
-          }        
-      } 
-
+      }
     }
   }
-      
-  `;
+`
 
 export const Spinner = styled.div`
-border: 4px solid rgba(0, 0, 0, 0.1);
-border-left-color: var(--primary);
-border-radius: 50%;
-width: 50px;
-height: 50px;
-animation: ${spin} 1s linear infinite;
-margin: 20px auto;
-`;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--primary);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: ${spin} 1s linear infinite;
+  margin: 20px auto;
+`

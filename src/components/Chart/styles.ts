@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const ChartContainer = styled.div`
   width: 100%;
@@ -8,4 +8,4 @@ export const ChartContainer = styled.div`
   @media (min-width: 768px) {
     margin-top: 0;
   }
-`;
+`

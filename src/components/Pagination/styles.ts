@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   margin-top: 2rem;
@@ -19,14 +19,13 @@ export const Container = styled.div`
     &:hover {
       filter: brightness(0.8);
     }
-
   }
   .active {
-      background: var(--quaternary);
-      color: var(--background);
+    background: var(--quaternary);
+    color: var(--background);
 
-      &:hover {
-        filter: brightness(0.8);
-      }
+    &:hover {
+      filter: brightness(0.8);
     }
-  `;
+  }
+`

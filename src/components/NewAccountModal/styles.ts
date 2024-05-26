@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.form`
   h2 {
@@ -11,7 +11,8 @@ export const Container = styled.form`
     color: var(--background);
   }
 
-  input, select {
+  input,
+  select {
     background-color: transparent;
     border: 1px solid var(--background);
     border-radius: 0.25rem;
@@ -24,7 +25,7 @@ export const Container = styled.form`
     transition: border-color 0.6s;
 
     &:focus {
-      border:  1px solid var(--secondary);
+      border: 1px solid var(--secondary);
     }
 
     &::placeholder {
@@ -40,7 +41,7 @@ export const Container = styled.form`
     margin-top: 1rem;
   }
 
-  button[type="submit"] {
+  button[type='submit'] {
     background-color: var(--secondary);
     border: 0;
     border-radius: 0.25rem;
@@ -93,7 +94,7 @@ export const Container = styled.form`
       }
 
       &:before {
-        content: "";
+        content: '';
         display: block;
         width: 1rem;
         height: 1rem;
@@ -111,4 +112,4 @@ export const Container = styled.form`
       }
     }
   }
-`;
+`

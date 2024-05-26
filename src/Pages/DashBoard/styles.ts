@@ -1,17 +1,17 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
   background-color: var(--background);
   display: flex;
-`;
+`
 
 export const Content = styled.div`
   width: 100%;
   height: 100%;
   max-height: 100vh;
-  
+
   h1 {
     font-size: 24px;
     margin-bottom: 20px;

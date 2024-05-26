@@ -50,7 +50,6 @@ export const Container = styled.div<ContainerProps>`
     color: var(--background);
     padding: 16px;
 
-
     &::placeholder {
       color: var(--background);
     }

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
@@ -7,7 +7,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-`;
+`
 
 export const Header = styled.div`
   width: 100%;
@@ -17,7 +17,7 @@ export const Header = styled.div`
   h1 {
     margin: 20px 20px 0 20px;
   }
-`;
+`
 
 export const AddContent = styled.div`
   width: 100%;
@@ -30,8 +30,7 @@ export const AddContent = styled.div`
     margin-left: 1rem;
     margin-top: 5px;
   }
-
-`;
+`
 
 export const AddButton = styled.button`
   height: 40px;
@@ -44,7 +43,7 @@ export const AddButton = styled.button`
   align-items: center;
   margin-right: 20px;
   padding: 0 10px;
-`;
+`
 
 export const WalletsContent = styled.div`
   width: 100%;
@@ -105,69 +104,66 @@ export const WalletsContent = styled.div`
       filter: opacity(0.8);
     }
   }
-`;
+`
 
 export const ContentModalDelete = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-    
-    h2 {
-      margin-bottom: 1rem;
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--tertiary);
+  }
+
+  img {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--background);
+  }
+
+  strong {
+    font-size: 1.2rem;
+    color: var(--tertiary);
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    button {
       font-size: 1.5rem;
-      color: var(--tertiary);
-    }
+      font-weight: 600;
+      height: 4rem;
+      margin-top: 1.5rem;
+      padding: 0 1.5rem;
+      transition: filter 0.2s;
+      width: 45%;
+      background-color: var(--secondary);
+      color: var(--white);
+      border: 0;
+      border-radius: 0.25rem;
 
-    img {
-      width: 5rem;
-      height: 5rem;
-    }
+      &:hover {
+        filter: brightness(0.9);
+      }
 
-    p {
-      margin-bottom: 1rem;
-      font-size: 1rem;
-      color: var(--background);
-    }
-
-    strong {
-      font-size: 1.2rem;
-      color: var(--tertiary);
-
-    }
-
-    div {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-
-      button {
-        font-size: 1.5rem;
-        font-weight: 600;
-        height: 4rem;
-        margin-top: 1.5rem;
-        padding: 0 1.5rem;
-        transition: filter 0.2s;
-        width: 45%;
-        background-color: var(--secondary);
-        color: var(--white);
-        border: 0;
-        border-radius: 0.25rem;
+      &.cancel {
+        background-color: var(--tertiary);
 
         &:hover {
           filter: brightness(0.9);
         }
-
-        &.cancel {
-          background-color: var(--tertiary);
-
-          &:hover {
-            filter: brightness(0.9);
-          }        
-      } 
-
+      }
     }
   }
-      
-  `;
+`

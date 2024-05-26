@@ -4,86 +4,85 @@ import React, {
   useContext,
   useMemo,
   useState,
-} from 'react';
-import api from '../services/api';
+} from 'react'
+import api from '../services/api'
 
 interface AuthState {
-  token: string;
-  user: object;
+  token: string
+  user: object
 }
 
 interface SignInCredentials {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 interface AuthContextData {
-  user: object;
-  signIn(credentials: SignInCredentials): Promise<void>;
-  signOut(): void;
+  user: object
+  signIn(credentials: SignInCredentials): Promise<void>
+  signOut(): void
 }
 
 interface Props {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
-const AuthProvider: React.FC<Props> = ({ children }) => { 
+const AuthProvider: React.FC<Props> = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@Myfinance:token');
-    const userString = localStorage.getItem('@Myfinance:user');
+    const token = localStorage.getItem('@Myfinance:token')
+    const userString = localStorage.getItem('@Myfinance:user')
 
     if (token && userString) {
       try {
-        const user = JSON.parse(userString);
-        return { token, user };
+        const user = JSON.parse(userString)
+        return { token, user }
       } catch (error) {
-        console.error('Erro ao fazer parse do usuário:', error);
+        console.error('Erro ao fazer parse do usuário:', error)
       }
     }
 
-    return {} as AuthState;
-  });
+    return {} as AuthState
+  })
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
-      const response = await api.post('/auth/login', {
-        email,
-        password,
-      });
+    const response = await api.post('/auth/login', {
+      email,
+      password,
+    })
 
-      const { token, user } = response.data;
+    const { token, user } = response.data
 
-      localStorage.setItem('@Myfinance:token', token);
-      localStorage.setItem('@Myfinance:user', JSON.stringify(user));
+    localStorage.setItem('@Myfinance:token', token)
+    localStorage.setItem('@Myfinance:user', JSON.stringify(user))
 
-      setData({ token, user })
-  }, []);
+    setData({ token, user })
+  }, [])
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@Myfinance:token');
-    localStorage.removeItem('@Myfinance:user');
+    localStorage.removeItem('@Myfinance:token')
+    localStorage.removeItem('@Myfinance:user')
 
-    setData({} as AuthState);
-  }, []);
+    setData({} as AuthState)
+  }, [])
 
-  const value = useMemo(() => ({ user: data.user, signIn, signOut }), [
-    data.user,
-    signIn,
-    signOut,
-  ]);
+  const value = useMemo(
+    () => ({ user: data.user, signIn, signOut }),
+    [data.user, signIn, signOut],
+  )
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-function useAuth(): AuthContextData {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-
-  return context;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-export { AuthProvider, useAuth };
+function useAuth(): AuthContextData {
+  const context = useContext(AuthContext)
+
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+
+  return context
+}
+
+export { AuthProvider, useAuth }

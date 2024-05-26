@@ -1,14 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 
-
   max-width: 1120px;
   width: 100%;
-  
+
   @media screen and (max-width: 768px) {
     grid-template-columns: repeat(1, 1fr);
     flex-direction: column;
@@ -35,15 +34,15 @@ export const Container = styled.div`
         justify-content: center;
         gap: 1rem;
       }
+    }
   }
-}
-  
+
   div {
     background-color: var(--quinary);
     padding: 1.5rem 2rem;
     border-radius: 0.5rem;
     color: var(--white);
-    
+
     header {
       display: flex;
       align-items: center;
@@ -59,8 +58,8 @@ export const Container = styled.div`
 
     strong {
       @media screen and (max-width: 768px) {
-          font-size: 1.5rem;
-        }
+        font-size: 1.5rem;
+      }
 
       display: block;
       margin-top: 1rem;
@@ -68,9 +67,9 @@ export const Container = styled.div`
       font-weight: 600;
       line-height: 3rem;
     }
-    
+
     img {
-    width: 3rem;
+      width: 3rem;
       height: 3rem;
     }
 
@@ -79,5 +78,4 @@ export const Container = styled.div`
       color: var(--background);
     }
   }
-`;
-
+`

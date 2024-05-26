@@ -1,46 +1,52 @@
-import { useEffect, useState } from 'react';
-import Modal from "react-modal";
-import { Container, Header, AddContent, AddButton, WalletsContent, ContentModalDelete } from "./styles"
-import { FiEdit, FiTrash2 } from "react-icons/fi";
-import deleteImg from '../../assets/delete-icon.svg';
+import { useEffect, useState } from 'react'
+import Modal from 'react-modal'
+import {
+  Container,
+  Header,
+  AddContent,
+  AddButton,
+  WalletsContent,
+  ContentModalDelete,
+} from './styles'
+import { FiEdit, FiTrash2 } from 'react-icons/fi'
+import deleteImg from '../../assets/delete-icon.svg'
 
-import { NewWalletsModal } from '../../components/NewWalletModal';
-import { EditWalletModal } from '../../components/EditWalletModal';
-import { TransferModal } from '../../components/TransferModal';
+import { NewWalletsModal } from '../../components/NewWalletModal'
+import { EditWalletModal } from '../../components/EditWalletModal'
+import { TransferModal } from '../../components/TransferModal'
 
-import { useWallets } from '../../hooks/useWallets';
+import { useWallets } from '../../hooks/useWallets'
 
 interface Wallet {
-  _id: string;
-  name: string;
-  createdBy: string;
-  createdAt: string;
-  balance: number;
-  initialBalance: number;
-  currency?: string;
+  _id: string
+  name: string
+  createdBy: string
+  createdAt: string
+  balance: number
+  initialBalance: number
+  currency?: string
 }
 
 export default function Wallets() {
-  const { wallets, handleDeleteWallet, getWallets } = useWallets();
-  const [selectedWallet, setSelectedWallet] = useState({} as Wallet);
-  const [isOpenNew, setIsOpenNew] = useState(false);
-  const [isOpenDel, setIsOpenDel] = useState(false);
-  const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [isOpenTransfer, setIsOpenTransfer] = useState(false);
-  const [btnDisabled, setBtnDisabled] = useState(false);
+  const { wallets, handleDeleteWallet, getWallets } = useWallets()
+  const [selectedWallet, setSelectedWallet] = useState({} as Wallet)
+  const [isOpenNew, setIsOpenNew] = useState(false)
+  const [isOpenDel, setIsOpenDel] = useState(false)
+  const [isOpenEdit, setIsOpenEdit] = useState(false)
+  const [isOpenTransfer, setIsOpenTransfer] = useState(false)
+  const [btnDisabled, setBtnDisabled] = useState(false)
 
   useEffect(() => {
-    if(wallets.length < 2) {
-      setBtnDisabled(true);
+    if (wallets.length < 2) {
+      setBtnDisabled(true)
     } else {
-      setBtnDisabled(false);
+      setBtnDisabled(false)
     }
-  }, [wallets]);
+  }, [wallets])
 
-useEffect(() => {
-  getWallets();
-}
-, [getWallets]);
+  useEffect(() => {
+    getWallets()
+  }, [getWallets])
 
   return (
     <>
@@ -67,22 +73,22 @@ useEffect(() => {
           <h2>Excluir carteira?</h2>
           <img src={deleteImg} alt="Excluir" />
           <p>
-            Tem certeza que deseja excluir a carteira <strong>{selectedWallet.name}</strong>?
+            Tem certeza que deseja excluir a carteira{' '}
+            <strong>{selectedWallet.name}</strong>?
           </p>
-          <p><strong>Todas as transações serão perdidas</strong></p>
+          <p>
+            <strong>Todas as transações serão perdidas</strong>
+          </p>
           <div>
-            <button 
-            onClick={() => setIsOpenDel(false)}
-            className="cancel"
-            >
+            <button onClick={() => setIsOpenDel(false)} className="cancel">
               Cancelar
             </button>
-            <button 
-            onClick={() => {
-              handleDeleteWallet(selectedWallet._id)
-              setIsOpenDel(false)
-            }}
-            type="button"
+            <button
+              onClick={() => {
+                handleDeleteWallet(selectedWallet._id)
+                setIsOpenDel(false)
+              }}
+              type="button"
             >
               Excluir
             </button>
@@ -94,33 +100,30 @@ useEffect(() => {
           <h1>Carteiras</h1>
         </Header>
         <AddContent>
-        <AddButton
+          <AddButton
             disabled={btnDisabled}
             onClick={() => setIsOpenTransfer(true)}
           >
             Transferencias entre carteiras
           </AddButton>
-          <AddButton
-            onClick={() => setIsOpenNew(true)}
-          >
+          <AddButton onClick={() => setIsOpenNew(true)}>
             Nova carteira
-          </AddButton>          
+          </AddButton>
         </AddContent>
         <WalletsContent>
-          {wallets.map(wallet => (
+          {wallets.map((wallet) => (
             <div key={wallet._id} className="wallet">
               <h2>{wallet.name}</h2>
               <p>
                 {new Intl.NumberFormat('pt-BR', {
                   style: 'currency',
-                  currency: 'BRL'
-                }).format(wallet.balance)
-                }
+                  currency: 'BRL',
+                }).format(wallet.balance)}
               </p>
               <div className="actions">
                 <a
                   type="button"
-                  className='edit'
+                  className="edit"
                   onClick={() => {
                     setSelectedWallet(wallet)
                     setIsOpenEdit(true)
@@ -130,7 +133,7 @@ useEffect(() => {
                 </a>
                 <a
                   type="button"
-                  className='delete'
+                  className="delete"
                   onClick={() => {
                     setIsOpenDel(true)
                     setSelectedWallet(wallet)

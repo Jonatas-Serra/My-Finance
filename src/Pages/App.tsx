@@ -1,4 +1,4 @@
-import { NavSide } from "../components/NavSide"; 
+import { NavSide } from '../components/NavSide'
 
 function App() {
   return (
@@ -8,4 +8,4 @@ function App() {
   )
 }
 
-export default App;
+export default App

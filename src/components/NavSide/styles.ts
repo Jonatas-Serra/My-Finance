@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface NavSideItemProps {
-  isActive: boolean;
+  isActive: boolean
 }
 
 export const NavSideContainer = styled.div`
@@ -23,7 +23,7 @@ export const NavSideContainer = styled.div`
     justify-items: center;
     max-width: 83px;
   }
-`;
+`
 
 export const Logo = styled.div`
   padding: 20px;
@@ -55,8 +55,7 @@ export const Logo = styled.div`
   @media (max-width: 767px) {
     padding: 0px;
   }
-  
-`;
+`
 
 export const NavSideList = styled.ul`
   list-style: none;
@@ -68,7 +67,7 @@ export const NavSideList = styled.ul`
     flex-wrap: wrap;
     padding: 0;
   }
-`;
+`
 
 export const NavSideItem = styled.li<NavSideItemProps>`
   width: 100%;
@@ -76,11 +75,13 @@ export const NavSideItem = styled.li<NavSideItemProps>`
   display: flex;
   align-items: start;
   justify-content: center;
-  background-color: ${({ isActive }) => (isActive ? 'var(--secondary)' : 'transparent')};
+  background-color: ${({ isActive }) =>
+    isActive ? 'var(--secondary)' : 'transparent'};
 
   &:hover {
-      background-color: ${({ isActive }) => (isActive ? 'var(--secondary)' : 'var(--quinary)')};
-    }
+    background-color: ${({ isActive }) =>
+      isActive ? 'var(--secondary)' : 'var(--quinary)'};
+  }
 
   a {
     width: 100%;
@@ -101,10 +102,8 @@ export const NavSideItem = styled.li<NavSideItemProps>`
     &:hover {
       transform: translateX(8px);
     }
-
-  
   }
-  
+
   @media (max-width: 767px) {
     a {
       justify-content: center;
@@ -119,7 +118,7 @@ export const NavSideItem = styled.li<NavSideItemProps>`
       font-size: 16px;
     }
   }
-`;
+`
 
 export const NavSideFooter = styled.div`
   padding: 20px;
@@ -166,4 +165,4 @@ export const NavSideFooter = styled.div`
     justify-content: center;
     gap: 14px;
   }
-`;
+`

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import background from "../../assets/Background.png";
+import styled from 'styled-components'
+import background from '../../assets/Background.png'
 
 export const Container = styled.div`
   width: 100%;
@@ -9,7 +9,7 @@ export const Container = styled.div`
   background-image: url(${background});
   background-size: cover;
   background-position: center;
-`;
+`
 
 export const Content = styled.div`
   width: 70%;
@@ -58,7 +58,7 @@ export const Content = styled.div`
     }
 
     @media (max-width: 768px) {
-        display: none;
+      display: none;
     }
   }
 
@@ -75,11 +75,11 @@ export const Content = styled.div`
       justify-content: center !important;
       background-color: var(--white);
       margin-bottom: 40px;
-      
+
       h1 {
-          font-size: 40px;
-          color: var(--primary);
-        }
+        font-size: 40px;
+        color: var(--primary);
+      }
       img {
         width: 20%;
       }
@@ -99,51 +99,51 @@ export const Content = styled.div`
     }
 
     @media (max-width: 768px) {
-        padding-top: 40px;
-        padding-bottom: 40px;
+      padding-top: 40px;
+      padding-bottom: 40px;
 
-        div {
-          h1 {
-            font-size: 40px;
-          }
-
-          img {
-            width: 30%;
-          }
+      div {
+        h1 {
+          font-size: 40px;
         }
+
+        img {
+          width: 30%;
+        }
+      }
     }
 
     @media (max-width: 520px) {
-        padding-top: 30px;
-        padding-bottom: 30px;
+      padding-top: 30px;
+      padding-bottom: 30px;
 
-        div {
-          h1 {
-            font-size: 40px;
-          }
-
-          img {
-            width: 25%;
-          }
+      div {
+        h1 {
+          font-size: 40px;
         }
+
+        img {
+          width: 25%;
+        }
+      }
     }
 
     @media (max-width: 480px) {
-        padding-top: 20px;
-        padding-bottom: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
 
-        div {
-          h1 {
-            font-size: 30px;
-          }
-
-          img {
-            width: 25%;
-          }
+      div {
+        h1 {
+          font-size: 30px;
         }
+
+        img {
+          width: 25%;
+        }
+      }
     }
   }
-`;
+`
 
 export const Input = styled.input`
   width: 80%;
@@ -162,7 +162,7 @@ export const Input = styled.input`
   &:focus {
     border: 1px solid var(--primary);
   }
-`;
+`
 
 export const Button = styled.button`
   width: 50%;
@@ -175,4 +175,4 @@ export const Button = styled.button`
   font-weight: bold;
   cursor: pointer;
   margin-bottom: 35px;
-`;
+`

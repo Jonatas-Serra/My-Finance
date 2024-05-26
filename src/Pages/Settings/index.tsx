@@ -1,4 +1,4 @@
-import { Container, Header } from "./styles"
+import { Container, Header } from './styles'
 
 export default function Settings() {
   return (
