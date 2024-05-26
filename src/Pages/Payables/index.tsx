@@ -282,7 +282,6 @@ export default function Payables() {
                   <th>Valor</th>
                   <th>Vencimento</th>
                   <th>Recebedor</th>
-                  <th>Carteira</th>
                   <th>Status</th>
                   <th>Ações</th>
                 </tr>

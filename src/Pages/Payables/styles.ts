@@ -91,7 +91,7 @@ export const AddButton = styled.button`
 `;
 
 export const PayablesTable = styled.div`
-  display: flex;
+   display: flex;
   flex-direction: column;
   align-items: center;
 

@@ -286,7 +286,6 @@ useEffect(() => {
                 <th>Valor</th>
                 <th>Vencimento</th>
                 <th>Pagador</th>
-                <th>Carteira</th>
                 <th>Status</th>
                 <th>Ações</th>
               </tr>
@@ -306,7 +305,6 @@ useEffect(() => {
                         new Date(receivable.dueDate)
                       )}</td>
                       <td>{receivable.payeeOrPayer}</td>
-                      <td>Carteira</td>
                       <td
                         className={
                           receivable.status === 'Late' ? 'late' :
