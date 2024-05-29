@@ -323,7 +323,7 @@ export default function Receivables() {
                 {paginatedAccounts.map((receivable) => (
                   <tr key={receivable._id}>
                     <td>{receivable.documentNumber}</td>
-                    <td>{receivable.description}</td>
+                    <td className="nowp">{receivable.description}</td>
                     <td>
                       {new Intl.NumberFormat('pt-BR', {
                         style: 'currency',

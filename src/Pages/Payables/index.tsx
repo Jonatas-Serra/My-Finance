@@ -309,7 +309,7 @@ export default function Payables() {
               <thead>
                 <tr>
                   <th>Nº doc.</th>
-                  <th>Nome</th>
+                  <th>Descrição</th>
                   <th>Valor</th>
                   <th>Vencimento</th>
                   <th>Recebedor</th>

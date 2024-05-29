@@ -6,16 +6,12 @@ export const Container = styled.div`
   max-height: calc(100vh - 91px);
   background-color: var(--background);
   display: flex;
-
-  @media (min-width: 375px) {
-    max-height: calc(100vh - 78px);
-  }
 `
 
 export const Content = styled.div`
   width: 100%;
   height: 100%;
-
+  min-width: 550px;
   h1 {
     font-size: 24px;
     margin-bottom: 20px;

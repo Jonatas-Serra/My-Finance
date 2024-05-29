@@ -12,14 +12,10 @@ const spin = keyframes`
 export const Container = styled.div`
   width: 100%;
   height: 100%;
+  min-width: 450px;
   background-color: var(--white);
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-
-  @media (max-width: 375px) {
-    min-width: 440px;
-  }
 `
 
 export const Search = styled.div`

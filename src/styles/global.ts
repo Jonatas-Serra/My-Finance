@@ -43,6 +43,7 @@ export const GlobalStyle = createGlobalStyle`
 }
   input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
   }
 
 
@@ -62,7 +63,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: var(--background);
+    background-color: var(--white);
     -webkit-font-smoothing: antialiased;
     font-family: 'Montserrat', sans-serif;
     textarea:focus, input:focus, select:focus {

@@ -14,7 +14,7 @@ export const NavSideContainer = styled.div`
   overflow: hidden;
   transition: all 0.3s ease-in-out;
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     min-width: 83px;
   }
 

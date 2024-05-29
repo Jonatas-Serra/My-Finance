@@ -12,14 +12,10 @@ const spin = keyframes`
 export const Container = styled.div`
   width: 100%;
   height: 100%;
+  min-width: 450px;
   background-color: var(--white);
   display: flex;
   flex-direction: column;
-  overflow-y: scroll !important;
-
-  @media (max-width: 375px) {
-    min-width: 440px;
-  }
 `
 
 export const Search = styled.div`
@@ -164,6 +160,11 @@ export const ReceivablesTable = styled.div`
 
     :hover {
       filter: opacity(0.8);
+    }
+
+    .nowp {
+      white-space: normal;
+      display: inline-block;
     }
   }
 
