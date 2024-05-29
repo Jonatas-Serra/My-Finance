@@ -3,14 +3,18 @@ import styled from 'styled-components'
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
+  max-height: calc(100vh - 91px);
   background-color: var(--background);
   display: flex;
+
+  @media (min-width: 375px) {
+    max-height: calc(100vh - 78px);
+  }
 `
 
 export const Content = styled.div`
   width: 100%;
   height: 100%;
-  max-height: 100vh;
 
   h1 {
     font-size: 24px;

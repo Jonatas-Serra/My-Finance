@@ -15,20 +15,10 @@ export const Container = styled.div`
   background-color: var(--white);
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: scroll !important;
 
   @media (max-width: 375px) {
     min-width: 440px;
-  }
-`
-
-export const Header = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-
-  h1 {
-    margin: 20px;
   }
 `
 

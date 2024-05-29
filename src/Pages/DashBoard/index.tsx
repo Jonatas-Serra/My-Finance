@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { NavSide } from '../../components/NavSide'
+import { NavBar } from '../../components/NavBar'
 import { Container, Content } from './styles'
 
 import api from '../../services/api'
@@ -42,6 +43,7 @@ const DashBoard: React.FC = () => {
     <Container>
       <NavSide />
       <Content>
+        <NavBar />
         <Outlet />
       </Content>
     </Container>

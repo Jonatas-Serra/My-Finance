@@ -8,13 +8,3 @@ export const Container = styled.div`
   flex-direction: column;
   overflow-y: scroll;
 `
-
-export const Header = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-
-  h1 {
-    margin: 20px;
-  }
-`

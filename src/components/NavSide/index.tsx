@@ -10,9 +10,7 @@ import {
 } from 'react-icons/fi'
 import { IoWalletOutline } from 'react-icons/io5'
 import logoImg from '../../assets/logo.svg'
-
 import { useAuth } from '../../hooks/Auth'
-
 import {
   NavSideContainer,
   NavSideList,
@@ -20,6 +18,7 @@ import {
   NavSideFooter,
   Logo,
 } from './styles'
+import { getPageTitle } from '../../utils/pageTitles'
 
 export function NavSide() {
   const { signOut } = useAuth()

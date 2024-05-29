@@ -9,16 +9,6 @@ export const Container = styled.div`
   overflow-y: scroll;
 `
 
-export const Header = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-
-  h1 {
-    margin: 20px;
-  }
-`
-
 export const Content = styled.div`
   width: 90%;
   display: flex;

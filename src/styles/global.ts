@@ -58,6 +58,7 @@ export const GlobalStyle = createGlobalStyle`
     @media(max-width: 480px) {
       font-size: 81.25%;
     }
+
   }
 
   body {
@@ -68,7 +69,9 @@ export const GlobalStyle = createGlobalStyle`
     box-shadow: 0 0 0 0;
     border: 0 none;
     outline: 0;
-    }   
+    }
+    
+    
   }
 
   button {

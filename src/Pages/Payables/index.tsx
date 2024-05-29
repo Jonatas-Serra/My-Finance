@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
   Container,
-  Header,
   Search,
   SearchInput,
   SearchButton,
@@ -284,9 +283,6 @@ export default function Payables() {
         </ContentModalDelete>
       </Modal>
       <Container onScroll={handleScroll}>
-        <Header>
-          <h1>Contas a pagar</h1>
-        </Header>
         <Search>
           <div className="flex">
             <SearchInput

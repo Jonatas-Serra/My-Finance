@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {
   Container,
-  Header,
   AddContent,
   AddButton,
   WalletsContent,
@@ -96,9 +95,6 @@ export default function Wallets() {
         </ContentModalDelete>
       </Modal>
       <Container>
-        <Header>
-          <h1>Carteiras</h1>
-        </Header>
         <AddContent>
           <AddButton
             disabled={btnDisabled}
