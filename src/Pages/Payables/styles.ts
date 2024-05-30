@@ -89,6 +89,7 @@ export const PayablesTable = styled.div`
     margin-top: 20px;
 
     @media (max-width: 850px) {
+      width: 90%;
       th:nth-child(5),
       td:nth-child(5) {
         display: none;
@@ -96,15 +97,20 @@ export const PayablesTable = styled.div`
     }
 
     @media (max-width: 560px) {
+      width: 85%;
       th:nth-child(6),
-      td:nth-child(6) {
+      td:nth-child(6),
+      th:nth-child(1),
+      td:nth-child(1),
+      th:nth-child(4),
+      td:nth-child(4) {
         display: none;
       }
-    }
 
-    th:last-child,
-    td:last-child {
-      border-top-right-radius: 5px;
+      th:first-child + th,
+      td:first-child + td {
+        border-top-left-radius: 5px;
+      }
     }
   }
 
@@ -144,6 +150,10 @@ export const PayablesTable = styled.div`
   .actions {
     display: flex;
     justify-content: space-around;
+
+    @media (max-width: 560px) {
+      display: block;
+    }
   }
 
   .edit {
@@ -167,6 +177,10 @@ export const PayablesTable = styled.div`
     }
   }
 
+  .nowp {
+    white-space: normal;
+  }
+
   .check {
     color: var(--secondary);
     cursor: pointer;
@@ -179,10 +193,12 @@ export const PayablesTable = styled.div`
   }
 
   .paid {
+    white-space: normal;
     color: var(--secondary);
   }
 
   .late {
+    white-space: normal;
     color: var(--tertiary);
   }
 

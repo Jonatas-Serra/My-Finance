@@ -49,6 +49,13 @@ export default function Forgot() {
 
           formRef.current?.setErrors(errors)
 
+          addToast({
+            type: 'error',
+            title: 'Email não encontrado!',
+            description:
+              'Infelizmente não encontramos nenhum usuário com esse e-mail.',
+          })
+
           return
         }
 

@@ -18,6 +18,21 @@ const DashBoard: React.FC = () => {
     setIsMenuOpen(!isMenuOpen)
   }
 
+  const handleResize = () => {
+    if (window.innerWidth > 768) {
+      setIsMenuOpen(false)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+    handleResize()
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   const verifyToken = useCallback(() => {
     const token = localStorage.getItem('@Myfinance:token')
 

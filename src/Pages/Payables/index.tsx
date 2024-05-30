@@ -322,7 +322,7 @@ export default function Payables() {
                 {paginatedAccounts.map((payable) => (
                   <tr key={payable._id}>
                     <td>{payable.documentNumber}</td>
-                    <td>{payable.description}</td>
+                    <td className="nowp">{payable.description}</td>
                     <td>
                       {new Intl.NumberFormat('pt-BR', {
                         style: 'currency',
