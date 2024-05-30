@@ -6,12 +6,13 @@ import {
   NotificationIcon,
   UserProfile,
   UserSection,
+  HamburgerIcon,
 } from './styles'
 import { useUser } from '../../hooks/User'
 import userImg from '../../assets/perfil.png'
 import { getPageTitle } from '../../utils/pageTitles'
 
-export function NavBar() {
+export function NavBar({ toggleMenu }) {
   const location = useLocation()
   const [pageTitle, setPageTitle] = useState<string>(
     getPageTitle(location.pathname),
@@ -24,6 +25,7 @@ export function NavBar() {
 
   return (
     <NavbarContainer>
+      <HamburgerIcon onClick={toggleMenu} />
       <Title>{pageTitle}</Title>
       <UserSection>
         <NotificationIcon />

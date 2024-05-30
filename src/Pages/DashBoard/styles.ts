@@ -1,30 +1,29 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
+  display: flex;
   width: 100%;
   height: 100vh;
-  max-height: calc(100vh - 91px);
+  max-height: 100vh;
   background-color: var(--background);
-  display: flex;
 `
 
-export const Content = styled.div`
+export const Content = styled.div<{ isMenuOpen: boolean }>`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+  margin-left: ${({ isMenuOpen }) => (isMenuOpen ? '240px' : '0')};
+  transition: margin-left 0.3s ease-in-out;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
   }
-  p {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-  @media (min-width: 768px) {
-    h1 {
-      font-size: 32px;
-    }
-    p {
-      font-size: 20px;
-    }
-  }
+`
+
+export const MainContent = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: var(--white);
 `

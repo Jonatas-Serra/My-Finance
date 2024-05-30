@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { NavSide } from '../../components/NavSide'
 import { NavBar } from '../../components/NavBar'
-import { Container, Content } from './styles'
+import { Container, Content, MainContent } from './styles'
 
 import api from '../../services/api'
 import { useToast } from '../../hooks/Toast'
@@ -12,6 +12,11 @@ import { useAuth } from '../../hooks/Auth'
 const DashBoard: React.FC = () => {
   const { addToast } = useToast()
   const { signOut } = useAuth()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
 
   const verifyToken = useCallback(() => {
     const token = localStorage.getItem('@Myfinance:token')
@@ -41,10 +46,12 @@ const DashBoard: React.FC = () => {
 
   return (
     <Container>
-      <NavSide />
-      <Content>
-        <NavBar />
-        <Outlet />
+      <NavSide isMenuOpen={isMenuOpen} />
+      <Content isMenuOpen={isMenuOpen}>
+        <NavBar toggleMenu={toggleMenu} />
+        <MainContent>
+          <Outlet />
+        </MainContent>
       </Content>
     </Container>
   )

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FiBell } from 'react-icons/fi'
+import { FiBell, FiMenu } from 'react-icons/fi'
 
 export const NavbarContainer = styled.div`
   width: 100%;
@@ -40,4 +40,14 @@ export const UserProfile = styled.img`
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
+`
+
+export const HamburgerIcon = styled(FiMenu)`
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
 `
