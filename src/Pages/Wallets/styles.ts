@@ -6,17 +6,7 @@ export const Container = styled.div`
   background-color: var(--white);
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-`
-
-export const Header = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-
-  h1 {
-    margin: 20px 20px 0 20px;
-  }
+  padding-top: 1rem;
 `
 
 export const AddContent = styled.div`
@@ -26,9 +16,19 @@ export const AddContent = styled.div`
   margin-bottom: 20px;
 
   @media (max-width: 440px) {
-    justify-content: center;
-    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 5px;
+
+    button {
+      width: 50%;
+      margin: 0 auto; /* Certifica que os botões estão centralizados */
+    }
+
+    button + button {
+      margin-top: 10px;
+    }
   }
 `
 
@@ -54,6 +54,10 @@ export const WalletsContent = styled.div`
   padding: 0 20px;
   gap: 20px;
 
+  @media (max-width: 440px) {
+    gap: 14px;
+  }
+
   .wallet {
     width: 240px;
     height: 200px;
@@ -74,6 +78,12 @@ export const WalletsContent = styled.div`
 
     &:hover {
       filter: opacity(0.9);
+    }
+
+    @media (max-width: 440px) {
+      width: 180px;
+      height: 150px;
+      margin: 5px 0;
     }
   }
 

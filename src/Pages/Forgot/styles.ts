@@ -27,9 +27,12 @@ export const Content = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 100%;
-    border-radius: 0;
-    box-shadow: none;
+    width: 90%;
+
+    p {
+      padding: 0 5px;
+      text-align: center;
+    }
   }
 
   form {

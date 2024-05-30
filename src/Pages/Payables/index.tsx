@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
   Container,
-  Header,
   Search,
   SearchInput,
   SearchButton,
@@ -284,9 +283,6 @@ export default function Payables() {
         </ContentModalDelete>
       </Modal>
       <Container onScroll={handleScroll}>
-        <Header>
-          <h1>Contas a pagar</h1>
-        </Header>
         <Search>
           <div className="flex">
             <SearchInput
@@ -313,7 +309,7 @@ export default function Payables() {
               <thead>
                 <tr>
                   <th>Nº doc.</th>
-                  <th>Nome</th>
+                  <th>Descrição</th>
                   <th>Valor</th>
                   <th>Vencimento</th>
                   <th>Recebedor</th>
@@ -326,7 +322,7 @@ export default function Payables() {
                 {paginatedAccounts.map((payable) => (
                   <tr key={payable._id}>
                     <td>{payable.documentNumber}</td>
-                    <td>{payable.description}</td>
+                    <td className="nowp">{payable.description}</td>
                     <td>
                       {new Intl.NumberFormat('pt-BR', {
                         style: 'currency',

@@ -13,7 +13,7 @@ export function Summary() {
       if (transaction.type === 'Deposit') {
         acc.deposits += transaction.amount
         acc.total += transaction.amount
-      } else if (transaction.type === 'Withdraw') {
+      } else if (transaction.type === 'Withdrawal') {
         acc.withdraws += transaction.amount
         acc.total -= transaction.amount
       }
@@ -33,7 +33,7 @@ export function Summary() {
           <p>Entradas</p>
           <img src={incomeImg} alt="Entradas" />
         </header>
-        <strong>
+        <strong className="deposit">
           {new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL',
@@ -45,14 +45,10 @@ export function Summary() {
           <p>Saídas</p>
           <img src={outcomeImg} alt="Saídas" />
         </header>
-        <strong>
-          {' '}
-          -{' '}
-          {new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-          }).format(summary.withdraws)}
-        </strong>
+        <strong className="nowp">{` - ${new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }).format(summary.withdraws)} `}</strong>
       </div>
       <div className="highlight-background">
         <header>

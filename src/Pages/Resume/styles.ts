@@ -7,16 +7,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-`
-
-export const Header = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-
-  h1 {
-    margin: 20px;
-  }
+  padding-top: 1rem;
 `
 
 export const Content = styled.div`

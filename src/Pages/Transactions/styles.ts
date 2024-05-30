@@ -16,16 +16,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-`
-
-export const Header = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-
-  h1 {
-    margin: 20px;
-  }
+  padding-top: 1rem;
 `
 
 export const Search = styled.div`
@@ -50,6 +41,10 @@ export const SearchInput = styled.input`
   border: 1px solid var(--gray);
   border-radius: 5px;
   padding: 0 10px;
+
+  @media (max-width: 420px) {
+    max-width: 200px;
+  }
 `
 
 export const SearchButton = styled.button`
@@ -195,6 +190,7 @@ export const TransactionsTable = styled.div`
   }
 
   .transfer {
+    white-space: normal;
     color: var(--primary);
   }
 `

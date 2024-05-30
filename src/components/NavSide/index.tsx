@@ -10,9 +10,7 @@ import {
 } from 'react-icons/fi'
 import { IoWalletOutline } from 'react-icons/io5'
 import logoImg from '../../assets/logo.svg'
-
 import { useAuth } from '../../hooks/Auth'
-
 import {
   NavSideContainer,
   NavSideList,
@@ -21,7 +19,11 @@ import {
   Logo,
 } from './styles'
 
-export function NavSide() {
+interface NavSideProps {
+  isMenuOpen: boolean
+}
+
+export function NavSide({ isMenuOpen }: NavSideProps) {
   const { signOut } = useAuth()
   const location = useLocation()
   const [activeLink, setActiveLink] = useState<string>(location.pathname)
@@ -35,7 +37,7 @@ export function NavSide() {
   }, [location])
 
   return (
-    <NavSideContainer>
+    <NavSideContainer isMenuOpen={isMenuOpen}>
       <Logo>
         <img src={logoImg} alt="" />
         <h1>My Finance</h1>

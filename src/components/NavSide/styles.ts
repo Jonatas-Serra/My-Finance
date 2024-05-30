@@ -1,27 +1,23 @@
 import styled from 'styled-components'
 
-interface NavSideItemProps {
-  isActive: boolean
+interface NavSideContainerProps {
+  isMenuOpen: boolean
 }
 
-export const NavSideContainer = styled.div`
-  width: 100%;
-  max-width: 240px;
+export const NavSideContainer = styled.div<NavSideContainerProps>`
+  width: ${({ isMenuOpen }) => (isMenuOpen ? '240px' : '83px')};
   height: 100vh;
   background-color: var(--primary);
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  overflow: hidden;
-  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease-in-out;
 
-  @media (max-width: 375px) {
-    min-width: 83px;
+  @media (max-width: 768px) {
+    width: ${({ isMenuOpen }) => (isMenuOpen ? '240px' : '0')};
   }
 
-  @media (max-width: 767px) {
-    grid-template-rows: auto auto;
-    justify-items: center;
-    max-width: 83px;
+  @media (min-width: 768px) {
+    min-width: 240px;
   }
 `
 
@@ -62,6 +58,7 @@ export const NavSideList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
 
   @media (max-width: 767px) {
     flex-wrap: wrap;
@@ -69,7 +66,7 @@ export const NavSideList = styled.ul`
   }
 `
 
-export const NavSideItem = styled.li<NavSideItemProps>`
+export const NavSideItem = styled.li<{ isActive: boolean }>`
   width: 100%;
   padding: 10px 0;
   display: flex;

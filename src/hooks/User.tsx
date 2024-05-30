@@ -15,6 +15,7 @@ interface User {
   phone: string
   password: string
   createdAt: string
+  photo: string
 }
 
 interface UserAuth {

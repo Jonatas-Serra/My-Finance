@@ -8,6 +8,15 @@ export const Container = styled.div`
   max-width: 1120px;
   width: 100%;
 
+  .nowp {
+    white-space: nowrap;
+    color: var(--tertiary);
+  }
+
+  .deposit {
+    color: var(--quaternary);
+  }
+
   @media screen and (max-width: 768px) {
     grid-template-columns: repeat(1, 1fr);
     flex-direction: column;
@@ -19,6 +28,7 @@ export const Container = styled.div`
       align-items: center;
       justify-content: center;
       gap: 1rem;
+      max-width: 250px;
 
       strong {
         font-size: 1.5rem;
@@ -42,6 +52,15 @@ export const Container = styled.div`
     padding: 1.5rem 2rem;
     border-radius: 0.5rem;
     color: var(--white);
+    max-width: 250px;
+
+    @media (min-width: 819px) {
+      max-width: 460px;
+    }
+
+    @media (min-width: 480px) {
+      max-width: 350px;
+    }
 
     header {
       display: flex;

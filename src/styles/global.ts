@@ -43,6 +43,7 @@ export const GlobalStyle = createGlobalStyle`
 }
   input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
   }
 
 
@@ -58,17 +59,20 @@ export const GlobalStyle = createGlobalStyle`
     @media(max-width: 480px) {
       font-size: 81.25%;
     }
+
   }
 
   body {
-    background-color: var(--background);
+    background-color: var(--white);
     -webkit-font-smoothing: antialiased;
     font-family: 'Montserrat', sans-serif;
     textarea:focus, input:focus, select:focus {
     box-shadow: 0 0 0 0;
     border: 0 none;
     outline: 0;
-    }   
+    }
+    
+    
   }
 
   button {

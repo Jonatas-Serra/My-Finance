@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {
   Container,
-  Header,
   Search,
   SearchInput,
   SearchButton,
@@ -118,9 +117,6 @@ export default function Transactions() {
         </ContentModalDelete>
       </Modal>
       <Container onScroll={handleScroll}>
-        <Header>
-          <h1>Lançamentos</h1>
-        </Header>
         <Search>
           <div className="flex">
             <SearchInput

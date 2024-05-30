@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {
   Container,
-  Header,
   Search,
   SearchInput,
   SearchButton,
@@ -285,9 +284,6 @@ export default function Receivables() {
         </ContentModalDelete>
       </Modal>
       <Container onScroll={handleScroll}>
-        <Header>
-          <h1>Contas a receber</h1>
-        </Header>
         <Search>
           <div className="flex">
             <SearchInput
@@ -327,7 +323,7 @@ export default function Receivables() {
                 {paginatedAccounts.map((receivable) => (
                   <tr key={receivable._id}>
                     <td>{receivable.documentNumber}</td>
-                    <td>{receivable.description}</td>
+                    <td className="nowp">{receivable.description}</td>
                     <td>
                       {new Intl.NumberFormat('pt-BR', {
                         style: 'currency',
@@ -359,63 +355,65 @@ export default function Receivables() {
                       {receivable.status === 'Late'
                         ? 'Conta atrasada'
                         : receivable.status === 'Paid'
-                          ? 'Conta paga'
+                          ? 'Conta recebida'
                           : receivable.status === 'Pending'
                             ? 'A vencer'
                             : 'Desconhecido'}
                     </td>
                     <td>
-                      <a
-                        className="edit"
-                        type="button"
-                        onClick={() => {
-                          setIsOpenEdit(true)
-                          setSelectedAccount(receivable)
-                        }}
-                      >
-                        <div className="tooltip">
-                          <FiEdit size={20} />
-                          <span className="tooltiptext">Editar</span>
-                        </div>
-                      </a>
-                      <a
-                        className="delete"
-                        type="button"
-                        onClick={() => {
-                          setIsOpenDel(true)
-                          setSelectedAccount(receivable)
-                        }}
-                      >
-                        <div className="tooltip">
-                          <FiTrash2 size={20} />
-                          <span className="tooltiptext">Excluir</span>
-                        </div>
-                      </a>
-                      <a
-                        className="check"
-                        type="button"
-                        onClick={() => {
-                          setSelectedAccount(receivable)
-                          if (receivable.isPaid) {
-                            setIsOpenUnderPay(true)
-                          } else {
-                            setIsOpenCheck(true)
-                          }
-                        }}
-                      >
-                        <div className="tooltip">
-                          {receivable.isPaid ? (
-                            <FiCheckSquare size={20} />
-                          ) : (
-                            <FiSquare color="#181d29" size={20} />
-                          )}
-                          <span className="tooltiptext">
-                            {receivable.isPaid
-                              ? 'Desfazer recebimento'
-                              : 'Receber conta'}
-                          </span>
-                        </div>
-                      </a>
+                      <div className="actions">
+                        <a
+                          className="edit"
+                          type="button"
+                          onClick={() => {
+                            setIsOpenEdit(true)
+                            setSelectedAccount(receivable)
+                          }}
+                        >
+                          <div className="tooltip">
+                            <FiEdit size={20} />
+                            <span className="tooltiptext">Editar</span>
+                          </div>
+                        </a>
+                        <a
+                          className="delete"
+                          type="button"
+                          onClick={() => {
+                            setIsOpenDel(true)
+                            setSelectedAccount(receivable)
+                          }}
+                        >
+                          <div className="tooltip">
+                            <FiTrash2 size={20} />
+                            <span className="tooltiptext">Excluir</span>
+                          </div>
+                        </a>
+                        <a
+                          className="check"
+                          type="button"
+                          onClick={() => {
+                            setSelectedAccount(receivable)
+                            if (receivable.isPaid) {
+                              setIsOpenUnderPay(true)
+                            } else {
+                              setIsOpenCheck(true)
+                            }
+                          }}
+                        >
+                          <div className="tooltip">
+                            {receivable.isPaid ? (
+                              <FiCheckSquare size={20} />
+                            ) : (
+                              <FiSquare color="#181d29" size={20} />
+                            )}
+                            <span className="tooltiptext">
+                              {receivable.isPaid
+                                ? 'Desfazer recebimento'
+                                : 'Receber conta'}
+                            </span>
+                          </div>
+                        </a>
+                      </div>
                     </td>
                   </tr>
                 ))}
