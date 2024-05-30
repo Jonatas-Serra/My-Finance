@@ -14,6 +14,14 @@ export const NavbarContainer = styled.div`
 export const Title = styled.h1`
   font-size: 24px;
   color: #333;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
 `
 
 export const UserSection = styled.div`

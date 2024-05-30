@@ -13,7 +13,7 @@ export function Summary() {
       if (transaction.type === 'Deposit') {
         acc.deposits += transaction.amount
         acc.total += transaction.amount
-      } else if (transaction.type === 'Withdraw') {
+      } else if (transaction.type === 'Withdrawal') {
         acc.withdraws += transaction.amount
         acc.total -= transaction.amount
       }
