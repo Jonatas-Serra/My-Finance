@@ -3,10 +3,10 @@ import styled from 'styled-components'
 export const Container = styled.div`
   width: 100%;
   height: 100%;
-  min-width: 450px;
   background-color: var(--white);
   display: flex;
   flex-direction: column;
+  padding-top: 1rem;
 `
 
 export const AddContent = styled.div`
@@ -17,7 +17,7 @@ export const AddContent = styled.div`
 
   @media (max-width: 440px) {
     justify-content: center;
-    margin-left: 1rem;
+    margin-left: 8px;
     margin-top: 5px;
   }
 `

@@ -11,7 +11,6 @@ export const Container = styled.div`
 export const Content = styled.div`
   width: 100%;
   height: 100%;
-  min-width: 550px;
   h1 {
     font-size: 24px;
     margin-bottom: 20px;

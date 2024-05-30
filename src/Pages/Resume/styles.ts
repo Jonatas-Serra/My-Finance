@@ -7,6 +7,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  padding-top: 1rem;
 `
 
 export const Content = styled.div`

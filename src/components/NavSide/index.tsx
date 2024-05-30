@@ -18,7 +18,6 @@ import {
   NavSideFooter,
   Logo,
 } from './styles'
-import { getPageTitle } from '../../utils/pageTitles'
 
 export function NavSide() {
   const { signOut } = useAuth()

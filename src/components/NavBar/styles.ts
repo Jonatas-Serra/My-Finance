@@ -1,15 +1,14 @@
 import styled from 'styled-components'
-import { FaBell } from 'react-icons/fa'
+import { FiBell } from 'react-icons/fi'
 
 export const NavbarContainer = styled.div`
   width: 100%;
-  min-width: 440px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px 24px;
   background-color: var(--white);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(204, 204, 204, 0.1);
 `
 
 export const Title = styled.h1`
@@ -22,8 +21,8 @@ export const UserSection = styled.div`
   align-items: center;
 `
 
-export const NotificationIcon = styled(FaBell)`
-  font-size: 24px;
+export const NotificationIcon = styled(FiBell)`
+  font-size: 26px;
   margin-right: 16px;
   cursor: pointer;
 `

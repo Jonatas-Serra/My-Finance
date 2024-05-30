@@ -14,7 +14,7 @@ export const NavSideContainer = styled.div`
   overflow: hidden;
   transition: all 0.3s ease-in-out;
 
-  @media (max-width: 480px) {
+  @media (max-width: 640px) {
     min-width: 83px;
   }
 
@@ -22,6 +22,10 @@ export const NavSideContainer = styled.div`
     grid-template-rows: auto auto;
     justify-items: center;
     max-width: 83px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    min-width: 200px;
   }
 `
 
