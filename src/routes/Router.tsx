@@ -9,6 +9,7 @@ import Wallets from '../Pages/Wallets'
 import Receivables from '../Pages/Receivables'
 import Payables from '../Pages/Payables'
 import Settings from '../Pages/Settings'
+import ResetPassword from '../Pages/ResetPassword'
 
 import ProtectedRoute from './ProtectedRoute'
 
@@ -32,6 +33,7 @@ export function Router() {
         }
       />
       <Route path="/forgot" element={<Forgot />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route
         path="/dashboard"
         element={

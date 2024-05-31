@@ -1,12 +1,63 @@
 import { useState } from 'react'
+import { useSearchParams, useNavigate } from 'react-router-dom'
+import { useToast } from '../../hooks/Toast'
+
+import api from '../../services/api'
 
 import { Container, Content, Input, Button } from './styles'
 import imgReset from '../../assets/imgReset.png'
 import logoImg from '../../assets/logo.svg'
 
 export default function ResetPassword() {
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmNewPassword, setConfirmNewPassword] = useState('')
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const { addToast } = useToast()
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const token = searchParams.get('token')?.toString()
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!token) {
+      addToast({
+        type: 'error',
+        title: 'Token não encontrado',
+        description: 'Token de recuperação de senha inválido.',
+      })
+      return
+    }
+
+    if (password !== confirmPassword) {
+      addToast({
+        type: 'error',
+        title: 'Erro na confirmação',
+        description: 'As senhas não coincidem.',
+      })
+      return
+    }
+
+    try {
+      await api.post('/auth/reset-password', {
+        token,
+        newPassword: password,
+      })
+
+      addToast({
+        type: 'success',
+        title: 'Senha alterada',
+        description: 'Sua senha foi alterada com sucesso.',
+      })
+
+      navigate('/')
+    } catch (error) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao resetar senha',
+        description: 'Ocorreu um erro ao resetar sua senha, tente novamente.',
+      })
+    }
+  }
 
   return (
     <Container>
@@ -20,7 +71,7 @@ export default function ResetPassword() {
           </p>
           <img src={imgReset} alt="" />
         </div>
-        <form action="">
+        <form onSubmit={handleResetPassword}>
           <div>
             <img src={logoImg} alt="logomarca my finance" />
             <h1>My Finance</h1>
@@ -28,27 +79,17 @@ export default function ResetPassword() {
           <Input
             type="password"
             placeholder="Nova senha"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Input
             type="password"
             placeholder="Confirmar nova senha"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <br />
-          <Button
-            onClick={() => {
-              console.log('Enviado')
-            }}
-          >
-            Confirmar
-          </Button>
-
-          <p>
-            Já tem uma conta? <a href="/">Entrar</a>
-          </p>
+          <Button type="submit">Confirmar</Button>
         </form>
       </Content>
     </Container>

@@ -6,6 +6,8 @@ import * as Yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom'
 import { useToast } from '../../hooks/Toast'
 
+import api from '../../services/api'
+
 import { Container, Content, Info, TopLogin, LoginForm, Button } from './styles'
 import { Input } from '../../components/Input'
 import { FiMail } from 'react-icons/fi'
@@ -36,6 +38,10 @@ export default function Forgot() {
 
         schema.validate(data, { abortEarly: false })
 
+        await api.post('/auth/request-password-reset', {
+          email: data.email,
+        })
+
         navigate('/')
 
         addToast({
@@ -51,9 +57,9 @@ export default function Forgot() {
 
           addToast({
             type: 'error',
-            title: 'Email não encontrado!',
+            title: 'Erro na recuperação de senha',
             description:
-              'Infelizmente não encontramos nenhum usuário com esse e-mail.',
+              'Ocorreu um erro ao tentar realizar a recuperação de senha, tente novamente.',
           })
 
           return
@@ -61,9 +67,9 @@ export default function Forgot() {
 
         addToast({
           type: 'error',
-          title: 'Erro na recuperação de senha',
+          title: 'Email não encontrado!',
           description:
-            'Ocorreu um erro ao tentar realizar a recuperação de senha, tente novamente.',
+            'Infelizmente não encontramos nenhum usuário com esse e-mail.',
         })
       }
     },
@@ -99,13 +105,7 @@ export default function Forgot() {
           </LoginForm>
           <p>Enviaremos um link para você redefinir sua senha.</p>
           <br />
-          <Button
-            onClick={() => {
-              console.log('Enviado')
-            }}
-          >
-            Confirmar
-          </Button>
+          <Button type="submit">Confirmar</Button>
 
           <p>
             Lembrou a senha? <Link to="/">Entrar</Link>
