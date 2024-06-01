@@ -79,6 +79,7 @@ export function NavBar({ toggleMenu }) {
       )
 
       fetchNotifications()
+      setShowNotifications(false)
     } catch (error) {
       console.error(error)
     }
@@ -100,6 +101,7 @@ export function NavBar({ toggleMenu }) {
       )
 
       fetchNotifications()
+      setShowNotifications(false)
     } catch (error) {
       console.error(error)
     }
@@ -176,9 +178,11 @@ export function NavBar({ toggleMenu }) {
                     </NotificationItem>
                   ),
               )}
-              <a className="cls" onClick={markAllNotificationsAsRead}>
-                Limpar notificações
-              </a>
+              {numberOfUnreadNotifications > 0 && (
+                <a className="cls" onClick={markAllNotificationsAsRead}>
+                  Limpar notificações
+                </a>
+              )}
             </NotificationContainer>
           )}
         </NotificationWrapper>
