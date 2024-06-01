@@ -16,7 +16,7 @@ interface User {
   password: string
   createdAt: string
   photo: string
-  categories: string[]
+  categories: [] | string[]
 }
 
 interface UserAuth {

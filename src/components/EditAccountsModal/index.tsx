@@ -40,30 +40,38 @@ export function EditAccountModal({
   const { addToast } = useToast()
   const { EditAccount } = useAccounts()
 
-  const [type, setType] = useState(selectedAccount.type)
-  const [value, setValue] = useState(selectedAccount.value)
-  const [description, setDescription] = useState(selectedAccount.description)
-  const [documentType, setDocumentType] = useState(selectedAccount.documentType)
-  const [dueDate, setDueDate] = useState(selectedAccount.dueDate)
-  const [documentNumber, setDocumentNumber] = useState(
-    selectedAccount.documentNumber,
+  const [type, setType] = useState(selectedAccount?.type || '')
+  const [value, setValue] = useState(selectedAccount?.value || 0)
+  const [description, setDescription] = useState(
+    selectedAccount?.description || '',
   )
-  const [category, setCategory] = useState(selectedAccount.category)
+  const [documentType, setDocumentType] = useState(
+    selectedAccount?.documentType || '',
+  )
+  const [dueDate, setDueDate] = useState(selectedAccount?.dueDate || '')
+  const [documentNumber, setDocumentNumber] = useState(
+    selectedAccount?.documentNumber || '',
+  )
+  const [category, setCategory] = useState(selectedAccount?.category || '')
   const [newCategory, setNewCategory] = useState('')
-  const [payeeOrPayer, setPayeeOrPayer] = useState(selectedAccount.payeeOrPayer)
-  const [walletId, setWalletId] = useState(selectedAccount.walletId)
+  const [payeeOrPayer, setPayeeOrPayer] = useState(
+    selectedAccount?.payeeOrPayer || '',
+  )
+  const [walletId, setWalletId] = useState(selectedAccount?.walletId || '')
   const [btnDisabled, setBtnDisabled] = useState(false)
 
   useEffect(() => {
-    setType(selectedAccount.type)
-    setValue(selectedAccount.value)
-    setDescription(selectedAccount.description)
-    setDocumentType(selectedAccount.documentType)
-    setDueDate(selectedAccount.dueDate)
-    setDocumentNumber(selectedAccount.documentNumber)
-    setCategory(selectedAccount.category)
-    setPayeeOrPayer(selectedAccount.payeeOrPayer)
-    setWalletId(selectedAccount.walletId)
+    if (selectedAccount) {
+      setType(selectedAccount.type)
+      setValue(selectedAccount.value)
+      setDescription(selectedAccount.description)
+      setDocumentType(selectedAccount.documentType)
+      setDueDate(selectedAccount.dueDate)
+      setDocumentNumber(selectedAccount.documentNumber)
+      setCategory(selectedAccount.category)
+      setPayeeOrPayer(selectedAccount.payeeOrPayer)
+      setWalletId(selectedAccount.walletId)
+    }
   }, [selectedAccount])
 
   async function handleEditAccount(event: FormEvent) {
@@ -102,6 +110,10 @@ export function EditAccountModal({
     setBtnDisabled(false)
   }
 
+  if (!selectedAccount || !user || !wallets) {
+    return null
+  }
+
   return (
     <Modal
       isOpen={isOpen}
@@ -111,7 +123,10 @@ export function EditAccountModal({
     >
       <button
         type="button"
-        onClick={onRequestClose}
+        onClick={() => {
+          onRequestClose()
+          setBtnDisabled(false)
+        }}
         className="react-modal-close"
       >
         <img src={closeImg} alt="Fechar modal" />
@@ -181,7 +196,7 @@ export function EditAccountModal({
             <option value="" disabled>
               Selecione a categoria
             </option>
-            {user.categories.map((category) => (
+            {user.categories?.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>

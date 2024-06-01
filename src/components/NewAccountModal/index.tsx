@@ -46,6 +46,8 @@ export function NewAccountModal({
   const createdBy = user._id
   const [btnDisabled, setBtnDisabled] = useState(false)
 
+  const catergories = user.categories
+
   const { createAccount } = useAccounts()
 
   async function handleCreateNewAccount(event: FormEvent) {
@@ -227,7 +229,7 @@ export function NewAccountModal({
             <option value="" disabled>
               Selecione a categoria
             </option>
-            {user.categories.map((category) => (
+            {user.categories?.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
