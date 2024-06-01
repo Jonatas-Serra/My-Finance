@@ -51,6 +51,7 @@ interface AccountsProviderProps {
 interface AccountsContextData {
   payables: Account[]
   receivables: Account[]
+  accounts: Account[]
   selectedAccount: Account
   loading: boolean
   createAccount: (account: AccountInput) => Promise<void>
@@ -68,6 +69,7 @@ const AccountsContext = createContext<AccountsContextData>(
 
 export function AccountsProvider({ children }: AccountsProviderProps) {
   const { user } = useUser()
+  const [accounts, setAccounts] = useState<Account[]>([])
   const [payables, setPayables] = useState<Account[]>([])
   const [receivables, setReceivables] = useState<Account[]>([])
   const [selectedAccount, setSelectedAccount] = useState<Account>({} as Account)
@@ -87,6 +89,7 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
         },
       })
       const accounts = response.data
+      setAccounts(accounts)
       setPayables(
         accounts.filter((account: Account) => account.type === 'payable'),
       )
@@ -190,6 +193,7 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
       value={{
         payables,
         receivables,
+        accounts,
         selectedAccount,
         loading,
         createAccount,
