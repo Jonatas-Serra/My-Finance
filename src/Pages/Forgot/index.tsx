@@ -4,7 +4,7 @@ import { Form } from '@unform/web'
 import getValidationErrors from '../../utils/getValidationErrors'
 import * as Yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom'
-import { useToast } from '../../hooks/Toast'
+import { useToast } from '../../hooks/useToast'
 
 import api from '../../services/api'
 

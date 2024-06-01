@@ -6,7 +6,7 @@ import {
   useCallback,
 } from 'react'
 import api from '../services/api'
-import { useUser } from './User'
+import { useUser } from './useUser'
 import { useWallets } from './useWallets'
 
 interface Transaction {

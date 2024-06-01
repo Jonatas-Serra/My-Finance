@@ -1,8 +1,9 @@
 import { FormEvent, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { useWallets } from '../../hooks/useWallets'
+import { useUser } from '../../hooks/useUser'
 import { useAccounts } from '../../hooks/useAccounts'
-import { useToast } from '../../hooks/Toast'
+import { useToast } from '../../hooks/useToast'
 
 import { Container } from './styles'
 
@@ -34,6 +35,7 @@ export function EditAccountModal({
   onRequestClose,
   selectedAccount,
 }: EditAccountsModalProps) {
+  const { user, handleUpdateUser } = useUser()
   const { wallets } = useWallets()
   const { addToast } = useToast()
   const { EditAccount } = useAccounts()
@@ -47,6 +49,7 @@ export function EditAccountModal({
     selectedAccount.documentNumber,
   )
   const [category, setCategory] = useState(selectedAccount.category)
+  const [newCategory, setNewCategory] = useState('')
   const [payeeOrPayer, setPayeeOrPayer] = useState(selectedAccount.payeeOrPayer)
   const [walletId, setWalletId] = useState(selectedAccount.walletId)
   const [btnDisabled, setBtnDisabled] = useState(false)
@@ -67,7 +70,17 @@ export function EditAccountModal({
     event.preventDefault()
     setBtnDisabled(true)
 
-    EditAccount({
+    if (newCategory) {
+      const updatedUser = {
+        ...user,
+        categories: [...user.categories, newCategory],
+      }
+      await handleUpdateUser(updatedUser)
+      setCategory(newCategory)
+      setNewCategory('')
+    }
+
+    await EditAccount({
       _id: selectedAccount._id,
       type,
       value,
@@ -75,7 +88,7 @@ export function EditAccountModal({
       documentType,
       dueDate,
       documentNumber,
-      category,
+      category: newCategory || category,
       payeeOrPayer,
       walletId,
     })
@@ -159,12 +172,23 @@ export function EditAccountModal({
           </select>
         </div>
         <div className="flex">
-          <input
-            type="text"
-            placeholder="Categoria"
+          <select
+            className="category"
+            required
             value={category}
             onChange={(event) => setCategory(event.target.value)}
-          />
+          >
+            <option value="" disabled>
+              Selecione a categoria
+            </option>
+            {user.categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+            <option value="newCategory">Adicionar nova categoria</option>
+          </select>
+
           <select
             placeholder="Selecione a carteira"
             value={walletId}
@@ -180,6 +204,14 @@ export function EditAccountModal({
             ))}
           </select>
         </div>
+        {category === 'newCategory' && (
+          <input
+            required
+            placeholder="Nova Categoria"
+            value={newCategory}
+            onChange={(event) => setNewCategory(event.target.value)}
+          />
+        )}
         <input
           type="text"
           placeholder={

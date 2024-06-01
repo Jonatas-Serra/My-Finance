@@ -1,9 +1,9 @@
 import { FormEvent, useState } from 'react'
 import Modal from 'react-modal'
 import { useWallets } from '../../hooks/useWallets'
-import { useUser } from '../../hooks/User'
+import { useUser } from '../../hooks/useUser'
 import { useAccounts } from '../../hooks/useAccounts'
-import { useToast } from '../../hooks/Toast'
+import { useToast } from '../../hooks/useToast'
 
 import { Container } from './styles'
 
@@ -20,7 +20,7 @@ export function NewAccountModal({
   isOpen,
   onRequestClose,
 }: NewAccountModalProps) {
-  const { user } = useUser()
+  const { user, handleUpdateUser } = useUser()
   const { wallets } = useWallets()
   const { addToast } = useToast()
 
@@ -34,6 +34,7 @@ export function NewAccountModal({
   const issueDate = new Date().toISOString()
   const [documentNumber, setDocumentNumber] = useState('')
   const [category, setCategory] = useState('')
+  const [newCategory, setNewCategory] = useState('')
   const [documentType, setDocumentType] = useState('')
   const [description, setDescription] = useState('')
   const [payeeOrPayer, setPayeeOrPayer] = useState('')
@@ -50,7 +51,6 @@ export function NewAccountModal({
   async function handleCreateNewAccount(event: FormEvent) {
     event.preventDefault()
 
-    // Verifique se o valor é menor que 0,01
     if (value < 0.01) {
       addToast({
         type: 'error',
@@ -59,6 +59,16 @@ export function NewAccountModal({
       })
       setBtnDisabled(false)
       return
+    }
+
+    if (newCategory) {
+      const updatedUser = {
+        ...user,
+        categories: [...user.categories, newCategory],
+      }
+      await handleUpdateUser(updatedUser)
+      setCategory(newCategory)
+      setNewCategory('')
     }
 
     setBtnDisabled(true)
@@ -70,7 +80,7 @@ export function NewAccountModal({
       dueDate,
       issueDate,
       documentNumber,
-      category,
+      category: newCategory || category,
       documentType,
       description,
       payeeOrPayer,
@@ -208,13 +218,22 @@ export function NewAccountModal({
           </select>
         </div>
         <div className="flex">
-          <input
+          <select
+            className="category"
             required
-            type="text"
-            placeholder="Categoria"
             value={category}
             onChange={(event) => setCategory(event.target.value)}
-          />
+          >
+            <option value="" disabled>
+              Selecione a categoria
+            </option>
+            {user.categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+            <option value="newCategory">Adicionar nova categoria</option>
+          </select>
           <select
             required
             placeholder="Selecione a carteira"
@@ -231,6 +250,14 @@ export function NewAccountModal({
             ))}
           </select>
         </div>
+        {category === 'newCategory' && (
+          <input
+            required
+            placeholder="Nova Categoria"
+            value={newCategory}
+            onChange={(event) => setNewCategory(event.target.value)}
+          />
+        )}
         <input
           required
           type="text"

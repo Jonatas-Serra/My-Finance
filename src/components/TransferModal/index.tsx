@@ -1,8 +1,8 @@
 import { FormEvent, useState } from 'react'
 import Modal from 'react-modal'
 import { useWallets } from '../../hooks/useWallets'
-import { useUser } from '../../hooks/User'
-import { useToast } from '../../hooks/Toast'
+import { useUser } from '../../hooks/useUser'
+import { useToast } from '../../hooks/useToast'
 
 import { Container } from './styles'
 

@@ -77,6 +77,11 @@ export const Container = styled.form`
       margin-left: 1rem;
     }
 
+    .category {
+      margin-top: 0;
+      margin-left: 0;
+    }
+
     .checkbox {
       margin-left: 1rem;
       width: 1rem;

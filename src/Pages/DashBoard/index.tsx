@@ -6,7 +6,7 @@ import { NavBar } from '../../components/NavBar'
 import { Container, Content, MainContent } from './styles'
 
 import api from '../../services/api'
-import { useToast } from '../../hooks/Toast'
+import { useToast } from '../../hooks/useToast'
 import { useAuth } from '../../hooks/Auth'
 
 const DashBoard: React.FC = () => {

@@ -14,7 +14,7 @@ import { FiUser, FiPhone, FiMail, FiLock } from 'react-icons/fi'
 
 import api from '../../services/api'
 
-import { useToast } from '../../hooks/Toast'
+import { useToast } from '../../hooks/useToast'
 
 import getValidationErrors from '../../utils/getValidationErrors'
 

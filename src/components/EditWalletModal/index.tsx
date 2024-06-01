@@ -1,7 +1,7 @@
 import Modal from 'react-modal'
 import { FormEvent, useEffect, useState } from 'react'
 import { useWallets } from '../../hooks/useWallets'
-import { useToast } from '../../hooks/Toast'
+import { useToast } from '../../hooks/useToast'
 
 import { Container } from './styles'
 

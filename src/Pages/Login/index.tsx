@@ -9,7 +9,7 @@ import { Input } from '../../components/Input'
 import { Container, Content, Info, TopLogin, LoginForm, Button } from './styles'
 import imgLogin from '../../assets/imgLogin.png'
 import logoImg from '../../assets/logo.svg'
-import { useToast } from '../../hooks/Toast'
+import { useToast } from '../../hooks/useToast'
 import { useAuth } from '../../hooks/Auth'
 
 interface SignInFormData {

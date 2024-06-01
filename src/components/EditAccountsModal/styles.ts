@@ -72,6 +72,11 @@ export const Container = styled.form`
       margin-top: 0;
       margin-left: 1rem;
     }
+
+    .category {
+      margin-top: 0;
+      margin-left: 0;
+    }
   }
 
   button {

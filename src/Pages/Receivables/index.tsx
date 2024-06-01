@@ -28,7 +28,7 @@ import underpayImg from '../../assets/underpay.svg'
 
 import { useAccounts } from '../../hooks/useAccounts'
 import { useWallets } from '../../hooks/useWallets'
-import { useToast } from '../../hooks/Toast'
+import { useToast } from '../../hooks/useToast'
 
 interface Reaceable {
   _id: string

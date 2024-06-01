@@ -2,8 +2,8 @@ import { FormEvent, useState } from 'react'
 import Modal from 'react-modal'
 import { useTransactions } from '../../hooks/useTransactions'
 import { useWallets } from '../../hooks/useWallets'
-import { useUser } from '../../hooks/User'
-import { useToast } from '../../hooks/Toast'
+import { useUser } from '../../hooks/useUser'
+import { useToast } from '../../hooks/useToast'
 
 import { Container, TransactionTypeContainer, RadioBox } from './styles'
 
@@ -21,7 +21,7 @@ export function NewTransitionModal({
   onRequestClose,
 }: NewTransitionModalProps) {
   const { createTransaction } = useTransactions()
-  const { user } = useUser()
+  const { user, handleUpdateUser } = useUser()
   const { wallets } = useWallets()
   const { addToast } = useToast()
 
@@ -30,6 +30,7 @@ export function NewTransitionModal({
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState(0)
   const [category, setCategory] = useState('')
+  const [newCategory, setNewCategory] = useState('')
   const [type, setType] = useState('Deposit')
   const [walletId, setWalletId] = useState('')
   const [date, setDate] = useState(currentDate)
@@ -39,11 +40,21 @@ export function NewTransitionModal({
   async function handleCreateNewTransition(event: FormEvent) {
     event.preventDefault()
 
+    if (newCategory) {
+      const updatedUser = {
+        ...user,
+        categories: [...user.categories, newCategory],
+      }
+      await handleUpdateUser(updatedUser)
+      setCategory(newCategory)
+      setNewCategory('')
+    }
+
     setBtnDisabled(true)
     await createTransaction({
       description,
       amount,
-      category,
+      category: newCategory || category,
       type,
       createdBy,
       walletId,
@@ -139,12 +150,29 @@ export function NewTransitionModal({
             <span>Saída</span>
           </RadioBox>
         </TransactionTypeContainer>
-        <input
+        <select
           required
-          placeholder="Categoria"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
-        />
+        >
+          <option value="" disabled>
+            Selecione a categoria
+          </option>
+          {user.categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+          <option value="newCategory">Adicionar nova categoria</option>
+        </select>
+        {category === 'newCategory' && (
+          <input
+            required
+            placeholder="Nova Categoria"
+            value={newCategory}
+            onChange={(event) => setNewCategory(event.target.value)}
+          />
+        )}
         <input type="hidden" value={createdBy} />
         <select
           required

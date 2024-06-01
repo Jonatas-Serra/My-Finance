@@ -16,7 +16,7 @@ import userImg from '../../assets/perfil.png'
 import incomeImg from '../../assets/Receita.svg'
 import outcomeImg from '../../assets/Despesa.svg'
 
-import { useUser } from '../../hooks/User'
+import { useUser } from '../../hooks/useUser'
 import { useAccounts } from '../../hooks/useAccounts'
 
 import { getPageTitle } from '../../utils/pageTitles'
