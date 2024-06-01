@@ -46,8 +46,6 @@ export function NewAccountModal({
   const createdBy = user._id
   const [btnDisabled, setBtnDisabled] = useState(false)
 
-  const catergories = user.categories
-
   const { createAccount } = useAccounts()
 
   async function handleCreateNewAccount(event: FormEvent) {
