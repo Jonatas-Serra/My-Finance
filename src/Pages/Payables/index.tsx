@@ -87,7 +87,9 @@ export default function Payables() {
   )
 
   const sortedAccounts = filteredAccounts.sort((a, b) => {
-    return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()
+    const dateA = new Date(a.dueDate)
+    const dateB = new Date(b.dueDate)
+    return dateA.getTime() - dateB.getTime()
   })
 
   const paginatedAccounts = sortedAccounts.slice(0, page * 15)

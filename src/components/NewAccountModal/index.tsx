@@ -90,6 +90,7 @@ export function NewAccountModal({
       walletId,
       isPaid,
     })
+    console.log('data de vencimento', dueDate)
 
     addToast({
       type: 'success',
