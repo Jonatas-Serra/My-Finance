@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTransactions } from '../../hooks/useTransactions'
 import { Container } from './styles'
 import incomeImg from '../../assets/Receita.svg'
