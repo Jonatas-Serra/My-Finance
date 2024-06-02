@@ -40,6 +40,9 @@ export function EditAccountModal({
   const { addToast } = useToast()
   const { EditAccount } = useAccounts()
 
+  const currentDate = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split('T')[0]
   const [type, setType] = useState(selectedAccount?.type || '')
   const [value, setValue] = useState(selectedAccount?.value || 0)
   const [description, setDescription] = useState(
@@ -106,12 +109,26 @@ export function EditAccountModal({
       title: 'Conta editada com sucesso!',
       description: 'A conta foi editada com sucesso.',
     })
+    handleClear()
     onRequestClose()
     setBtnDisabled(false)
   }
 
   if (!selectedAccount || !user || !wallets) {
     return null
+  }
+
+  const handleClear = () => {
+    setType(typeOfAccount)
+    setValue(0)
+    setDueDate(currentDate)
+    setDocumentNumber('')
+    setCategory('')
+    setDocumentType('')
+    setDescription('')
+    setPayeeOrPayer('')
+    setWalletId('')
+    setBtnDisabled(false)
   }
 
   return (

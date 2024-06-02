@@ -139,6 +139,11 @@ export default function Payables() {
     }
   }
 
+  function handleClear() {
+    setWalletId('')
+    setPayday(Date)
+  }
+
   useEffect(() => {
     getAccounts()
   }, [getAccounts])
@@ -242,6 +247,7 @@ export default function Payables() {
                   walletId,
                   new Date(payday),
                 )
+                handleClear()
               }}
             >
               Pagar
@@ -312,7 +318,7 @@ export default function Payables() {
                   <th>Descrição</th>
                   <th>Valor</th>
                   <th>Vencimento</th>
-                  <th>Recebedor</th>
+                  <th>Beneficiário</th>
                   <th>Carteira</th>
                   <th>Status</th>
                   <th>Ações</th>

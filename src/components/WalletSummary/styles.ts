@@ -53,7 +53,7 @@ export const Container = styled.div`
     border-radius: 0.5rem;
     color: var(--background);
     max-width: 250px;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
 
     @media (min-width: 819px) {
       max-width: 460px;
