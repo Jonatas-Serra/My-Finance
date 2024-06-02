@@ -25,7 +25,6 @@ export default function Settings() {
   const [name, setName] = useState(user.name)
   const [email, setEmail] = useState(user.email)
   const [phone, setPhone] = useState(user.phone)
-  const [password, setPassword] = useState('')
   const [profilePicture, setProfilePicture] = useState('')
   const [newCategory, setNewCategory] = useState('')
   const [categories, setCategories] = useState(user.categories)
@@ -38,7 +37,6 @@ export default function Settings() {
         name,
         email,
         phone,
-        password,
         photo: profilePicture,
       })
       addToast({
@@ -145,14 +143,6 @@ export default function Settings() {
                 type="text"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-              />
-            </InputGroup>
-            <InputGroup>
-              <label>Senha</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
             </InputGroup>
             <InputGroup>

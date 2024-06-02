@@ -67,7 +67,7 @@ const ExpensesByCategoryChart: React.FC = () => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 300,
+            width: 280,
           },
           legend: {
             position: 'bottom',

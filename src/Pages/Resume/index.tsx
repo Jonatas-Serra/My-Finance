@@ -31,9 +31,7 @@ export default function Resume() {
         </SummaryItem>
         <SummaryItem>
           <h2>Lançamentos do Mês</h2>
-          <ChartContainer>
-            <Summary />
-          </ChartContainer>
+          <Summary />
         </SummaryItem>
       </SummaryContainer>
       <WalletContainer>

@@ -11,8 +11,11 @@ import {
   Actions,
   PayButton,
   ReceiveButton,
-  EditButton,
   DeleteButton,
+  CardContainer,
+  Card,
+  CardHeader,
+  CardContent,
 } from './styles'
 
 interface UpcomingAccountsProps {
@@ -20,13 +23,8 @@ interface UpcomingAccountsProps {
 }
 
 const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
-  const {
-    accounts,
-    EditAccount,
-    handleDeleteAccount,
-    PayAccount,
-    getAccounts,
-  } = useAccounts()
+  const { accounts, handleDeleteAccount, PayAccount, getAccounts } =
+    useAccounts()
   const { addToast } = useToast()
   const [payableAccounts, setPayableAccounts] = useState<any[]>([])
   const [receivableAccounts, setReceivableAccounts] = useState<any[]>([])
@@ -65,9 +63,7 @@ const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
   }, [accounts, days])
 
   const handleAction = async (action: string, account: any) => {
-    if (action === 'edit') {
-      await EditAccount(account)
-    } else if (action === 'delete') {
+    if (action === 'delete') {
       await handleDeleteAccount(account._id)
       addToast({
         type: 'success',
@@ -90,16 +86,17 @@ const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
         <Table>
           <thead>
             <TableRow>
+              <TableHeader>Beneficiário</TableHeader>
               <TableHeader>Descrição</TableHeader>
               <TableHeader>Data de Vencimento</TableHeader>
               <TableHeader>Valor</TableHeader>
-              <TableHeader>Beneficiário</TableHeader>
               <TableHeader>Ações</TableHeader>
             </TableRow>
           </thead>
           <tbody>
             {payableAccounts.map((account) => (
               <TableRow key={account._id}>
+                <TableCell>{account.payeeOrPayer}</TableCell>
                 <TableCell>{account.description}</TableCell>
                 <TableCell>
                   {new Date(account.dueDate).toLocaleDateString()}
@@ -110,7 +107,6 @@ const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
                     currency: 'BRL',
                   }).format(account.value)}
                 </TableCell>
-                <TableCell>{account.payeeOrPayer}</TableCell>
                 <TableCell>
                   <Actions>
                     <PayButton
@@ -118,9 +114,6 @@ const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
                     >
                       Pagar
                     </PayButton>
-                    <EditButton onClick={() => handleAction('edit', account)}>
-                      Editar
-                    </EditButton>
                     <DeleteButton
                       onClick={() => handleAction('delete', account)}
                     >
@@ -133,6 +126,36 @@ const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
           </tbody>
         </Table>
       </TableContainer>
+      <CardContainer>
+        <h3>Contas a Pagar</h3>
+        {payableAccounts.map((account) => (
+          <Card key={account._id}>
+            <CardHeader>{account.payeeOrPayer}</CardHeader>
+            <CardContent>
+              <p>Descrição: {account.description}</p>
+              <p>
+                Data de Vencimento:{' '}
+                {new Date(account.dueDate).toLocaleDateString()}
+              </p>
+              <p>
+                Valor:{' '}
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(account.value)}
+              </p>
+              <Actions>
+                <PayButton onClick={() => handleAction('payReceive', account)}>
+                  Pagar
+                </PayButton>
+                <DeleteButton onClick={() => handleAction('delete', account)}>
+                  Excluir
+                </DeleteButton>
+              </Actions>
+            </CardContent>
+          </Card>
+        ))}
+      </CardContainer>
       <TableContainer>
         <h3>Contas a Receber</h3>
         <Table>
@@ -166,9 +189,6 @@ const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
                     >
                       Receber
                     </ReceiveButton>
-                    <EditButton onClick={() => handleAction('edit', account)}>
-                      Editar
-                    </EditButton>
                     <DeleteButton
                       onClick={() => handleAction('delete', account)}
                     >
@@ -181,6 +201,38 @@ const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
           </tbody>
         </Table>
       </TableContainer>
+      <CardContainer>
+        <h3>Contas a Receber</h3>
+        {receivableAccounts.map((account) => (
+          <Card key={account._id}>
+            <CardHeader>{account.payeeOrPayer}</CardHeader>
+            <CardContent>
+              <p>Descrição: {account.description}</p>
+              <p>
+                Data de Vencimento:{' '}
+                {new Date(account.dueDate).toLocaleDateString()}
+              </p>
+              <p>
+                Valor:{' '}
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(account.value)}
+              </p>
+              <Actions>
+                <ReceiveButton
+                  onClick={() => handleAction('payReceive', account)}
+                >
+                  Receber
+                </ReceiveButton>
+                <DeleteButton onClick={() => handleAction('delete', account)}>
+                  Excluir
+                </DeleteButton>
+              </Actions>
+            </CardContent>
+          </Card>
+        ))}
+      </CardContainer>
     </Container>
   )
 }

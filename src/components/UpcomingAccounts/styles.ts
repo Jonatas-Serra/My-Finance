@@ -21,6 +21,10 @@ export const TableContainer = styled.div`
     margin-bottom: 16px;
     color: var(--text);
   }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `
 
 export const Table = styled.table`
@@ -75,4 +79,33 @@ export const EditButton = styled(Button)`
 
 export const DeleteButton = styled(Button)`
   background-color: var(--tertiary);
+`
+
+export const CardContainer = styled.div`
+  display: none;
+
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+`
+
+export const Card = styled.div`
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+`
+
+export const CardHeader = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+`
+
+export const CardContent = styled.div`
+  p {
+    margin: 4px 0;
+  }
 `
