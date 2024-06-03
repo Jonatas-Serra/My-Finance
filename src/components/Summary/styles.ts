@@ -44,11 +44,6 @@ export const Container = styled.div`
       }
     }
 
-    .highlight-background {
-      background-color: var(--quaternary);
-      color: var(--background);
-    }
-
     .nowp {
       white-space: nowrap;
       color: var(--tertiary);
@@ -72,5 +67,10 @@ export const Container = styled.div`
       gap: 1rem;
       max-width: 100%;
     }
+  }
+
+  .highlight-background {
+    background-color: var(--quaternary);
+    color: var(--background);
   }
 `
