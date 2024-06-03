@@ -8,17 +8,18 @@ export const Container = styled.div`
 
 export const SummaryContainer = styled.div`
   display: flex;
+  width: 100%;
   height: 100%;
   justify-content: space-between;
   margin-bottom: 24px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1720px) {
     flex-direction: column;
   }
 `
 
 export const SummaryItem = styled.div`
-  width: 48%;
+  width: 49%;
   margin: 0 12px;
   padding: 24px;
   background-color: var(--white);
@@ -30,9 +31,14 @@ export const SummaryItem = styled.div`
     color: var(--text);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1720px) {
     width: 100%;
     margin: 12px 0;
+  }
+
+  @media (max-width: 1220px) {
+    width: 82%;
+    margin: 0 auto;
   }
 `
 

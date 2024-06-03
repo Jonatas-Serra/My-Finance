@@ -24,7 +24,6 @@ const TransactionsChart: React.FC = () => {
       const index = last6Months.indexOf(month)
 
       if (index !== -1) {
-        // Ensure the transaction date is within the last 6 months
         if (transaction.type === 'Deposit') {
           deposits[index] += transaction.amount
         } else if (transaction.type === 'Withdrawal') {
@@ -44,6 +43,21 @@ const TransactionsChart: React.FC = () => {
           name: 'Despesas',
           data: withdrawals,
           color: '#dc2020',
+        },
+      ],
+      resposive: [
+        {
+          breakpoint: 768,
+          options: {
+            chart: {
+              with: '100%',
+            },
+            plotOptions: {
+              bar: {
+                horizontal: true,
+              },
+            },
+          },
         },
       ],
       options: {
