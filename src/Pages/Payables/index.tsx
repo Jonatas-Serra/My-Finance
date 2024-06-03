@@ -10,6 +10,14 @@ import {
   ContentModalDelete,
   ContentModalPaid,
   Spinner,
+  CardContainer,
+  Card,
+  CardHeader,
+  CardContent,
+  Actions,
+  EditButton,
+  DeleteButton,
+  ReceiveButton,
 } from './styles'
 import Modal from 'react-modal'
 import {
@@ -117,7 +125,7 @@ export default function Payables() {
     } catch (error) {
       addToast({
         type: 'error',
-        title: 'Erro ao receber conta',
+        title: 'Erro ao pagar conta',
         description: 'Ocorreu um erro ao tentar pagar a conta',
       })
     }
@@ -206,7 +214,7 @@ export default function Payables() {
           </p>
           <div className="flex">
             <div className="block">
-              <h5>Carteira de recebimento:</h5>
+              <h5>Carteira de pagamento:</h5>
               <select
                 placeholder="Selecione a carteira"
                 value={walletId}
@@ -368,57 +376,59 @@ export default function Payables() {
                             : 'Desconhecido'}
                     </td>
                     <td>
-                      <a
-                        className="edit"
-                        type="button"
-                        onClick={() => {
-                          setIsOpenEdit(true)
-                          setSelectedAccount(payable)
-                        }}
-                      >
-                        <div className="tooltip">
-                          <FiEdit size={20} />
-                          <span className="tooltiptext">Editar</span>
-                        </div>
-                      </a>
-                      <a
-                        className="delete"
-                        type="button"
-                        onClick={() => {
-                          setIsOpenDel(true)
-                          setSelectedAccount(payable)
-                        }}
-                      >
-                        <div className="tooltip">
-                          <FiTrash2 size={20} />
-                          <span className="tooltiptext">Excluir</span>
-                        </div>
-                      </a>
-                      <a
-                        className="check"
-                        type="button"
-                        onClick={() => {
-                          setSelectedAccount(payable)
-                          if (payable.isPaid) {
-                            setIsOpenUnderPay(true)
-                          } else {
-                            setIsOpenCheck(true)
-                          }
-                        }}
-                      >
-                        <div className="tooltip">
-                          {payable.isPaid ? (
-                            <FiCheckSquare size={20} />
-                          ) : (
-                            <FiSquare color="#181d29" size={20} />
-                          )}
-                          <span className="tooltiptext">
-                            {payable.isPaid
-                              ? 'Desfazer recebimento'
-                              : 'Receber conta'}
-                          </span>
-                        </div>
-                      </a>
+                      <div className="actions">
+                        <a
+                          className="edit"
+                          type="button"
+                          onClick={() => {
+                            setIsOpenEdit(true)
+                            setSelectedAccount(payable)
+                          }}
+                        >
+                          <div className="tooltip">
+                            <FiEdit size={20} />
+                            <span className="tooltiptext">Editar</span>
+                          </div>
+                        </a>
+                        <a
+                          className="delete"
+                          type="button"
+                          onClick={() => {
+                            setIsOpenDel(true)
+                            setSelectedAccount(payable)
+                          }}
+                        >
+                          <div className="tooltip">
+                            <FiTrash2 size={20} />
+                            <span className="tooltiptext">Excluir</span>
+                          </div>
+                        </a>
+                        <a
+                          className="check"
+                          type="button"
+                          onClick={() => {
+                            setSelectedAccount(payable)
+                            if (payable.isPaid) {
+                              setIsOpenUnderPay(true)
+                            } else {
+                              setIsOpenCheck(true)
+                            }
+                          }}
+                        >
+                          <div className="tooltip">
+                            {payable.isPaid ? (
+                              <FiCheckSquare size={20} />
+                            ) : (
+                              <FiSquare color="#181d29" size={20} />
+                            )}
+                            <span className="tooltiptext">
+                              {payable.isPaid
+                                ? 'Desfazer pagamento'
+                                : 'Pagar conta'}
+                            </span>
+                          </div>
+                        </a>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -426,6 +436,53 @@ export default function Payables() {
             </table>
           )}
         </PayablesTable>
+        <CardContainer>
+          {loading ? (
+            <Spinner />
+          ) : (
+            paginatedAccounts.map((payable) => (
+              <Card key={payable._id}>
+                <CardHeader>{payable.payeeOrPayer}</CardHeader>
+                <CardContent>
+                  <p>Descrição: {payable.description}</p>
+                  <p>
+                    Data de Vencimento:{' '}
+                    {new Date(payable.dueDate).toLocaleDateString()}
+                  </p>
+                  <p>
+                    Valor:{' '}
+                    {new Intl.NumberFormat('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    }).format(payable.value)}
+                  </p>
+                  <Actions>
+                    <ReceiveButton
+                      onClick={() =>
+                        handlePayAccount(payable._id, walletId, new Date())
+                      }
+                    >
+                      Pagar
+                    </ReceiveButton>
+                    <EditButton
+                      onClick={() => {
+                        setIsOpenEdit(true)
+                        setSelectedAccount(payable)
+                      }}
+                    >
+                      Editar
+                    </EditButton>
+                    <DeleteButton
+                      onClick={() => handleDeleteAccount(payable._id)}
+                    >
+                      Excluir
+                    </DeleteButton>
+                  </Actions>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </CardContainer>
         <NewAccountModal
           isOpen={isOpen}
           onRequestClose={() => setIsOpen(false)}

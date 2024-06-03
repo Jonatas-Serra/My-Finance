@@ -232,6 +232,10 @@ export const ReceivablesTable = styled.div`
       opacity: 1;
     }
   }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 export const ContentModalDelete = styled.div`
@@ -362,7 +366,7 @@ export const ContentModalPaid = styled.div`
       transition: filter 0.2s;
       width: 45%;
       background-color: var(--secondary);
-      color: var(--white);
+      color: var (--white);
       border: 0;
       border-radius: 0.25rem;
 
@@ -403,4 +407,58 @@ export const Spinner = styled.div`
   height: 50px;
   animation: ${spin} 1s linear infinite;
   margin: 20px auto;
+`
+
+export const CardContainer = styled.div`
+  display: none;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+`
+
+export const Card = styled.div`
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+`
+
+export const CardHeader = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+`
+
+export const CardContent = styled.div`
+  p {
+    margin: 4px 0;
+  }
+`
+
+export const Actions = styled.div`
+  display: flex;
+  gap: 8px;
+`
+
+export const PayButton = styled.button`
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--white);
+  background-color: var(--secondary);
+`
+
+export const ReceiveButton = styled(PayButton)`
+  background-color: var(--secondary);
+`
+
+export const DeleteButton = styled(PayButton)`
+  background-color: var(--tertiary);
+`
+export const EditButton = styled(PayButton)`
+  background-color: var(--primary);
 `

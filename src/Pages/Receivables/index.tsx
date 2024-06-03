@@ -11,6 +11,14 @@ import {
   ContentModalDelete,
   ContentModalPaid,
   Spinner,
+  CardContainer,
+  Card,
+  CardHeader,
+  CardContent,
+  Actions,
+  EditButton,
+  DeleteButton,
+  ReceiveButton,
 } from './styles'
 
 import { NewAccountModal } from '../../components/NewAccountModal'
@@ -30,7 +38,7 @@ import { useAccounts } from '../../hooks/useAccounts'
 import { useWallets } from '../../hooks/useWallets'
 import { useToast } from '../../hooks/useToast'
 
-interface Reaceable {
+interface Receivable {
   _id: string
   type: string
   value: number
@@ -70,7 +78,7 @@ export default function Receivables() {
   const [searchTerm, setSearchTerm] = useState('')
   const [walletId, setWalletId] = useState('')
   const [payday, setPayday] = useState(Date)
-  const [selectedAccount, setSelectedAccount] = useState({} as Reaceable)
+  const [selectedAccount, setSelectedAccount] = useState({} as Receivable)
   const [page, setPage] = useState(1)
 
   const loadMore = () => {
@@ -423,6 +431,53 @@ export default function Receivables() {
             </table>
           )}
         </ReceivablesTable>
+        <CardContainer>
+          {loading ? (
+            <Spinner />
+          ) : (
+            paginatedAccounts.map((receivable) => (
+              <Card key={receivable._id}>
+                <CardHeader>{receivable.payeeOrPayer}</CardHeader>
+                <CardContent>
+                  <p>Descrição: {receivable.description}</p>
+                  <p>
+                    Data de Vencimento:{' '}
+                    {new Date(receivable.dueDate).toLocaleDateString()}
+                  </p>
+                  <p>
+                    Valor:{' '}
+                    {new Intl.NumberFormat('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    }).format(receivable.value)}
+                  </p>
+                  <Actions>
+                    <ReceiveButton
+                      onClick={() =>
+                        handlePayAccount(receivable._id, walletId, new Date())
+                      }
+                    >
+                      Receber
+                    </ReceiveButton>
+                    <EditButton
+                      onClick={() => {
+                        setIsOpenEdit(true)
+                        setSelectedAccount(receivable)
+                      }}
+                    >
+                      Editar
+                    </EditButton>
+                    <DeleteButton
+                      onClick={() => handleDeleteAccount(receivable._id)}
+                    >
+                      Excluir
+                    </DeleteButton>
+                  </Actions>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </CardContainer>
         <NewAccountModal
           isOpen={isOpen}
           onRequestClose={() => setIsOpen(false)}

@@ -63,8 +63,8 @@ const DashBoard: React.FC = () => {
     <Container>
       <NavSide isMenuOpen={isMenuOpen} />
       <Content isMenuOpen={isMenuOpen}>
+        <NavBar toggleMenu={toggleMenu} />
         <MainContent>
-          <NavBar toggleMenu={toggleMenu} />
           <Outlet />
         </MainContent>
       </Content>
