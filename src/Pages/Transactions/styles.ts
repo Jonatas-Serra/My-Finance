@@ -15,7 +15,6 @@ export const Container = styled.div`
   background-color: var(--white);
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
   padding-top: 1rem;
 `
 

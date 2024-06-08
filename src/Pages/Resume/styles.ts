@@ -1,17 +1,23 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
   background-color: var(--white);
+  margin: 0 auto;
+  padding: 0 16px;
+  padding-bottom: 16px;
 `
 
 export const SummaryContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
   justify-content: space-between;
   margin-bottom: 24px;
+  flex-wrap: wrap;
 
   @media (max-width: 1720px) {
     flex-direction: column;
@@ -19,13 +25,13 @@ export const SummaryContainer = styled.div`
 `
 
 export const SummaryItem = styled.div`
-  width: 49%;
-  margin: 0 12px;
+  flex: 1;
+  margin: 12px;
   padding: 24px;
   background-color: var(--white);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
+  min-width: 300px;
   h2 {
     margin-bottom: 16px;
     color: var(--text);
@@ -33,12 +39,11 @@ export const SummaryItem = styled.div`
 
   @media (max-width: 1720px) {
     width: 100%;
-    margin: 12px 0;
   }
 
   @media (max-width: 1220px) {
-    width: 82%;
-    margin: 0 auto;
+    width: 100%;
+    margin: 12px 0;
   }
 `
 
@@ -52,6 +57,7 @@ export const WalletContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 24px;
+  flex-wrap: wrap; // Allow items to wrap
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -60,7 +66,7 @@ export const WalletContainer = styled.div`
 
 export const WalletItem = styled.div`
   flex: 1;
-  margin: 0 12px;
+  margin: 12px;
   padding: 24px;
   background-color: var(--white);
   border-radius: 8px;
@@ -77,10 +83,18 @@ export const WalletItem = styled.div`
 `
 
 export const UpcomingContainer = styled.div`
-  padding: 24px;
-  background-color: var(--white);
+  width: 100%;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`
+
+export const UpcomingItem = styled.div`
+  margin: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--text);
 
   h2 {
     margin-bottom: 16px;

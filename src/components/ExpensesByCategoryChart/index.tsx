@@ -93,7 +93,7 @@ const ExpensesByCategoryChart: React.FC = () => {
         options={options}
         series={chartData.series}
         type="pie"
-        width="450"
+        width="400"
       />
     </Container>
   )

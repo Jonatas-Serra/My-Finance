@@ -7,6 +7,7 @@ import {
   WalletContainer,
   WalletItem,
   UpcomingContainer,
+  UpcomingItem,
   ButtonGroup,
   Button,
 } from './styles'
@@ -39,34 +40,36 @@ export default function Resume() {
           <h2>Carteiras</h2>
           <WalletSummary />
         </WalletItem>
-        <WalletItem>
+        <WalletItem className="end">
           <h2>Despesas por Categoria</h2>
           <ExpensesByCategoryChart />
         </WalletItem>
       </WalletContainer>
       <UpcomingContainer>
-        <h2>Próximas Contas</h2>
-        <ButtonGroup>
-          <Button
-            active={selectedDays === 30}
-            onClick={() => setSelectedDays(30)}
-          >
-            30 dias
-          </Button>
-          <Button
-            active={selectedDays === 15}
-            onClick={() => setSelectedDays(15)}
-          >
-            15 dias
-          </Button>
-          <Button
-            active={selectedDays === 7}
-            onClick={() => setSelectedDays(7)}
-          >
-            7 dias
-          </Button>
-        </ButtonGroup>
-        <UpcomingAccounts days={selectedDays} />
+        <UpcomingItem>
+          <h2>Próximas Contas</h2>
+          <ButtonGroup>
+            <Button
+              active={selectedDays === 30}
+              onClick={() => setSelectedDays(30)}
+            >
+              30 dias
+            </Button>
+            <Button
+              active={selectedDays === 15}
+              onClick={() => setSelectedDays(15)}
+            >
+              15 dias
+            </Button>
+            <Button
+              active={selectedDays === 7}
+              onClick={() => setSelectedDays(7)}
+            >
+              7 dias
+            </Button>
+          </ButtonGroup>
+          <UpcomingAccounts days={selectedDays} />
+        </UpcomingItem>
       </UpcomingContainer>
     </Container>
   )

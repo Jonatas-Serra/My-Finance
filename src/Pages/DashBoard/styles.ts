@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   height: 100vh;
+  overflow: none;
   max-height: 100vh;
   background-color: var(--background);
 `
@@ -12,7 +13,7 @@ export const Content = styled.div<{ isMenuOpen: boolean }>`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  max-height: 100vh;
   margin-left: ${({ isMenuOpen }) => (isMenuOpen ? '240px' : '0')};
   transition: margin-left 0.3s ease-in-out;
 

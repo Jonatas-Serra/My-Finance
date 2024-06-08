@@ -8,11 +8,11 @@ export const Container = styled.div`
 
   div {
     background-color: var(--white);
-    padding: 1.5rem 2rem;
+    padding: 1rem 1.5rem;
     border-radius: 0.5rem;
     color: var(--background);
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
-    max-width: 100%;
+    width: 220px;
 
     header {
       display: flex;
@@ -21,6 +21,7 @@ export const Container = styled.div`
 
       p {
         font-size: 1.5rem;
+
         @media screen and (max-width: 768px) {
           font-size: 1rem;
         }
@@ -35,7 +36,7 @@ export const Container = styled.div`
     strong {
       display: block;
       margin-top: 1rem;
-      font-size: 2rem;
+      font-size: 1.6rem;
       font-weight: 600;
       line-height: 3rem;
 
@@ -55,8 +56,7 @@ export const Container = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(1, 1fr);
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 1rem;
 
     div {
@@ -64,7 +64,6 @@ export const Container = styled.div`
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
       max-width: 100%;
     }
   }

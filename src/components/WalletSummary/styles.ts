@@ -1,12 +1,10 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-
-  max-width: 1120px;
-  width: 100%;
 
   .nowp {
     white-space: nowrap;
@@ -29,6 +27,7 @@ export const Container = styled.div`
       justify-content: center;
       gap: 1rem;
       max-width: 250px;
+      margin: 0 auto;
 
       strong {
         font-size: 1.5rem;

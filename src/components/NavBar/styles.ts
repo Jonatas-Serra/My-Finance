@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { FiBell, FiMenu } from 'react-icons/fi'
 
 export const NavbarContainer = styled.div`
+  overflow: none;
   width: 100%;
   display: flex;
   justify-content: space-between;
