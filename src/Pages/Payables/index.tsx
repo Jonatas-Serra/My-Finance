@@ -114,6 +114,13 @@ export default function Payables() {
     walletId: string,
     payday: Date,
   ) => {
+    if (!walletId)
+      return addToast({
+        type: 'error',
+        title: 'Erro ao pagar conta',
+        description: 'Selecione uma carteira e uma data de pagamento',
+      })
+
     try {
       await PayAccount(id, walletId, payday)
       addToast({
@@ -122,12 +129,14 @@ export default function Payables() {
         description: 'A conta foi marcada como paga',
       })
       getAccounts()
+      setIsOpenCheck(false)
     } catch (error) {
       addToast({
         type: 'error',
         title: 'Erro ao pagar conta',
         description: 'Ocorreu um erro ao tentar pagar a conta',
       })
+      setIsOpenCheck(false)
     }
   }
 
@@ -216,6 +225,7 @@ export default function Payables() {
             <div className="block">
               <h5>Carteira de pagamento:</h5>
               <select
+                required
                 placeholder="Selecione a carteira"
                 value={walletId}
                 onChange={(event) => setWalletId(event.target.value)}
@@ -251,7 +261,6 @@ export default function Payables() {
             </button>
             <button
               onClick={() => {
-                setIsOpenCheck(false)
                 handlePayAccount(
                   selectedAccount._id,
                   walletId,

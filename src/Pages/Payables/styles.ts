@@ -301,7 +301,7 @@ export const ContentModalDelete = styled.div`
   }
 `
 
-export const ContentModalPaid = styled.div`
+export const ContentModalPaid = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;

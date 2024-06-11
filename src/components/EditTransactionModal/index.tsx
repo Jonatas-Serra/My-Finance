@@ -175,7 +175,7 @@ export function EditTransitionModal({
           <option value="" disabled>
             Selecione a categoria
           </option>
-          {user.categories.map((category) => (
+          {user.categories?.map((category) => (
             <option key={category} value={category}>
               {category}
             </option>
@@ -200,7 +200,7 @@ export function EditTransitionModal({
           <option className="styledOption" value="" disabled>
             Selecione a carteira
           </option>
-          {wallets.map((wallet) => (
+          {wallets?.map((wallet) => (
             <option
               className="styledOption"
               key={wallet._id}

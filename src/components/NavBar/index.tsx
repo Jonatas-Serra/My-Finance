@@ -133,10 +133,10 @@ export function NavBar({ toggleMenu }) {
       <HamburgerIcon onClick={toggleMenu} />
       <Title>{pageTitle}</Title>
       <UserSection>
-        <NotificationWrapper>
-          <NotificationIcon
-            onClick={() => setShowNotifications(!showNotifications)}
-          />
+        <NotificationWrapper
+          onClick={() => setShowNotifications(!showNotifications)}
+        >
+          <NotificationIcon />
           {numberOfUnreadNotifications > 0 && (
             <NotificationBadge>{numberOfUnreadNotifications}</NotificationBadge>
           )}

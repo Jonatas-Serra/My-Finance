@@ -114,6 +114,16 @@ export default function Receivables() {
     walletId: string,
     payday: Date,
   ) => {
+    if (!walletId) {
+      addToast({
+        type: 'error',
+        title: 'Selecione uma carteira',
+        description:
+          'Você precisa selecionar uma carteira para receber a conta',
+      })
+      return
+    }
+
     try {
       await PayAccount(id, walletId, payday)
       addToast({
@@ -121,6 +131,7 @@ export default function Receivables() {
         title: 'Conta recebida com sucesso',
         description: 'A conta foi marcada como recebida',
       })
+      setIsOpenCheck(false)
       getAccounts()
     } catch (error) {
       addToast({
@@ -128,6 +139,7 @@ export default function Receivables() {
         title: 'Erro ao receber conta',
         description: 'Ocorreu um erro ao tentar receber a conta',
       })
+      setIsOpenCheck(false)
     }
   }
 
@@ -212,6 +224,7 @@ export default function Receivables() {
             <div className="block">
               <h5>Carteira de recebimento:</h5>
               <select
+                required
                 placeholder="Selecione a carteira"
                 value={walletId}
                 onChange={(event) => setWalletId(event.target.value)}
@@ -247,7 +260,6 @@ export default function Receivables() {
             </button>
             <button
               onClick={() => {
-                setIsOpenCheck(false)
                 handlePayAccount(
                   selectedAccount._id,
                   walletId,

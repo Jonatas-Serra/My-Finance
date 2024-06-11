@@ -55,6 +55,7 @@ export const NotificationBadge = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `
 
 export const UserProfile = styled.img`
@@ -86,6 +87,7 @@ export const NotificationContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
   margin: 16px -42px 0 0;
+  cursor: pointer;
 
   .cls {
     padding: 16px;

@@ -3,6 +3,7 @@ import { useUser } from '../../hooks/useUser'
 import { useToast } from '../../hooks/useToast'
 import { useAccounts } from '../../hooks/useAccounts'
 import { useTransactions } from '../../hooks/useTransactions'
+import Modal from 'react-modal'
 import {
   Container,
   UserInformation,
@@ -14,7 +15,9 @@ import {
   CategoriesList,
   CategoryItem,
   DeleteButton,
+  ContentModalDelete,
 } from './styles'
+import api from '../../services/api'
 
 export default function Settings() {
   const { user, handleUpdateUser } = useUser()
@@ -28,6 +31,12 @@ export default function Settings() {
   const [profilePicture, setProfilePicture] = useState('')
   const [newCategory, setNewCategory] = useState('')
   const [categories, setCategories] = useState(user.categories)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [categoryToDelete, setCategoryToDelete] = useState('')
+  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] =
+    useState(false)
+  const [isFinalDeleteAccountModalOpen, setIsFinalDeleteAccountModalOpen] =
+    useState(false)
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
@@ -53,7 +62,7 @@ export default function Settings() {
     }
   }
 
-  const handleAddCategory = () => {
+  const handleAddCategory = async () => {
     if (!newCategory) {
       addToast({
         type: 'error',
@@ -72,14 +81,26 @@ export default function Settings() {
       return
     }
 
-    setCategories([...categories, newCategory])
-    setNewCategory('')
+    try {
+      const updatedCategories = [...categories, newCategory]
+      await handleUpdateUser({ ...user, categories: updatedCategories })
+      setCategories(updatedCategories)
+      setNewCategory('')
+    } catch (error) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao adicionar categoria',
+        description: 'Não foi possível adicionar a categoria. Tente novamente.',
+      })
+    }
   }
 
-  const handleDeleteCategory = (category) => {
+  const handleDeleteCategory = async () => {
     const hasCategoryInUse =
-      accounts.some((account) => account.category === category) ||
-      transactions.some((transaction) => transaction.category === category)
+      accounts.some((account) => account.category === categoryToDelete) ||
+      transactions.some(
+        (transaction) => transaction.category === categoryToDelete,
+      )
 
     if (hasCategoryInUse) {
       addToast({
@@ -87,31 +108,50 @@ export default function Settings() {
         title: 'Categoria em uso',
         description: 'Não é possível deletar uma categoria que está em uso.',
       })
+      setIsDeleteModalOpen(false)
       return
     }
 
-    setCategories(categories.filter((cat) => cat !== category))
+    try {
+      const updatedCategories = categories.filter(
+        (cat) => cat !== categoryToDelete,
+      )
+      await handleUpdateUser({ ...user, categories: updatedCategories })
+      setCategories(updatedCategories)
+      setIsDeleteModalOpen(false)
+    } catch (error) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao deletar categoria',
+        description: 'Não foi possível deletar a categoria. Tente novamente.',
+      })
+    }
   }
 
-  const handleDeleteAccount = async () => {
-    if (
-      window.confirm(
-        'Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.',
-      )
-    ) {
-      try {
-        addToast({
-          type: 'success',
-          title: 'Conta excluída',
-          description: 'Sua conta foi excluída com sucesso.',
-        })
-      } catch (error) {
-        addToast({
-          type: 'error',
-          title: 'Erro ao excluir conta',
-          description: 'Não foi possível excluir sua conta. Tente novamente.',
-        })
-      }
+  const handleDeleteAccount = () => {
+    setIsDeleteAccountModalOpen(true)
+  }
+
+  const confirmDeleteAccount = async () => {
+    setIsDeleteAccountModalOpen(false)
+    setIsFinalDeleteAccountModalOpen(true)
+  }
+
+  const finalDeleteAccount = async () => {
+    setIsFinalDeleteAccountModalOpen(false)
+    try {
+      await api.delete(`/users/${user._id}`)
+      addToast({
+        type: 'success',
+        title: 'Conta excluída',
+        description: 'Sua conta foi excluída com sucesso.',
+      })
+    } catch (error) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao excluir conta',
+        description: 'Não foi possível excluir sua conta. Tente novamente.',
+      })
     }
   }
 
@@ -158,7 +198,7 @@ export default function Settings() {
 
         <Section>
           <h2>Categorias</h2>
-          <InputGroup>
+          <InputGroup className="flex">
             <input
               type="text"
               value={newCategory}
@@ -171,7 +211,12 @@ export default function Settings() {
             {categories?.map((category) => (
               <CategoryItem key={category}>
                 {category}
-                <DeleteButton onClick={() => handleDeleteCategory(category)}>
+                <DeleteButton
+                  onClick={() => {
+                    setCategoryToDelete(category)
+                    setIsDeleteModalOpen(true)
+                  }}
+                >
                   Deletar
                 </DeleteButton>
               </CategoryItem>
@@ -183,6 +228,80 @@ export default function Settings() {
         <h2>Segurança</h2>
         <Button onClick={handleDeleteAccount}>Excluir Conta</Button>
       </Section>
+
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onRequestClose={() => setIsDeleteModalOpen(false)}
+        overlayClassName="react-modal-overlay"
+        className="react-modal-content"
+      >
+        <ContentModalDelete>
+          <h2>Excluir Categoria</h2>
+          <p>
+            Tem certeza que deseja excluir a categoria{' '}
+            <strong>{categoryToDelete}</strong>?
+          </p>
+          <div>
+            <button
+              onClick={() => setIsDeleteModalOpen(false)}
+              className="cancel"
+            >
+              Cancelar
+            </button>
+            <button onClick={handleDeleteCategory}>Excluir</button>
+          </div>
+        </ContentModalDelete>
+      </Modal>
+
+      <Modal
+        isOpen={isDeleteAccountModalOpen}
+        onRequestClose={() => setIsDeleteAccountModalOpen(false)}
+        overlayClassName="react-modal-overlay"
+        className="react-modal-content"
+      >
+        <ContentModalDelete>
+          <h2>Excluir Conta</h2>
+          <p>
+            Tem certeza que deseja excluir sua conta? Esta ação não pode ser
+            desfeita.
+          </p>
+          <div>
+            <button
+              onClick={() => setIsDeleteAccountModalOpen(false)}
+              className="cancel"
+            >
+              Cancelar
+            </button>
+            <button onClick={confirmDeleteAccount}>Excluir</button>
+          </div>
+        </ContentModalDelete>
+      </Modal>
+
+      <Modal
+        isOpen={isFinalDeleteAccountModalOpen}
+        onRequestClose={() => setIsFinalDeleteAccountModalOpen(false)}
+        overlayClassName="react-modal-overlay"
+        className="react-modal-content"
+      >
+        <ContentModalDelete>
+          <h2>Confirmação Final</h2>
+          <p>
+            Esta ação é irreversível. Tem certeza de que deseja excluir sua
+            conta e perder todos os seus dados?
+          </p>
+          <div>
+            <button
+              onClick={() => setIsFinalDeleteAccountModalOpen(false)}
+              className="cancel"
+            >
+              Cancelar
+            </button>
+            <button onClick={finalDeleteAccount}>
+              Excluir Permanentemente
+            </button>
+          </div>
+        </ContentModalDelete>
+      </Modal>
     </Container>
   )
 }

@@ -26,6 +26,7 @@ interface UserAuth {
 interface UserContextData {
   user: User
   handleUpdateUser: (user: User) => Promise<void>
+  handleDeleteAccount: () => Promise<void>
 }
 
 const UserContext = React.createContext<UserContextData>({} as UserContextData)
@@ -67,9 +68,18 @@ const UserProvider: React.FC<Props> = ({ children }) => {
     [auth.user, token, getUser],
   )
 
+  const handleDeleteAccount = useCallback(async () => {
+    await api.delete(`/users/${(auth.user as UserAuth)?._id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    auth.signOut()
+  }, [auth, token])
+
   const value = useMemo(
-    () => ({ user, handleUpdateUser }),
-    [user, handleUpdateUser],
+    () => ({ user, handleUpdateUser, handleDeleteAccount }),
+    [user, handleUpdateUser, handleDeleteAccount],
   )
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>

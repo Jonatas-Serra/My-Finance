@@ -300,7 +300,7 @@ export const ContentModalDelete = styled.div`
   }
 `
 
-export const ContentModalPaid = styled.div`
+export const ContentModalPaid = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -366,7 +366,7 @@ export const ContentModalPaid = styled.div`
       transition: filter 0.2s;
       width: 45%;
       background-color: var(--secondary);
-      color: var (--white);
+      color: var(--white);
       border: 0;
       border-radius: 0.25rem;
 

@@ -158,7 +158,7 @@ export function NewTransitionModal({
           <option value="" disabled>
             Selecione a categoria
           </option>
-          {user.categories.map((category) => (
+          {user?.categories?.map((category) => (
             <option key={category} value={category}>
               {category}
             </option>
@@ -183,7 +183,7 @@ export function NewTransitionModal({
           <option value="" disabled>
             Selecione a carteira
           </option>
-          {wallets.map((wallet) => (
+          {wallets?.map((wallet) => (
             <option key={wallet._id} value={wallet._id}>
               {wallet.name}
             </option>
