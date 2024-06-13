@@ -30,6 +30,7 @@ import {
   FiCheckSquare,
   FiSquare,
 } from 'react-icons/fi'
+import { FaCheckCircle } from 'react-icons/fa'
 import deleteImg from '../../assets/delete-icon.svg'
 import moneyImg from '../../assets/money.svg'
 import underpayImg from '../../assets/underpay.svg'
@@ -125,14 +126,13 @@ export default function Receivables() {
     }
 
     try {
-      await PayAccount(id, walletId, payday)
+      PayAccount(id, walletId, payday)
       addToast({
         type: 'success',
         title: 'Conta recebida com sucesso',
         description: 'A conta foi marcada como recebida',
       })
       setIsOpenCheck(false)
-      getAccounts()
     } catch (error) {
       addToast({
         type: 'error',
@@ -449,7 +449,12 @@ export default function Receivables() {
           ) : (
             paginatedAccounts.map((receivable) => (
               <Card key={receivable._id}>
-                <CardHeader>{receivable.payeeOrPayer}</CardHeader>
+                <CardHeader>
+                  {receivable.isPaid && (
+                    <FaCheckCircle color="var(--secondary)" />
+                  )}
+                  {receivable.payeeOrPayer}
+                </CardHeader>
                 <CardContent>
                   <p>Descrição: {receivable.description}</p>
                   <p>
@@ -465,11 +470,16 @@ export default function Receivables() {
                   </p>
                   <Actions>
                     <ReceiveButton
-                      onClick={() =>
-                        handlePayAccount(receivable._id, walletId, new Date())
-                      }
+                      onClick={() => {
+                        if (receivable.isPaid) {
+                          handleUnderPayAccount(receivable._id)
+                        } else {
+                          setSelectedAccount(receivable)
+                          setIsOpenCheck(true)
+                        }
+                      }}
                     >
-                      Receber
+                      {receivable.isPaid ? 'Desfazer recebimento' : 'Receber'}
                     </ReceiveButton>
                     <EditButton
                       onClick={() => {

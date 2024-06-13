@@ -164,7 +164,6 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
           },
         },
       )
-      getTransactions()
       getAccounts()
     } catch (error) {
       console.error('Erro ao pagar conta:', error)
