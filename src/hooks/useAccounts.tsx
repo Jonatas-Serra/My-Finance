@@ -7,7 +7,6 @@ import {
 } from 'react'
 import api from '../services/api'
 import { useUser } from './useUser'
-import { useTransactions } from './useTransactions'
 
 interface Account {
   _id: string
