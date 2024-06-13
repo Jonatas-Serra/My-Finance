@@ -74,8 +74,6 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
   const [receivables, setReceivables] = useState<Account[]>([])
   const [selectedAccount, setSelectedAccount] = useState<Account>({} as Account)
   const [loading, setLoading] = useState(true)
-  const { getTransactions } = useTransactions()
-
   const token = localStorage.getItem('@Myfinance:token')
 
   const getAccounts = useCallback(async () => {
