@@ -9,11 +9,13 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
-  background: var(--secondary);
+  background: #fff;
   border-radius: 10px;
   border: 2px solid var(--primary);
   width: 100%;
   color: var(--background);
+
+  padding: 0 8px;
 
   display: flex;
   align-items: center;
@@ -48,7 +50,7 @@ export const Container = styled.div<ContainerProps>`
     background: transparent;
     border: 0;
     color: var(--background);
-    padding: 16px;
+    padding: 8px;
 
     &::placeholder {
       color: var(--background);

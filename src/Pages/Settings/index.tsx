@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
 import * as Yup from 'yup'
@@ -7,6 +7,7 @@ import { useToast } from '../../hooks/useToast'
 import { useAccounts } from '../../hooks/useAccounts'
 import { useTransactions } from '../../hooks/useTransactions'
 import Modal from 'react-modal'
+import { Input } from '../../components/Input'
 import {
   Container,
   UserInformation,
@@ -23,6 +24,7 @@ import {
 } from './styles'
 import api from '../../services/api'
 import getValidationErrors from '../../utils/getValidationErrors'
+import { FiKey, FiLock, FiMail, FiPhone, FiUser } from 'react-icons/fi'
 
 export default function Settings() {
   const { user, handleUpdateUser } = useUser()
@@ -50,9 +52,7 @@ export default function Settings() {
   const formRef = useRef<FormHandles>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
-  const handleUpdateProfile = async (e) => {
-    e.preventDefault()
-
+  const handleUpdateProfile = async () => {
     try {
       const schema = Yup.object().shape({
         name: Yup.string().required('Nome obrigatório'),
@@ -159,10 +159,17 @@ export default function Settings() {
     }
   }
 
-  const handleChangePassword = async (e) => {
-    e.preventDefault()
-
+  const handleChangePassword = async () => {
+    if (!currentPassword) {
+      addToast({
+        type: 'error',
+        title: 'Senha atual obrigatória',
+        description: 'O campo de senha atual é obrigatório.',
+      })
+      return
+    }
     try {
+      formRef.current?.setErrors({})
       const schema = Yup.object().shape({
         currentPassword: Yup.string().required('Senha atual obrigatória'),
         newPassword: Yup.string()
@@ -315,6 +322,27 @@ export default function Settings() {
     fileInputRef.current?.click()
   }
 
+  const formatPhoneNumber = (value: string) => {
+    const cleanedValue = value.replace(/\D/g, '')
+    const match = cleanedValue.match(/^(\d{2})(\d{1,5})(\d{0,4})$/)
+
+    if (match) {
+      return `(${match[1]}) ${match[2]}${match[3] ? `-${match[3]}` : ''}`
+    }
+
+    return value
+  }
+
+  const handlePhoneChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value
+      const cleanedValue = value.replace(/\D/g, '')
+      const formattedPhone = formatPhoneNumber(cleanedValue)
+      setPhone(formattedPhone)
+    },
+    [],
+  )
+
   return (
     <Container>
       <UserInformation>
@@ -323,7 +351,9 @@ export default function Settings() {
             <h2>Informações do Perfil</h2>
             <InputGroup>
               <label>Nome</label>
-              <input
+              <Input
+                name="name"
+                icon={FiUser}
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -331,7 +361,9 @@ export default function Settings() {
             </InputGroup>
             <InputGroup>
               <label>Email</label>
-              <input
+              <Input
+                name="email"
+                icon={FiMail}
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -339,10 +371,13 @@ export default function Settings() {
             </InputGroup>
             <InputGroup>
               <label>Telefone</label>
-              <input
+              <Input
+                name="phone"
+                icon={FiPhone}
                 type="text"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={handlePhoneChange}
+                maxLength={15}
               />
               <Button className="mt-1" type="submit">
                 Atualizar Perfil
@@ -354,7 +389,9 @@ export default function Settings() {
             <h2>Trocar Senha</h2>
             <InputGroup>
               <label>Senha Atual</label>
-              <input
+              <Input
+                name="password"
+                icon={FiKey}
                 type="password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
@@ -362,7 +399,9 @@ export default function Settings() {
             </InputGroup>
             <InputGroup>
               <label>Nova Senha</label>
-              <input
+              <Input
+                name="newPassword"
+                icon={FiLock}
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
@@ -370,7 +409,9 @@ export default function Settings() {
             </InputGroup>
             <InputGroup>
               <label>Confirmar Nova Senha</label>
-              <input
+              <Input
+                name="confirmNewPassword"
+                icon={FiLock}
                 type="password"
                 value={confirmNewPassword}
                 onChange={(e) => setConfirmNewPassword(e.target.value)}
