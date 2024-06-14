@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { FormHandles } from '@unform/core'
+import { Form } from '@unform/web'
+import * as Yup from 'yup'
 import { useUser } from '../../hooks/useUser'
 import { useToast } from '../../hooks/useToast'
 import { useAccounts } from '../../hooks/useAccounts'
@@ -7,7 +10,6 @@ import Modal from 'react-modal'
 import {
   Container,
   UserInformation,
-  Form,
   Section,
   InputGroup,
   Button,
@@ -19,6 +21,7 @@ import {
   ButtonGroup,
 } from './styles'
 import api from '../../services/api'
+import getValidationErrors from '../../utils/getValidationErrors'
 
 export default function Settings() {
   const { user, handleUpdateUser } = useUser()
@@ -43,9 +46,27 @@ export default function Settings() {
     useState(false)
   const token = localStorage.getItem('@Myfinance:token')
 
+  const formRef = useRef<FormHandles>(null)
+
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
+
     try {
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório'),
+        email: Yup.string()
+          .required('E-mail obrigatório')
+          .email('Digite um e-mail válido'),
+        phone: Yup.string().required('Telefone obrigatório'),
+      })
+
+      await schema.validate(
+        { name, email, phone },
+        {
+          abortEarly: false,
+        },
+      )
+
       await handleUpdateUser({
         ...user,
         name,
@@ -53,17 +74,24 @@ export default function Settings() {
         phone,
         photo: profilePicture,
       })
+
       addToast({
         type: 'success',
         title: 'Perfil atualizado!',
         description: 'Suas informações foram atualizadas com sucesso.',
       })
     } catch (error) {
-      addToast({
-        type: 'error',
-        title: 'Erro ao atualizar perfil',
-        description: 'Não foi possível atualizar seu perfil. Tente novamente.',
-      })
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(error)
+        formRef.current?.setErrors(errors)
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Erro ao atualizar perfil',
+          description:
+            'Não foi possível atualizar seu perfil. Tente novamente.',
+        })
+      }
     }
   }
 
@@ -124,16 +152,28 @@ export default function Settings() {
 
   const handleChangePassword = async (e) => {
     e.preventDefault()
-    if (newPassword !== confirmNewPassword) {
-      addToast({
-        type: 'error',
-        title: 'Erro na troca de senha',
-        description: 'A nova senha e a confirmação de senha não coincidem.',
-      })
-      return
-    }
 
     try {
+      const schema = Yup.object().shape({
+        currentPassword: Yup.string().required('Senha atual obrigatória'),
+        newPassword: Yup.string()
+          .min(6, 'A nova senha deve ter no mínimo 6 caracteres')
+          .required('Nova senha obrigatória'),
+        confirmNewPassword: Yup.string()
+          .oneOf(
+            [Yup.ref('newPassword'), null],
+            'Confirmação de senha não coincide',
+          )
+          .required('Confirmação de senha obrigatória'),
+      })
+
+      await schema.validate(
+        { currentPassword, newPassword, confirmNewPassword },
+        {
+          abortEarly: false,
+        },
+      )
+
       await api.patch(
         `/users/${user._id}/change-password`,
         {
@@ -146,6 +186,7 @@ export default function Settings() {
           },
         },
       )
+
       addToast({
         type: 'success',
         title: 'Senha atualizada!',
@@ -155,11 +196,16 @@ export default function Settings() {
       setNewPassword('')
       setConfirmNewPassword('')
     } catch (error) {
-      addToast({
-        type: 'error',
-        title: 'Erro na troca de senha',
-        description: 'Não foi possível trocar a senha. Tente novamente.',
-      })
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(error)
+        formRef.current?.setErrors(errors)
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Erro na troca de senha',
+          description: 'Não foi possível trocar a senha. Tente novamente.',
+        })
+      }
     }
   }
 
@@ -259,7 +305,7 @@ export default function Settings() {
   return (
     <Container>
       <UserInformation>
-        <Form onSubmit={handleUpdateProfile}>
+        <Form ref={formRef} onSubmit={handleUpdateProfile}>
           <Section>
             <h2>Informações do Perfil</h2>
             <InputGroup>
@@ -297,7 +343,7 @@ export default function Settings() {
                 <>
                   <ProfilePicture src={profilePicture} alt="Foto de Perfil" />
                   <ButtonGroup>
-                    <Button onClick={handleRemoveProfilePicture}>
+                    <Button type="button" onClick={handleRemoveProfilePicture}>
                       Remover Foto
                     </Button>
                     <Button type="submit">Atualizar Perfil</Button>
@@ -308,7 +354,7 @@ export default function Settings() {
           </Section>
         </Form>
 
-        <Form onSubmit={handleChangePassword}>
+        <Form ref={formRef} onSubmit={handleChangePassword}>
           <Section>
             <h2>Trocar Senha</h2>
             <InputGroup>
