@@ -349,6 +349,7 @@ export default function Settings() {
               </Button>
             </InputGroup>
           </Form>
+
           <Form ref={formRef} onSubmit={handleChangePassword}>
             <h2>Trocar Senha</h2>
             <InputGroup>
@@ -389,7 +390,7 @@ export default function Settings() {
               style={{ display: 'none' }}
               onChange={handleUpdateProfilePicture}
             />
-            {profilePicture && (
+            {profilePicture ? (
               <ProfilePictureArea>
                 <ProfilePicture src={profilePicture} alt="Foto de Perfil" />
                 <ButtonGroup>
@@ -401,6 +402,10 @@ export default function Settings() {
                   </Button>
                 </ButtonGroup>
               </ProfilePictureArea>
+            ) : (
+              <Button type="button" onClick={handleClickUpdatePhoto}>
+                Adicionar Foto
+              </Button>
             )}
           </InputGroup>
         </Section>
