@@ -28,15 +28,19 @@ export default function Settings() {
   const [name, setName] = useState(user.name)
   const [email, setEmail] = useState(user.email)
   const [phone, setPhone] = useState(user.phone)
-  const [profilePicture, setProfilePicture] = useState('')
+  const [profilePicture, setProfilePicture] = useState(user.photo || '')
   const [newCategory, setNewCategory] = useState('')
   const [categories, setCategories] = useState(user.categories)
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmNewPassword, setConfirmNewPassword] = useState('')
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [categoryToDelete, setCategoryToDelete] = useState('')
   const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] =
     useState(false)
   const [isFinalDeleteAccountModalOpen, setIsFinalDeleteAccountModalOpen] =
     useState(false)
+  const token = localStorage.getItem('@Myfinance:token')
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
@@ -58,6 +62,77 @@ export default function Settings() {
         type: 'error',
         title: 'Erro ao atualizar perfil',
         description: 'Não foi possível atualizar seu perfil. Tente novamente.',
+      })
+    }
+  }
+
+  const handleUpdateProfilePicture = async (event) => {
+    const file = event.target.files[0]
+    const formData = new FormData()
+    formData.append('profilePicture', file)
+
+    try {
+      const response = await api.post(`upload/users/${user._id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+
+      setProfilePicture(response.data.photo)
+      await handleUpdateUser({ ...user, photo: response.data.photo })
+      addToast({
+        type: 'success',
+        title: 'Foto de perfil atualizada!',
+        description: 'Sua foto de perfil foi atualizada com sucesso.',
+      })
+    } catch (error) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao atualizar foto de perfil',
+        description:
+          'Não foi possível atualizar sua foto de perfil. Tente novamente.',
+      })
+    }
+  }
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault()
+    if (newPassword !== confirmNewPassword) {
+      addToast({
+        type: 'error',
+        title: 'Erro na troca de senha',
+        description: 'A nova senha e a confirmação de senha não coincidem.',
+      })
+      return
+    }
+
+    try {
+      await api.patch(
+        `/users/${user._id}/change-password`,
+        {
+          currentPassword,
+          newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      addToast({
+        type: 'success',
+        title: 'Senha atualizada!',
+        description: 'Sua senha foi atualizada com sucesso.',
+      })
+      setCurrentPassword('')
+      setNewPassword('')
+      setConfirmNewPassword('')
+    } catch (error) {
+      addToast({
+        type: 'error',
+        title: 'Erro na troca de senha',
+        description: 'Não foi possível trocar a senha. Tente novamente.',
       })
     }
   }
@@ -187,12 +262,47 @@ export default function Settings() {
             </InputGroup>
             <InputGroup>
               <label>Foto do Perfil</label>
-              <input type="file" onChange={() => setProfilePicture('ok')} />
-              {user.photo && (
-                <ProfilePicture src={user.photo} alt="Foto de Perfil" />
+              <input
+                id="profilePicture"
+                type="file"
+                onChange={handleUpdateProfilePicture}
+              />
+              {profilePicture && (
+                <ProfilePicture src={profilePicture} alt="Foto de Perfil" />
               )}
             </InputGroup>
             <Button type="submit">Atualizar Perfil</Button>
+          </Section>
+        </Form>
+
+        <Form onSubmit={handleChangePassword}>
+          <Section>
+            <h2>Trocar Senha</h2>
+            <InputGroup>
+              <label>Senha Atual</label>
+              <input
+                type="password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+              />
+            </InputGroup>
+            <InputGroup>
+              <label>Nova Senha</label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </InputGroup>
+            <InputGroup>
+              <label>Confirmar Nova Senha</label>
+              <input
+                type="password"
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+              />
+            </InputGroup>
+            <Button type="submit">Trocar Senha</Button>
           </Section>
         </Form>
 

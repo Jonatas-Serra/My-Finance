@@ -73,7 +73,7 @@ export const ProfilePicture = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  margin-top: 10px;
+  margin-top: 14px;
 `
 
 export const CategoriesList = styled.ul`
