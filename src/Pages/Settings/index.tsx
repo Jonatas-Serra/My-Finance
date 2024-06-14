@@ -19,6 +19,7 @@ import {
   DeleteButton,
   ContentModalDelete,
   ButtonGroup,
+  ProfilePictureArea,
 } from './styles'
 import api from '../../services/api'
 import getValidationErrors from '../../utils/getValidationErrors'
@@ -47,6 +48,7 @@ export default function Settings() {
   const token = localStorage.getItem('@Myfinance:token')
 
   const formRef = useRef<FormHandles>(null)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
@@ -95,13 +97,20 @@ export default function Settings() {
     }
   }
 
-  const handleUpdateProfilePicture = async (event) => {
-    const file = event.target.files[0]
-    const formData = new FormData()
-    formData.append('profilePicture', file)
+  const handleUpdateProfilePicture = async () => {
+    if (
+      !fileInputRef.current ||
+      !fileInputRef.current.files ||
+      fileInputRef.current.files.length === 0
+    ) {
+      return
+    }
+
+    const file = new FormData()
+    file.append('file', fileInputRef.current.files[0])
 
     try {
-      const response = await api.post(`upload/user/${user._id}`, formData, {
+      const response = await api.post(`upload/user/${user._id}`, file, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -302,11 +311,15 @@ export default function Settings() {
     }
   }
 
+  const handleClickUpdatePhoto = () => {
+    fileInputRef.current?.click()
+  }
+
   return (
     <Container>
       <UserInformation>
-        <Form ref={formRef} onSubmit={handleUpdateProfile}>
-          <Section>
+        <Section>
+          <Form ref={formRef} onSubmit={handleUpdateProfile}>
             <h2>Informações do Perfil</h2>
             <InputGroup>
               <label>Nome</label>
@@ -331,31 +344,12 @@ export default function Settings() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
+              <Button className="mt-1" type="submit">
+                Atualizar Perfil
+              </Button>
             </InputGroup>
-            <InputGroup>
-              <label>Foto do Perfil</label>
-              <input
-                id="profilePicture"
-                type="file"
-                onChange={handleUpdateProfilePicture}
-              />
-              {profilePicture && (
-                <>
-                  <ProfilePicture src={profilePicture} alt="Foto de Perfil" />
-                  <ButtonGroup>
-                    <Button type="button" onClick={handleRemoveProfilePicture}>
-                      Remover Foto
-                    </Button>
-                    <Button type="submit">Atualizar Perfil</Button>
-                  </ButtonGroup>
-                </>
-              )}
-            </InputGroup>
-          </Section>
-        </Form>
-
-        <Form ref={formRef} onSubmit={handleChangePassword}>
-          <Section>
+          </Form>
+          <Form ref={formRef} onSubmit={handleChangePassword}>
             <h2>Trocar Senha</h2>
             <InputGroup>
               <label>Senha Atual</label>
@@ -382,8 +376,34 @@ export default function Settings() {
               />
             </InputGroup>
             <Button type="submit">Trocar Senha</Button>
-          </Section>
-        </Form>
+          </Form>
+        </Section>
+
+        <Section>
+          <InputGroup>
+            <h2>Foto do Perfil</h2>
+            <input
+              id="profilePicture"
+              type="file"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleUpdateProfilePicture}
+            />
+            {profilePicture && (
+              <ProfilePictureArea>
+                <ProfilePicture src={profilePicture} alt="Foto de Perfil" />
+                <ButtonGroup>
+                  <Button type="button" onClick={handleRemoveProfilePicture}>
+                    Remover Foto
+                  </Button>
+                  <Button type="button" onClick={handleClickUpdatePhoto}>
+                    Atualizar Foto
+                  </Button>
+                </ButtonGroup>
+              </ProfilePictureArea>
+            )}
+          </InputGroup>
+        </Section>
 
         <Section>
           <h2>Categorias</h2>

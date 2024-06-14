@@ -21,7 +21,7 @@ export const UserInformation = styled.div`
   justify-content: space-between;
   gap: 40px;
 
-  @media (max-width: 940px) {
+  @media (max-width: 1000px) {
     flex-direction: column;
   }
 `
@@ -54,6 +54,10 @@ export const InputGroup = styled.div`
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+
+  .mt-1 {
+    margin-top: 2rem;
+  }
 `
 
 export const Button = styled.button`
@@ -68,12 +72,26 @@ export const Button = styled.button`
     background-color: var(--secondary);
   }
 `
+export const ProfilePictureArea = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
 
 export const ProfilePicture = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   margin-top: 14px;
+  object-fit: cover;
+
+  @media (max-width: 940px) {
+    width: 250px;
+    height: 250px;
+  }
 `
 
 export const CategoriesList = styled.ul`
@@ -185,6 +203,6 @@ export const ButtonGroup = styled.div`
   margin-top: 10px;
 
   button {
-    margin: 0;
+    margin: 0 10px;
   }
 `
