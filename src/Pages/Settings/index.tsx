@@ -24,7 +24,7 @@ import {
 } from './styles'
 import api from '../../services/api'
 import getValidationErrors from '../../utils/getValidationErrors'
-import { FiKey, FiLock, FiMail, FiPhone, FiUser } from 'react-icons/fi'
+import { FiKey, FiList, FiLock, FiMail, FiPhone, FiUser } from 'react-icons/fi'
 
 export default function Settings() {
   const { user, handleUpdateUser } = useUser()
@@ -106,11 +106,23 @@ export default function Settings() {
       return
     }
 
-    const file = new FormData()
-    file.append('file', fileInputRef.current.files[0])
+    const file = fileInputRef.current.files[0]
+    const fileType = file.type
+
+    if (!['image/jpeg', 'image/jpg', 'image/png'].includes(fileType)) {
+      addToast({
+        type: 'error',
+        title: 'Formato de arquivo inválido',
+        description: 'Apenas arquivos JPG, JPEG e PNG são permitidos.',
+      })
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('file', file)
 
     try {
-      const response = await api.post(`upload/user/${user._id}`, file, {
+      const response = await api.post(`upload/user/${user._id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -159,7 +171,11 @@ export default function Settings() {
     }
   }
 
-  const handleChangePassword = async () => {
+  const handleChangePassword = async (data: {
+    currentPassword: string
+    newPassword: string
+    confirmNewPassword: string
+  }) => {
     if (!currentPassword) {
       addToast({
         type: 'error',
@@ -168,8 +184,10 @@ export default function Settings() {
       })
       return
     }
+
     try {
       formRef.current?.setErrors({})
+
       const schema = Yup.object().shape({
         currentPassword: Yup.string().required('Senha atual obrigatória'),
         newPassword: Yup.string()
@@ -183,18 +201,15 @@ export default function Settings() {
           .required('Confirmação de senha obrigatória'),
       })
 
-      await schema.validate(
-        { currentPassword, newPassword, confirmNewPassword },
-        {
-          abortEarly: false,
-        },
-      )
+      await schema.validate(data, {
+        abortEarly: false,
+      })
 
       await api.patch(
         `/users/${user._id}/change-password`,
         {
-          currentPassword,
-          newPassword,
+          currentPassword: data.currentPassword,
+          newPassword: data.newPassword,
         },
         {
           headers: {
@@ -225,36 +240,47 @@ export default function Settings() {
     }
   }
 
-  const handleAddCategory = async () => {
-    if (!newCategory) {
-      addToast({
-        type: 'error',
-        title: 'Categoria inválida',
-        description: 'O nome da categoria não pode ser vazio.',
-      })
-      return
-    }
-
-    if (categories.includes(newCategory)) {
-      addToast({
-        type: 'error',
-        title: 'Categoria já existe',
-        description: 'Não é possível adicionar uma categoria que já existe.',
-      })
-      return
-    }
-
+  const handleAddCategory = async (data: { newCategory: string }) => {
     try {
-      const updatedCategories = [...categories, newCategory]
+      formRef.current?.setErrors({})
+      const schema = Yup.object().shape({
+        newCategory: Yup.string().required('Nome da categoria obrigatório'),
+      })
+
+      await schema.validate(data, {
+        abortEarly: false,
+      })
+
+      if (categories.includes(data.newCategory)) {
+        addToast({
+          type: 'error',
+          title: 'Categoria já existe',
+          description: 'Não é possível adicionar uma categoria que já existe.',
+        })
+        return
+      }
+
+      const updatedCategories = [...categories, data.newCategory]
       await handleUpdateUser({ ...user, categories: updatedCategories })
       setCategories(updatedCategories)
       setNewCategory('')
-    } catch (error) {
       addToast({
-        type: 'error',
-        title: 'Erro ao adicionar categoria',
-        description: 'Não foi possível adicionar a categoria. Tente novamente.',
+        type: 'success',
+        title: 'Categoria adicionada!',
+        description: 'Nova categoria adicionada com sucesso.',
       })
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(error)
+        formRef.current?.setErrors(errors)
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Erro ao adicionar categoria',
+          description:
+            'Não foi possível adicionar a categoria. Tente novamente.',
+        })
+      }
     }
   }
 
@@ -390,7 +416,7 @@ export default function Settings() {
             <InputGroup>
               <label>Senha Atual</label>
               <Input
-                name="password"
+                name="currentPassword"
                 icon={FiKey}
                 type="password"
                 value={currentPassword}
@@ -453,16 +479,22 @@ export default function Settings() {
 
         <Section>
           <h2>Categorias</h2>
-          <InputGroup className="flex">
-            <input
-              className="inputcategory"
-              type="text"
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
-              placeholder="Adicionar nova categoria"
-            />
-            <Button onClick={handleAddCategory}>Adicionar</Button>
-          </InputGroup>
+          <Form
+            ref={formRef}
+            onSubmit={() => handleAddCategory({ newCategory })}
+          >
+            <InputGroup className="flex">
+              <Input
+                name="newCategory"
+                icon={FiList}
+                type="text"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                placeholder="Adicionar nova categoria"
+              />
+              <Button type="submit">Adicionar</Button>
+            </InputGroup>
+          </Form>
           <CategoriesList>
             {categories?.map((category) => (
               <CategoryItem key={category}>
