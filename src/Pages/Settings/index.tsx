@@ -455,6 +455,7 @@ export default function Settings() {
           <h2>Categorias</h2>
           <InputGroup className="flex">
             <input
+              className="inputcategory"
               type="text"
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}

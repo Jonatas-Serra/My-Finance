@@ -48,7 +48,7 @@ export const InputGroup = styled.div`
     margin-bottom: 5px;
   }
 
-  input {
+  .inputcategory {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
