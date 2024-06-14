@@ -15,8 +15,6 @@ export const Container = styled.div<ContainerProps>`
   width: 100%;
   color: var(--background);
 
-  padding: 0 8px;
-
   display: flex;
   align-items: center;
 
@@ -48,9 +46,9 @@ export const Container = styled.div<ContainerProps>`
     font-family: 'Montserrat', sans-serif;
     flex: 1;
     background: transparent;
-    border: 0;
     color: var(--background);
     padding: 8px;
+    border: 0 !important;
 
     &::placeholder {
       color: var(--background);
@@ -64,6 +62,7 @@ export const Container = styled.div<ContainerProps>`
 
   svg {
     margin-right: 16px;
+    margin-left: 8px;
     color: var(--primary);
   }
 `
