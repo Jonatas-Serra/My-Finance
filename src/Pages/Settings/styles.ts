@@ -3,16 +3,9 @@ import styled from 'styled-components'
 export const Container = styled.div`
   width: 100%;
   padding: 20px;
-
-  .flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    button {
-      margin-left: 10px;
-    }
-  }
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `
 
 export const UserInformation = styled.div`
@@ -34,38 +27,72 @@ export const Form = styled.form`
 export const Section = styled.div`
   width: 100%;
   margin-bottom: 20px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
   h2 {
     margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #333;
   }
 `
 
 export const InputGroup = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 
   label {
     display: block;
     margin-bottom: 5px;
+    font-size: 1rem;
+    color: #555;
   }
 
   input {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+
+    &:focus {
+      border-color: var(--primary);
+    }
+  }
+
+  &.flex {
+    display: flex;
+    align-items: center;
+
+    input {
+      flex: 1;
+    }
+
+    button {
+      margin-left: 10px;
+    }
   }
 `
 
 export const Button = styled.button`
-  padding: 9px 20px;
+  padding: 10px 20px;
   background-color: var(--primary);
   color: var(--white);
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
 
   &:hover {
     background-color: var(--secondary);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 `
 
@@ -74,19 +101,26 @@ export const ProfilePicture = styled.img`
   height: 100px;
   border-radius: 50%;
   margin-top: 14px;
+  object-fit: cover;
+  border: 2px solid var(--primary);
 `
 
 export const CategoriesList = styled.ul`
   list-style: none;
   padding: 0;
+  margin: 0;
 `
 
 export const CategoryItem = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 10px 0;
   border-bottom: 1px solid #ccc;
+
+  &:last-child {
+    border-bottom: none;
+  }
 `
 
 export const DeleteButton = styled.button`
@@ -95,6 +129,9 @@ export const DeleteButton = styled.button`
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
 
   &:hover {
     background-color: var(--secondary);
@@ -175,6 +212,20 @@ export const ContentModalDelete = styled.div`
         margin-top: 0.3rem;
         padding: 0 0.6rem;
       }
+    }
+  }
+`
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+
+  button {
+    margin-left: 10px;
+
+    &:first-child {
+      margin-left: 0;
     }
   }
 `

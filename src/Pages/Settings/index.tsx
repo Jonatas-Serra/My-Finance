@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useUser } from '../../hooks/useUser'
 import { useToast } from '../../hooks/useToast'
 import { useAccounts } from '../../hooks/useAccounts'
@@ -16,6 +16,7 @@ import {
   CategoryItem,
   DeleteButton,
   ContentModalDelete,
+  ButtonGroup,
 } from './styles'
 import api from '../../services/api'
 
@@ -72,7 +73,7 @@ export default function Settings() {
     formData.append('profilePicture', file)
 
     try {
-      const response = await api.post(`upload/users/${user._id}`, formData, {
+      const response = await api.post(`upload/user/${user._id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -92,6 +93,31 @@ export default function Settings() {
         title: 'Erro ao atualizar foto de perfil',
         description:
           'Não foi possível atualizar sua foto de perfil. Tente novamente.',
+      })
+    }
+  }
+
+  const handleRemoveProfilePicture = async () => {
+    try {
+      await api.delete(`/upload/user/${user._id}/photo`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      setProfilePicture('')
+      await handleUpdateUser({ ...user, photo: '' })
+      addToast({
+        type: 'success',
+        title: 'Foto de perfil removida!',
+        description: 'Sua foto de perfil foi removida com sucesso.',
+      })
+    } catch (error) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao remover foto de perfil',
+        description:
+          'Não foi possível remover sua foto de perfil. Tente novamente.',
       })
     }
   }
@@ -268,10 +294,17 @@ export default function Settings() {
                 onChange={handleUpdateProfilePicture}
               />
               {profilePicture && (
-                <ProfilePicture src={profilePicture} alt="Foto de Perfil" />
+                <>
+                  <ProfilePicture src={profilePicture} alt="Foto de Perfil" />
+                  <ButtonGroup>
+                    <Button onClick={handleRemoveProfilePicture}>
+                      Remover Foto
+                    </Button>
+                    <Button type="submit">Atualizar Perfil</Button>
+                  </ButtonGroup>
+                </>
               )}
             </InputGroup>
-            <Button type="submit">Atualizar Perfil</Button>
           </Section>
         </Form>
 

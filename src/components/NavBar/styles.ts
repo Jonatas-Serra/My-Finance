@@ -64,6 +64,7 @@ export const UserProfile = styled.img`
   border-radius: 50%;
   cursor: pointer;
   margin-left: 16px;
+  object-fit: cover;
 `
 
 export const HamburgerIcon = styled(FiMenu)`
