@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useUser } from '../../hooks/useUser'
 import { useToast } from '../../hooks/useToast'
 import { useAccounts } from '../../hooks/useAccounts'
