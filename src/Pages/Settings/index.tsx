@@ -171,11 +171,7 @@ export default function Settings() {
     }
   }
 
-  const handleChangePassword = async (data: {
-    currentPassword: string
-    newPassword: string
-    confirmNewPassword: string
-  }) => {
+  const handleChangePassword = async () => {
     if (!currentPassword) {
       addToast({
         type: 'error',
@@ -184,10 +180,8 @@ export default function Settings() {
       })
       return
     }
-
     try {
       formRef.current?.setErrors({})
-
       const schema = Yup.object().shape({
         currentPassword: Yup.string().required('Senha atual obrigatória'),
         newPassword: Yup.string()
@@ -201,15 +195,18 @@ export default function Settings() {
           .required('Confirmação de senha obrigatória'),
       })
 
-      await schema.validate(data, {
-        abortEarly: false,
-      })
+      await schema.validate(
+        { currentPassword, newPassword, confirmNewPassword },
+        {
+          abortEarly: false,
+        },
+      )
 
       await api.patch(
         `/users/${user._id}/change-password`,
         {
-          currentPassword: data.currentPassword,
-          newPassword: data.newPassword,
+          currentPassword,
+          newPassword,
         },
         {
           headers: {
