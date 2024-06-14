@@ -5,13 +5,14 @@ export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+  white-space: nowrap;
 
   .nowp {
-    white-space: nowrap;
     color: var(--tertiary);
   }
 
   .deposit {
+    white-space: nowrap;
     color: var(--quaternary);
   }
 

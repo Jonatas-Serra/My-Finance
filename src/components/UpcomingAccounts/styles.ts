@@ -8,6 +8,10 @@ export const Container = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
   }
+
+  @media (max-width: 1340px) {
+    flex-direction: column;
+  }
 `
 
 export const TableContainer = styled.div`

@@ -2,10 +2,9 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   display: flex;
-  width: 100%;
-  height: 100vh;
-  overflow: none;
+  max-width: 100vw;
   max-height: 100vh;
+  overflow: none;
   background-color: var(--background);
 `
 
@@ -25,6 +24,5 @@ export const Content = styled.div<{ isMenuOpen: boolean }>`
 export const MainContent = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 1rem;
   background-color: var(--white);
 `

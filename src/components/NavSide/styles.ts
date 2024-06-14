@@ -6,7 +6,8 @@ interface NavSideContainerProps {
 
 export const NavSideContainer = styled.div<NavSideContainerProps>`
   width: ${({ isMenuOpen }) => (isMenuOpen ? '240px' : '83px')};
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   background-color: var(--primary);
   display: flex;
   flex-direction: column;
@@ -18,6 +19,10 @@ export const NavSideContainer = styled.div<NavSideContainerProps>`
 
   @media (min-width: 768px) {
     min-width: 240px;
+  }
+
+  @media (max-width: 400px) {
+    max-width: 84px;
   }
 `
 

@@ -39,6 +39,7 @@ export const Container = styled.div`
       font-size: 1.6rem;
       font-weight: 600;
       line-height: 3rem;
+      white-space: nowrap;
 
       @media screen and (max-width: 768px) {
         font-size: 1.5rem;
