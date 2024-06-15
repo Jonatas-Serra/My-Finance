@@ -13,8 +13,8 @@ export const NavSideContainer = styled.div<NavSideContainerProps>`
   flex-direction: column;
   transition: width 0.3s ease-in-out;
 
-  @media (max-width: 768px) {
-    width: ${({ isMenuOpen }) => (isMenuOpen ? '240px' : '0')};
+  @media (max-width: 767px) {
+    width: ${({ isMenuOpen }) => (isMenuOpen ? '84px' : '0')};
   }
 
   @media (min-width: 768px) {

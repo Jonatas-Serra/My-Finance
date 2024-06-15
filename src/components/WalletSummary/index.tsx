@@ -1,6 +1,8 @@
 import { useWallets } from '../../hooks/useWallets'
 import { Container } from './styles'
 import totalImg from '../../assets/Total.svg'
+import bankImg from '../../assets/bank.svg'
+import { IoWalletOutline } from 'react-icons/io5'
 
 export function WalletSummary() {
   const { wallets } = useWallets()
@@ -13,6 +15,11 @@ export function WalletSummary() {
         <div key={wallet._id}>
           <header>
             <p>{wallet.name}</p>
+            {wallet.name.toLowerCase() === 'carteira' ? (
+              <IoWalletOutline size={48} />
+            ) : (
+              <img src={bankImg} alt="bank" />
+            )}
           </header>
           <strong>
             {new Intl.NumberFormat('pt-BR', {

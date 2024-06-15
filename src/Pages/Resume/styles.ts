@@ -10,6 +10,10 @@ export const Container = styled.div`
   margin: 0 auto;
   padding: 0 16px;
   padding-bottom: 16px;
+
+  @media (min-width: 768px) and (max-width: 1060px) {
+    padding: 0 10px;
+  }
 `
 
 export const SummaryContainer = styled.div`
@@ -63,13 +67,16 @@ export const ChartContainer = styled.div`
 `
 
 export const WalletContainer = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin: 14px 0;
   flex-wrap: wrap;
 
   @media (max-width: 768px) {
     flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
   }
 
   .end {
@@ -79,7 +86,6 @@ export const WalletContainer = styled.div`
 
 export const WalletItem = styled.div`
   flex: 1;
-  margin: 12px;
   padding: 24px;
   background-color: var(--white);
   border-radius: 8px;
@@ -90,8 +96,8 @@ export const WalletItem = styled.div`
     color: var (--text);
   }
 
-  @media (max-width: 768px) {
-    margin: 12px 0;
+  @media (max-width: 1557px) {
+    margin: 14px 0;
   }
 `
 

@@ -4,6 +4,7 @@ import { useTransactions } from '../../hooks/useTransactions'
 
 import { Spinner, Container } from './styles'
 
+// Hook para obter a largura da janela em tempo real
 const useWindowWidth = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
@@ -22,14 +23,15 @@ const TransactionsChart: React.FC = () => {
   const windowWidth = useWindowWidth()
 
   const getChartWidth = () => {
-    if (windowWidth <= 480) return 400
-    if (windowWidth <= 550) return 450
-    if (windowWidth <= 767) return 400
-    if (windowWidth <= 991) return 550
-    if (windowWidth <= 1080) return 620
-    if (windowWidth <= 1199) return 800
-    if (windowWidth <= 1720) return 950
-    return 600
+    if (windowWidth <= 480) return 250
+    if (windowWidth <= 550) return 320
+    if (windowWidth <= 767) return 385
+    if (windowWidth <= 991) return 420
+    if (windowWidth <= 1199) return 600
+    if (windowWidth <= 1399) return 850
+    if (windowWidth <= 1720) return 1000
+    if (windowWidth <= 1919) return 400
+    return 500
   }
 
   useEffect(() => {
@@ -97,7 +99,38 @@ const TransactionsChart: React.FC = () => {
           },
         },
         dataLabels: {
-          enabled: false,
+          enabled: true,
+          formatter: (val: number) => {
+            if (val === 0) return ''
+            return `R$ ${val.toFixed(2).replace('.', ',')}`
+          },
+          style: {
+            fontSize: '12px',
+            colors: [
+              function ({ seriesIndex, w }) {
+                return w.config.series[seriesIndex].color
+              },
+            ],
+          },
+          background: {
+            enabled: true,
+            foreColor: '#fff',
+            padding: 4,
+            borderRadius: 2,
+            borderWidth: 1,
+            borderColor: '#fff',
+            opacity: 0.9,
+            dropShadow: {
+              enabled: false,
+              top: 1,
+              left: 1,
+              blur: 1,
+              color: '#000',
+              opacity: 0.45,
+            },
+          },
+          offsetY: -20,
+          offsetX: -2,
         },
         stroke: {
           show: true,
@@ -118,7 +151,7 @@ const TransactionsChart: React.FC = () => {
         tooltip: {
           y: {
             formatter: function (val) {
-              return `R$ ${val}`
+              return `R$ ${val.toFixed(2).replace('.', ',')}`
             },
           },
         },
@@ -134,8 +167,6 @@ const TransactionsChart: React.FC = () => {
     )
   }
 
-  const widthChart = getChartWidth()
-
   return (
     <Container>
       <Chart
@@ -143,7 +174,7 @@ const TransactionsChart: React.FC = () => {
         series={chartData.series}
         type="bar"
         height={210}
-        width={widthChart}
+        width={getChartWidth()}
       />
     </Container>
   )

@@ -26,7 +26,7 @@ export const TableContainer = styled.div`
     color: var(--text);
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 1060px) {
     display: none;
   }
 `
@@ -88,7 +88,7 @@ export const DeleteButton = styled(Button)`
 export const CardContainer = styled.div`
   display: none;
 
-  @media (max-width: 600px) {
+  @media (max-width: 1060px) {
     display: flex;
     flex-direction: column;
     gap: 16px;

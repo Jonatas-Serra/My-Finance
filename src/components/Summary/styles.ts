@@ -69,6 +69,12 @@ export const Container = styled.div`
     }
   }
 
+  @media (min-width: 768px) and (max-width: 1060px) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 280px;
+    gap: 1rem;
+  }
+
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 1rem;

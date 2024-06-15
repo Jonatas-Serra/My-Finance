@@ -67,7 +67,7 @@ export default function Resume() {
           <WalletSummary />
         </WalletItem>
         <WalletItem className="end">
-          <h2>Despesas por Categoria</h2>
+          <h2>Despesas mensal por Categoria</h2>
           <ExpensesByCategoryChart />
         </WalletItem>
       </WalletContainer>

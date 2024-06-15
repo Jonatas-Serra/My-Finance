@@ -16,6 +16,12 @@ export const Container = styled.div`
     color: var(--quaternary);
   }
 
+  @media (min-width: 768px) and (max-width: 1060px) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 280px;
+    gap: 1rem;
+  }
+
   @media screen and (max-width: 768px) {
     grid-template-columns: repeat(1, 1fr);
     flex-direction: column;
@@ -51,16 +57,7 @@ export const Container = styled.div`
     padding: 1.5rem 2rem;
     border-radius: 0.5rem;
     color: var(--background);
-    max-width: 250px;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
-
-    @media (min-width: 819px) {
-      max-width: 460px;
-    }
-
-    @media (min-width: 480px) {
-      max-width: 350px;
-    }
 
     header {
       display: flex;
@@ -95,6 +92,11 @@ export const Container = styled.div`
     &.highlight-background {
       background-color: var(--quaternary);
       color: var(--background);
+
+      img {
+        width: 3rem;
+        height: 3rem;
+      }
     }
   }
 `
