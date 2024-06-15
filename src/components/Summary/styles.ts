@@ -54,6 +54,19 @@ export const Container = styled.div`
     .deposit {
       color: var(--quaternary);
     }
+
+    @media (min-width: 1200px) and (max-width: 1919px) {
+      width: 100%;
+      max-width: 320px;
+
+      header p {
+        font-size: 2rem;
+      }
+
+      strong {
+        font-size: 2rem;
+      }
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -65,6 +78,7 @@ export const Container = styled.div`
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      width: 100%;
       max-width: 100%;
     }
   }

@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   max-width: 100vw;
   max-height: 100vh;
-  overflow: none;
+  overflow: hidden;
   background-color: var(--background);
 `
 

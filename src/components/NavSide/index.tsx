@@ -38,7 +38,7 @@ export function NavSide({ isMenuOpen }: NavSideProps) {
 
   return (
     <NavSideContainer isMenuOpen={isMenuOpen}>
-      <Logo>
+      <Logo isMenuOpen={isMenuOpen}>
         <img src={logoImg} alt="" />
         <h1>My Finance</h1>
       </Logo>

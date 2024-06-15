@@ -75,7 +75,7 @@ export function Summary() {
       </div>
       <div className="highlight-background">
         <header>
-          <p>Total</p>
+          <p>Saldo</p>
           <img src={totalImg} alt="Total" />
         </header>
         <strong>

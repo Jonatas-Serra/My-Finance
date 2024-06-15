@@ -4,9 +4,33 @@ import { useTransactions } from '../../hooks/useTransactions'
 
 import { Spinner, Container } from './styles'
 
+const useWindowWidth = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  return windowWidth
+}
+
 const TransactionsChart: React.FC = () => {
   const { transactions } = useTransactions()
   const [chartData, setChartData] = useState<any>(null)
+  const windowWidth = useWindowWidth()
+
+  const getChartWidth = () => {
+    if (windowWidth <= 480) return 400
+    if (windowWidth <= 550) return 450
+    if (windowWidth <= 767) return 400
+    if (windowWidth <= 991) return 550
+    if (windowWidth <= 1080) return 620
+    if (windowWidth <= 1199) return 800
+    if (windowWidth <= 1720) return 950
+    return 600
+  }
 
   useEffect(() => {
     const last6Months = Array.from({ length: 6 }, (_, i) => {
@@ -110,6 +134,8 @@ const TransactionsChart: React.FC = () => {
     )
   }
 
+  const widthChart = getChartWidth()
+
   return (
     <Container>
       <Chart
@@ -117,6 +143,7 @@ const TransactionsChart: React.FC = () => {
         series={chartData.series}
         type="bar"
         height={210}
+        width={widthChart}
       />
     </Container>
   )

@@ -23,6 +23,14 @@ export const SummaryContainer = styled.div`
     flex-direction: column;
     justify-content: center;
   }
+
+  .it2 {
+    margin-left: 0px;
+
+    @media (min-width: 1720px) {
+      margin-left: 24px;
+    }
+  }
 `
 
 export const SummaryItem = styled.div`
@@ -39,6 +47,7 @@ export const SummaryItem = styled.div`
 
   @media (max-width: 1720px) {
     width: 100%;
+    margin-bottom: 24px;
   }
 
   @media (max-width: 1220px) {
@@ -50,7 +59,6 @@ export const SummaryItem = styled.div`
 export const ChartContainer = styled.div`
   width: 100%;
   height: 200px;
-  background-color: var(--gray);
   border-radius: 8px;
 `
 
@@ -62,6 +70,10 @@ export const WalletContainer = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
+  }
+
+  .end {
+    flex: 0;
   }
 `
 
@@ -75,7 +87,7 @@ export const WalletItem = styled.div`
 
   h2 {
     margin-bottom: 16px;
-    color: var(--text);
+    color: var (--text);
   }
 
   @media (max-width: 768px) {
@@ -90,6 +102,10 @@ export const UpcomingContainer = styled.div`
   gap: 24px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 1340px) {
+    flex-direction: column;
+  }
 `
 
 export const UpcomingItem = styled.div`

@@ -22,13 +22,12 @@ export const Container = styled.div`
     gap: 1rem;
 
     div {
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 1rem;
-      max-width: 250px;
-      margin: 0 auto;
 
       strong {
         font-size: 1.5rem;

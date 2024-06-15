@@ -5,7 +5,7 @@ interface NavSideContainerProps {
 }
 
 export const NavSideContainer = styled.div<NavSideContainerProps>`
-  width: ${({ isMenuOpen }) => (isMenuOpen ? '240px' : '83px')};
+  width: ${({ isMenuOpen }) => (isMenuOpen ? '240px' : '84px')};
   height: 100%;
   min-height: 100vh;
   background-color: var(--primary);
@@ -26,7 +26,7 @@ export const NavSideContainer = styled.div<NavSideContainerProps>`
   }
 `
 
-export const Logo = styled.div`
+export const Logo = styled.div<{ isMenuOpen: boolean }>`
   padding: 20px;
   display: flex;
   align-items: center;
@@ -43,13 +43,13 @@ export const Logo = styled.div`
   }
 
   h1 {
-    display: none;
+    display: ${({ isMenuOpen }) => (isMenuOpen ? 'none' : 'block')};
     font-size: 20px;
     color: var(--white);
     margin-left: 10px;
 
-    @media (min-width: 768px) {
-      display: block;
+    @media (max-width: 767px) {
+      display: none;
     }
   }
 

@@ -25,26 +25,16 @@ export default function Resume() {
     <Container>
       <SummaryContainer>
         <SummaryItem>
+          <h2>Lançamentos do Mês</h2>
+          <Summary />
+        </SummaryItem>
+        <SummaryItem className="it2">
           <h2>Receitas e Despesas</h2>
           <ChartContainer>
             <TransactionsChart />
           </ChartContainer>
         </SummaryItem>
-        <SummaryItem>
-          <h2>Lançamentos do Mês</h2>
-          <Summary />
-        </SummaryItem>
       </SummaryContainer>
-      <WalletContainer>
-        <WalletItem>
-          <h2>Carteiras</h2>
-          <WalletSummary />
-        </WalletItem>
-        <WalletItem className="end">
-          <h2>Despesas por Categoria</h2>
-          <ExpensesByCategoryChart />
-        </WalletItem>
-      </WalletContainer>
       <UpcomingContainer>
         <UpcomingItem>
           <h2>Próximas Contas</h2>
@@ -71,6 +61,16 @@ export default function Resume() {
           <UpcomingAccounts days={selectedDays} />
         </UpcomingItem>
       </UpcomingContainer>
+      <WalletContainer>
+        <WalletItem>
+          <h2>Carteiras</h2>
+          <WalletSummary />
+        </WalletItem>
+        <WalletItem className="end">
+          <h2>Despesas por Categoria</h2>
+          <ExpensesByCategoryChart />
+        </WalletItem>
+      </WalletContainer>
     </Container>
   )
 }
