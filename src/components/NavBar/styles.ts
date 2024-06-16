@@ -86,7 +86,7 @@ export const NotificationContainer = styled.div`
   border: 1px solid rgba(204, 204, 204, 0.1);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  z-index: 999;
   margin: 16px -42px 0 0;
   cursor: pointer;
 

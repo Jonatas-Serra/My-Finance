@@ -430,6 +430,9 @@ export const CardHeader = styled.div`
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `
 
 export const CardContent = styled.div`

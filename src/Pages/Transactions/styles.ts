@@ -114,6 +114,10 @@ export const TransactionsTable = styled.div`
         display: none;
       }
     }
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   th {
@@ -264,4 +268,91 @@ export const Spinner = styled.div`
   height: 50px;
   animation: ${spin} 1s linear infinite;
   margin: 20px auto;
+`
+export const Actions = styled.div`
+  display: flex;
+  gap: 8px;
+`
+
+export const PayButton = styled.button`
+  background-color: var(--secondary);
+  border: none;
+  border-radius: 4px;
+  color: var(--white);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 8px;
+`
+
+export const DeleteButton = styled.button`
+  background-color: var(--tertiary);
+  border: none;
+  border-radius: 4px;
+  color: var(--white);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 8px;
+`
+
+export const CardContainer = styled.div`
+  display: none;
+
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 16px;
+    padding-bottom: 2rem;
+
+    .deposit {
+      color: var(--secondary);
+    }
+
+    .withdraw {
+      color: var(--tertiary);
+    }
+
+    .transfer {
+      white-space: normal;
+      color: var(--primary);
+    }
+  }
+`
+
+export const Card = styled.div`
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  position: relative;
+`
+
+export const CardHeader = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+`
+
+export const CardContent = styled.div`
+  p {
+    margin: 4px 0;
+  }
+`
+
+export const CardBanner = styled.div<{ type: string }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: ${({ type }) =>
+    type === 'Deposit'
+      ? 'var(--secondary)'
+      : type === 'Withdrawal'
+        ? 'var(--tertiary)'
+        : type === 'Transfer'
+          ? 'var(--primary)'
+          : 'transparent'};
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 `

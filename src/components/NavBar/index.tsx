@@ -134,13 +134,16 @@ export function NavBar({ toggleMenu }) {
       <Title>{pageTitle}</Title>
       <UserSection>
         <NotificationWrapper
-          onClick={() => setShowNotifications(!showNotifications)}
+          onClick={() =>
+            numberOfUnreadNotifications > 0 &&
+            setShowNotifications(!showNotifications)
+          }
         >
           <NotificationIcon />
           {numberOfUnreadNotifications > 0 && (
             <NotificationBadge>{numberOfUnreadNotifications}</NotificationBadge>
           )}
-          {showNotifications && (
+          {showNotifications && numberOfUnreadNotifications > 0 && (
             <NotificationContainer ref={notificationRef}>
               {notifications.map(
                 (notification) =>

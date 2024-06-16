@@ -23,7 +23,7 @@ export const AddContent = styled.div`
 
     button {
       width: 50%;
-      margin: 0 auto; /* Certifica que os botões estão centralizados */
+      margin: 0 auto;
     }
 
     button + button {
@@ -48,14 +48,19 @@ export const AddButton = styled.button`
 export const WalletsContent = styled.div`
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   padding: 0 20px;
   gap: 20px;
 
-  @media (max-width: 440px) {
+  @media (max-width: 768px) {
     gap: 14px;
+  }
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
   .wallet {

@@ -456,17 +456,23 @@ export default function Receivables() {
                   {receivable.payeeOrPayer}
                 </CardHeader>
                 <CardContent>
-                  <p>Descrição: {receivable.description}</p>
+                  <p>
+                    Descrição: <strong>{receivable.description}</strong>
+                  </p>
                   <p>
                     Data de Vencimento:{' '}
-                    {new Date(receivable.dueDate).toLocaleDateString()}
+                    <strong>
+                      {new Date(receivable.dueDate).toLocaleDateString()}
+                    </strong>
                   </p>
                   <p>
                     Valor:{' '}
-                    {new Intl.NumberFormat('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL',
-                    }).format(receivable.value)}
+                    <strong>
+                      {new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      }).format(receivable.value)}
+                    </strong>
                   </p>
                   <Actions>
                     <ReceiveButton

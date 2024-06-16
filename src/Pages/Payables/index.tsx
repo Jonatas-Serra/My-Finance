@@ -27,6 +27,7 @@ import {
   FiCheckSquare,
   FiSquare,
 } from 'react-icons/fi'
+import { FaCheckCircle } from 'react-icons/fa'
 
 import { NewAccountModal } from '../../components/NewAccountModal'
 import { EditAccountModal } from '../../components/EditAccountsModal'
@@ -451,19 +452,28 @@ export default function Payables() {
           ) : (
             paginatedAccounts.map((payable) => (
               <Card key={payable._id}>
-                <CardHeader>{payable.payeeOrPayer}</CardHeader>
+                <CardHeader>
+                  {payable.isPaid && <FaCheckCircle color="var(--secondary)" />}
+                  {payable.payeeOrPayer}
+                </CardHeader>
                 <CardContent>
-                  <p>Descrição: {payable.description}</p>
+                  <p>
+                    Descrição: <strong>{payable.description}</strong>
+                  </p>
                   <p>
                     Data de Vencimento:{' '}
-                    {new Date(payable.dueDate).toLocaleDateString()}
+                    <strong>
+                      {new Date(payable.dueDate).toLocaleDateString()}
+                    </strong>
                   </p>
                   <p>
                     Valor:{' '}
-                    {new Intl.NumberFormat('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL',
-                    }).format(payable.value)}
+                    <strong>
+                      {new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      }).format(payable.value)}
+                    </strong>
                   </p>
                   <Actions>
                     <ReceiveButton

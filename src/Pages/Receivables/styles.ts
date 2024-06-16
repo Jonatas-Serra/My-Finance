@@ -415,6 +415,7 @@ export const CardContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding-bottom: 2rem;
   }
 `
 

@@ -30,8 +30,8 @@ const TransactionsChart: React.FC = () => {
     if (windowWidth <= 1199) return 600
     if (windowWidth <= 1399) return 850
     if (windowWidth <= 1720) return 1000
-    if (windowWidth <= 1919) return 400
-    return 500
+    if (windowWidth <= 1919) return 620
+    return 600
   }
 
   useEffect(() => {

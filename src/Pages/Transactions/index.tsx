@@ -10,6 +10,14 @@ import {
   TransactionsTable,
   ContentModalDelete,
   Spinner,
+  Actions,
+  PayButton,
+  DeleteButton,
+  CardContainer,
+  Card,
+  CardHeader,
+  CardContent,
+  CardBanner,
 } from './styles'
 import { FiSearch, FiEdit, FiTrash2 } from 'react-icons/fi'
 import deleteImg from '../../assets/delete-icon.svg'
@@ -221,6 +229,100 @@ export default function Transactions() {
             </table>
           )}
         </TransactionsTable>
+        <CardContainer>
+          {transactions.map((transaction) => (
+            <Card key={transaction._id}>
+              <CardBanner type={transaction.type} />
+              <CardHeader>{transaction.description}</CardHeader>
+              <CardContent>
+                <p>
+                  Descrição: <strong>{transaction.description}</strong>
+                </p>
+                <p>
+                  Data:{' '}
+                  <strong>
+                    {new Date(transaction.date).toLocaleDateString()}
+                  </strong>
+                </p>
+                <p>
+                  Valor:{' '}
+                  <strong
+                    className={
+                      transaction.type === 'Deposit'
+                        ? 'deposit'
+                        : transaction.type === 'Withdrawal'
+                          ? 'withdraw'
+                          : transaction.type === 'Transfer'
+                            ? 'transfer'
+                            : ''
+                    }
+                  >
+                    {new Intl.NumberFormat('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    }).format(transaction.amount)}
+                  </strong>
+                </p>
+                <p>
+                  Tipo:{' '}
+                  <strong
+                    className={
+                      transaction.type === 'Deposit'
+                        ? 'deposit'
+                        : transaction.type === 'Withdrawal'
+                          ? 'withdraw'
+                          : transaction.type === 'Transfer'
+                            ? 'transfer'
+                            : ''
+                    }
+                  >
+                    {transaction.type === 'Deposit'
+                      ? 'Entrada'
+                      : transaction.type === 'Withdrawal'
+                        ? 'Saída'
+                        : 'Transferência'}
+                  </strong>
+                </p>
+                <p>
+                  Categoria: <strong>{transaction.category}</strong>
+                </p>
+                <p>
+                  Carteira:{' '}
+                  <strong>
+                    {
+                      wallets.find(
+                        (wallet) => wallet._id === transaction.walletId,
+                      )?.name
+                    }
+                  </strong>
+                </p>
+                <Actions>
+                  <PayButton
+                    className={`edit ${transaction.type === 'Transfer' ? 'disabled' : ''}`}
+                    type="button"
+                    onClick={() => {
+                      if (transaction.type !== 'Transfer') {
+                        setIsOpenEdit(true)
+                        setSelectedTransaction(transaction)
+                      }
+                    }}
+                  >
+                    Editar
+                  </PayButton>
+                  <DeleteButton
+                    type="button"
+                    onClick={() => {
+                      setIsOpenDel(true)
+                      setSelectedTransaction(transaction)
+                    }}
+                  >
+                    Excluir
+                  </DeleteButton>
+                </Actions>
+              </CardContent>
+            </Card>
+          ))}
+        </CardContainer>
         <NewTransitionModal
           isOpen={isOpen}
           onRequestClose={() => setIsOpen(false)}
