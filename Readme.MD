@@ -33,20 +33,20 @@ O **My Finance** é uma aplicação web para gerenciar suas finanças pessoais. 
 Para rodar a aplicação localmente, siga os passos abaixo:
 
 1. Clone o repositório:
-   \`\`\`bash
-   git clone https://github.com/Jonatas-Serra/My-Finance.git
-   \`\`\`
+   ```
+   $ git clone https://github.com/Jonatas-Serra/My-Finance.git
+   ```
 2. Instale as dependências:
-   \`\`\`bash
-   cd my-finance
-   npm install
-   \`\`\`
+   ```
+   $ cd my-finance
+   $ npm install
+   ```
 3. Configure as variáveis de ambiente no arquivo `.env`.
 
 4. Inicie a aplicação:
-   \`\`\`bash
-   npm start
-   \`\`\`
+   ```
+   $ npm start
+   ```
 
 ## 🧑‍💻 Funcionalidades
 
@@ -65,17 +65,17 @@ Se você deseja contribuir com o projeto, siga os passos abaixo:
 
 1. Faça um fork do repositório.
 2. Crie uma branch para sua feature:
-   \`\`\`bash
-   git checkout -b minha-feature
-   \`\`\`
+   ```
+   $ git checkout -b minha-feature
+   ```
 3. Comite suas alterações:
-   \`\`\`bash
-   git commit -m 'Minha nova feature'
-   \`\`\`
+   ```
+   $ git commit -m 'Minha nova feature'
+   ```
 4. Faça o push para a branch:
-   \`\`\`bash
-   git push origin minha-feature
-   \`\`\`
+   ```
+   $ git push origin minha-feature
+   ```
 5. Abra um Pull Request.
 
 ## 📄 Licença
