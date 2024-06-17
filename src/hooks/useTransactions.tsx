@@ -27,6 +27,16 @@ interface TransactionsProviderProps {
   children: React.ReactNode
 }
 
+interface DateRange {
+  startDate: Date
+  endDate: Date
+}
+
+interface GetTransactionsParams {
+  dateRange: DateRange
+  transactionType: string[]
+}
+
 interface TransactionsContextData {
   transactions: Transaction[]
   selectedTransaction: Transaction
@@ -35,12 +45,54 @@ interface TransactionsContextData {
   handleEditTransaction: (transaction: Transaction) => void
   handleDeleteTransaction: (id: string) => void
   handleSelectTransaction: (transaction: Transaction) => void
-  getTransactions: () => Promise<void>
+  getTransactions: (filters: GetTransactionsParams) => Promise<void>
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
   {} as TransactionsContextData,
 )
+
+function getCurrentMonthDateRange() {
+  const currentDate = new Date()
+
+  const firstDayPrevMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() - 6,
+    1,
+  )
+
+  const lastDayCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0,
+  )
+
+  return {
+    startDate: firstDayPrevMonth,
+    endDate: lastDayCurrentMonth,
+  }
+}
+
+function getMonthDateRange() {
+  const currentDate = new Date()
+
+  const firstDayCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1,
+  )
+
+  const lastDayCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0,
+  )
+
+  return {
+    startDate: firstDayCurrentMonth,
+    endDate: lastDayCurrentMonth,
+  }
+}
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const { user } = useUser()
@@ -53,26 +105,51 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   const token = localStorage.getItem('@Myfinance:token')
 
-  const getTransactions = useCallback(async () => {
-    if (!user?._id || !token) return
+  const adjustEndDate = (date: Date) => {
+    const adjustedDate = new Date(date)
+    adjustedDate.setHours(23, 59, 59, 999)
+    return adjustedDate
+  }
 
-    setLoading(true)
-    try {
-      const response = await api.get(`/transactions/${user._id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      setTransactions(response.data)
-    } catch (error) {
-      console.error('Erro ao obter transações:', error)
-    } finally {
-      setLoading(false)
-    }
-  }, [user, token])
+  const formatDate = (date: Date) => {
+    return date.toISOString().split('T')[0] // Formato YYYY-MM-DD
+  }
+
+  const getTransactions = useCallback(
+    async ({ dateRange, transactionType }: GetTransactionsParams) => {
+      if (!user?._id || !token) return
+
+      setLoading(true)
+      try {
+        const adjustedEndDate = adjustEndDate(dateRange.endDate)
+        const response = await api.get(`/transactions/${user._id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            startDate: formatDate(dateRange.startDate),
+            endDate: formatDate(adjustedEndDate),
+            transactionType: transactionType.join(','),
+          },
+        })
+        console.log(formatDate(dateRange.startDate))
+        console.log(formatDate(adjustedEndDate))
+
+        setTransactions(response.data)
+      } catch (error) {
+        console.error('Erro ao obter transações:', error)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [user, token],
+  )
 
   useEffect(() => {
-    getTransactions()
+    getTransactions({
+      dateRange: getCurrentMonthDateRange(),
+      transactionType: [],
+    })
   }, [getTransactions])
 
   async function createTransaction(transactionInput: TransactionInput) {
@@ -82,7 +159,10 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
           Authorization: `Bearer ${token}`,
         },
       })
-      getTransactions()
+      getTransactions({
+        dateRange: getMonthDateRange(),
+        transactionType: [],
+      })
       getWallets()
     } catch (error) {
       console.error('Erro ao criar transação:', error)
@@ -96,7 +176,10 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
           Authorization: `Bearer ${token}`,
         },
       })
-      getTransactions()
+      getTransactions({
+        dateRange: getMonthDateRange(),
+        transactionType: [],
+      })
       getWallets()
     } catch (error) {
       console.error('Erro ao editar transação:', error)
@@ -110,7 +193,10 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
           Authorization: `Bearer ${token}`,
         },
       })
-      getTransactions()
+      getTransactions({
+        dateRange: getMonthDateRange(),
+        transactionType: [],
+      })
       getWallets()
     } catch (error) {
       console.error('Erro ao deletar transação:', error)

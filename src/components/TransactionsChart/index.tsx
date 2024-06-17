@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { useTransactions } from '../../hooks/useTransactions'
-
 import { Spinner, Container } from './styles'
+import { format, parseISO } from 'date-fns'
 
-// Hook para obter a largura da janela em tempo real
 const useWindowWidth = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
@@ -38,16 +37,16 @@ const TransactionsChart: React.FC = () => {
     const last6Months = Array.from({ length: 6 }, (_, i) => {
       const date = new Date()
       date.setMonth(date.getMonth() - i)
-      return date.toLocaleString('default', { month: 'short' })
+      return format(date, 'MMM yyyy')
     }).reverse()
 
     const deposits = new Array(6).fill(0)
     const withdrawals = new Array(6).fill(0)
 
     transactions.forEach((transaction) => {
-      const date = new Date(transaction.date)
-      const month = date.toLocaleString('default', { month: 'short' })
-      const index = last6Months.indexOf(month)
+      const date = parseISO(transaction.date)
+      const formattedMonth = format(date, 'MMM yyyy')
+      const index = last6Months.indexOf(formattedMonth)
 
       if (index !== -1) {
         if (transaction.type === 'Deposit') {

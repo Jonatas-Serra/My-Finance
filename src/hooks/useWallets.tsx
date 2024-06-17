@@ -39,6 +39,24 @@ interface WalletsProviderProps {
   children: React.ReactNode
 }
 
+function getCurrentMonthDateRange() {
+  const currentDate = new Date()
+
+  const firstDayPrevMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() - 6,
+    1,
+  )
+
+  const lastDayCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0,
+  )
+
+  return { startDate: firstDayPrevMonth, endDate: lastDayCurrentMonth }
+}
+
 interface WalletsContextData {
   wallets: Wallet[]
   selectedWallet: Wallet
@@ -131,7 +149,10 @@ export function WalletsProvider({ children }: WalletsProviderProps) {
       setWallets((prevWallets) =>
         prevWallets.filter((wallet) => wallet._id !== id),
       )
-      getTransactions()
+      getTransactions({
+        dateRange: getCurrentMonthDateRange(),
+        transactionType: [],
+      })
     } catch (error) {
       console.error('Erro ao deletar carteira:', error)
     }

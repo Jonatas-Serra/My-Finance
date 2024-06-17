@@ -1,0 +1,63 @@
+.custom-date-range-picker .rdrDefinedRangesWrapper {
+  display: none;
+}
+
+
+.custom-date-range-picker .rdrDayToday .rdrDayNumber span {
+  font-weight: 500;
+  &:after{
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: #733cf8;
+  }
+}
+
+.custom-date-range-picker .rdrSelected, .rdrInRange, .rdrStartEdge, .rdrEndEdge{
+  background: #733cf8;
+  position: absolute;
+  top: 5px;
+  left: 0;
+  right: 0;
+  bottom: 5px;
+}
+
+.custom-date-range-picker .rdrDayStartPreview, .rdrDayInPreview, .rdrDayEndPreview{
+  position: absolute;
+  top: 3px;
+  left: 0px;
+  right: 0px;
+  bottom: 3px;
+  pointer-events: none;
+  border: 0px solid #733cf8;
+  z-index: 1;
+}
+
+.custom-date-range-picker .rdrDayStartPreview{
+  border-top-width: 1px;
+  border-left-width: 1px;
+  border-bottom-width: 1px;
+  border-top-left-radius: 1.333em;
+  border-bottom-left-radius: 1.333em;
+  left: 0px;
+}
+
+.custom-date-range-picker .rdrDayInPreview{
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+}
+
+.rdrDayEndPreview{
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-top-right-radius: 1.333em;
+  border-bottom-right-radius: 1.333em;
+  right: 2px;
+  right: 0px;
+}

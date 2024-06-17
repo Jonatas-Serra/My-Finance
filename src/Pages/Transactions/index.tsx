@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
+import Select from 'react-select'
+import { DateFilter } from '../../components/DateFilter'
 import {
   Container,
   Search,
   SearchInput,
-  SearchButton,
   AddContent,
   AddButton,
   TransactionsTable,
@@ -18,8 +19,11 @@ import {
   CardHeader,
   CardContent,
   CardBanner,
+  FilterContainer,
+  FilterItem,
+  FilterButton,
 } from './styles'
-import { FiSearch, FiEdit, FiTrash2 } from 'react-icons/fi'
+import { FiEdit, FiTrash2, FiFilter } from 'react-icons/fi'
 import deleteImg from '../../assets/delete-icon.svg'
 
 import { NewTransitionModal } from '../../components/NewTransitionsModal'
@@ -40,14 +44,94 @@ interface Transaction {
   date: string
 }
 
+interface DateRange {
+  startDate: Date
+  endDate: Date
+}
+
+interface AppliedFilters {
+  dateRange: DateRange
+  transactionType: string[]
+}
+
+const getCurrentMonthDateRange = (): DateRange => {
+  const now = new Date()
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+  return { startDate: firstDay, endDate: lastDay }
+}
+
+const transactionTypeOptions = [
+  { value: 'Deposit', label: 'Entrada', color: '#08C6AB' },
+  { value: 'Withdrawal', label: 'Saída', color: '#dc2020' },
+  { value: 'Transfer', label: 'Transferência', color: '#733cf8' },
+]
+
+const customStyles = {
+  control: (base: any) => ({
+    ...base,
+    borderRadius: '5px',
+    borderColor: 'var(--gray)',
+    boxShadow: 'none',
+    '&:hover': {
+      borderColor: 'var(--gray)',
+    },
+  }),
+  option: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.isFocused ? '#733cf8' : 'white',
+    color: state.data.color,
+    '&:hover': {
+      backgroundColor: '#733cf8',
+      color: 'white',
+    },
+  }),
+  multiValue: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.data.color,
+    color: 'white',
+  }),
+  multiValueLabel: (base: any) => ({
+    ...base,
+    color: 'white',
+  }),
+  multiValueRemove: (base: any) => ({
+    ...base,
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#733cf8',
+      color: 'white',
+    },
+  }),
+}
+
+const adjustEndDate = (date: Date) => {
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    23,
+    59,
+    59,
+  )
+}
+
 export default function Transactions() {
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenDel, setIsOpenDel] = useState(false)
   const [isOpenEdit, setIsOpenEdit] = useState(false)
+  const [dateRange, setDateRange] = useState<DateRange>(
+    getCurrentMonthDateRange(),
+  )
   const [searchTerm, setSearchTerm] = useState('')
+  const [transactionType, setTransactionType] = useState<string[]>([])
+  const [appliedFilters, setAppliedFilters] = useState<AppliedFilters>({
+    dateRange: getCurrentMonthDateRange(),
+    transactionType: [],
+  })
   const { transactions, loading, handleDeleteTransaction, getTransactions } =
     useTransactions()
-  const [selectedTransaction, setSelectedTransaction] = useState(
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction>(
     {} as Transaction,
   )
   const { wallets } = useWallets()
@@ -57,6 +141,10 @@ export default function Transactions() {
     setPage((prevPage) => prevPage + 1)
   }
 
+  const handleFilter = () => {
+    setAppliedFilters({ dateRange, transactionType })
+  }
+
   const filteredTransactions = transactions.filter(
     (transaction) =>
       transaction.description
@@ -64,7 +152,9 @@ export default function Transactions() {
         .includes(searchTerm.toLowerCase()) ||
       transaction.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
       transaction.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      transaction.walletId.toLowerCase().includes(searchTerm.toLowerCase()),
+      transaction.walletId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transactionType.length === 0 ||
+      transactionType.includes(transaction.type),
   )
 
   const sortedTransactions = filteredTransactions.sort((a, b) => {
@@ -81,8 +171,14 @@ export default function Transactions() {
   }
 
   useEffect(() => {
-    getTransactions()
-  }, [getTransactions])
+    getTransactions({
+      ...appliedFilters,
+      dateRange: {
+        ...appliedFilters.dateRange,
+        endDate: adjustEndDate(appliedFilters.dateRange.endDate),
+      },
+    })
+  }, [getTransactions, appliedFilters])
 
   return (
     <>
@@ -133,11 +229,46 @@ export default function Transactions() {
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
             />
-            <SearchButton>
-              <FiSearch size={20} />
-            </SearchButton>
           </div>
         </Search>
+        <FilterContainer>
+          <div className="flex">
+            <h4>Filtros</h4>
+          </div>
+          <FilterItem>
+            <DateFilter
+              onDateChange={setDateRange}
+              initialRange={{
+                startDate: dateRange.startDate,
+                endDate: dateRange.endDate,
+                key: 'selection',
+              }}
+            />
+          </FilterItem>
+          <FilterItem>
+            <Select
+              isMulti
+              options={transactionTypeOptions}
+              value={transactionTypeOptions.filter((option) =>
+                transactionType.includes(option.value),
+              )}
+              onChange={(selectedOptions) =>
+                setTransactionType(
+                  selectedOptions
+                    ? selectedOptions.map((option) => option.value)
+                    : [],
+                )
+              }
+              placeholder="Selecione o tipo"
+              classNamePrefix="select"
+              styles={customStyles}
+            />
+          </FilterItem>
+          <FilterButton onClick={handleFilter}>
+            <FiFilter size={20} />
+          </FilterButton>
+        </FilterContainer>
+
         <AddContent>
           <AddButton onClick={() => setIsOpen(true)}>Novo Lançamento</AddButton>
         </AddContent>
