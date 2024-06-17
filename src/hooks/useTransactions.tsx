@@ -132,8 +132,6 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
             transactionType: transactionType.join(','),
           },
         })
-        console.log(formatDate(dateRange.startDate))
-        console.log(formatDate(adjustedEndDate))
 
         setTransactions(response.data)
       } catch (error) {

@@ -3,6 +3,7 @@ import Chart from 'react-apexcharts'
 import { useTransactions } from '../../hooks/useTransactions'
 import { Spinner, Container } from './styles'
 import { format, parseISO } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 const useWindowWidth = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -16,8 +17,23 @@ const useWindowWidth = () => {
   return windowWidth
 }
 
+interface Transaction {
+  _id: string
+  description: string
+  type: string
+  category: string
+  amount: number
+  createdAt: string
+  createdBy: string
+  walletId: string
+  date: string
+}
+
 const TransactionsChart: React.FC = () => {
   const { transactions } = useTransactions()
+  const [formattedTransactions, setFormattedTransactions] = useState<
+    Transaction[]
+  >([])
   const [chartData, setChartData] = useState<any>(null)
   const windowWidth = useWindowWidth()
 
@@ -34,18 +50,28 @@ const TransactionsChart: React.FC = () => {
   }
 
   useEffect(() => {
+    const formatted = transactions.map((transaction) => ({
+      ...transaction,
+      date: transaction.date.split('T')[0], // Removendo a parte de tempo da data
+    }))
+    setFormattedTransactions(formatted)
+    console.log('transactions', transactions)
+    console.log('Formatada', formatted)
+  }, [transactions])
+
+  useEffect(() => {
     const last6Months = Array.from({ length: 6 }, (_, i) => {
       const date = new Date()
       date.setMonth(date.getMonth() - i)
-      return format(date, 'MMM yyyy')
+      return format(date, 'MMM yyyy', { locale: ptBR })
     }).reverse()
 
     const deposits = new Array(6).fill(0)
     const withdrawals = new Array(6).fill(0)
 
-    transactions.forEach((transaction) => {
+    formattedTransactions.forEach((transaction) => {
       const date = parseISO(transaction.date)
-      const formattedMonth = format(date, 'MMM yyyy')
+      const formattedMonth = format(date, 'MMM yyyy', { locale: ptBR })
       const index = last6Months.indexOf(formattedMonth)
 
       if (index !== -1) {
@@ -70,12 +96,12 @@ const TransactionsChart: React.FC = () => {
           color: '#dc2020',
         },
       ],
-      resposive: [
+      responsive: [
         {
           breakpoint: 768,
           options: {
             chart: {
-              with: '100%',
+              width: '100%',
             },
             plotOptions: {
               bar: {
@@ -156,7 +182,7 @@ const TransactionsChart: React.FC = () => {
         },
       },
     })
-  }, [transactions])
+  }, [formattedTransactions])
 
   if (!chartData) {
     return (
