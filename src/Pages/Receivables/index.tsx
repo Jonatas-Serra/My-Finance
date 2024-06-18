@@ -98,7 +98,7 @@ export default function Receivables() {
   const sortedAccounts = filteredAccounts.sort((a, b) => {
     const dateA = new Date(a.dueDate)
     const dateB = new Date(b.dueDate)
-    return dateA.getTime() - dateB.getTime()
+    return dateB.getTime() - dateA.getTime()
   })
 
   const paginatedAccounts = sortedAccounts.slice(0, page * 15)

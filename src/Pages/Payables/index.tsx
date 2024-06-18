@@ -477,11 +477,16 @@ export default function Payables() {
                   </p>
                   <Actions>
                     <ReceiveButton
-                      onClick={() =>
-                        handlePayAccount(payable._id, walletId, new Date())
-                      }
+                      onClick={() => {
+                        if (payable.isPaid) {
+                          setIsOpenUnderPay(true)
+                        } else {
+                          setSelectedAccount(payable)
+                          setIsOpenCheck(true)
+                        }
+                      }}
                     >
-                      Pagar
+                      {payable.isPaid ? 'Desfazer recebimento' : 'Pagar'}
                     </ReceiveButton>
                     <EditButton
                       onClick={() => {
