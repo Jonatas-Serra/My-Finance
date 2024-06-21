@@ -225,17 +225,15 @@ export default function Transactions() {
       </Modal>
       <Container onScroll={handleScroll}>
         <Search>
-          <div className="flex">
-            <SearchInput
-              type="text"
-              placeholder="Buscar transação"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-            />
-          </div>
+          <SearchInput
+            type="text"
+            placeholder="Buscar transação"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+          />
         </Search>
         <FilterContainer>
-          <div className="flex">
+          <div className="flexum">
             <h4>Filtros</h4>
           </div>
           <FilterItem>
@@ -248,27 +246,29 @@ export default function Transactions() {
               }}
             />
           </FilterItem>
-          <FilterItem>
-            <Select
-              isMulti
-              options={transactionTypeOptions}
-              value={transactionTypeOptions.filter((option) =>
-                transactionType.includes(option.value),
-              )}
-              onChange={(selectedOptions) => {
-                const selectedTypes = selectedOptions
-                  ? selectedOptions.map((option) => option.value)
-                  : []
-                setTransactionType(selectedTypes)
-              }}
-              placeholder="Selecione o tipo"
-              classNamePrefix="select"
-              styles={customStyles}
-            />
-          </FilterItem>
-          <FilterButton onClick={handleFilter}>
-            <FiFilter size={20} />
-          </FilterButton>
+          <div className="flexdois">
+            <FilterItem>
+              <Select
+                isMulti
+                options={transactionTypeOptions}
+                value={transactionTypeOptions.filter((option) =>
+                  transactionType.includes(option.value),
+                )}
+                onChange={(selectedOptions) => {
+                  const selectedTypes = selectedOptions
+                    ? selectedOptions.map((option) => option.value)
+                    : []
+                  setTransactionType(selectedTypes)
+                }}
+                placeholder="Selecione o tipo"
+                classNamePrefix="select"
+                styles={customStyles}
+              />
+            </FilterItem>
+            <FilterButton onClick={handleFilter}>
+              <FiFilter size={20} />
+            </FilterButton>
+          </div>
         </FilterContainer>
 
         <AddContent>

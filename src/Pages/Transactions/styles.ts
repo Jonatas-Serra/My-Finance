@@ -16,6 +16,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 1rem;
+  flex-grow: 1;
 `
 
 export const Search = styled.div`
@@ -66,11 +67,34 @@ export const FilterContainer = styled.div`
   gap: 20px;
   margin-bottom: 20px;
 
-  .flex {
+  @media (max-width: 560px) {
+    flex-direction: column;
+    gap: 15px;
+
+    .flexdois {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 840px) {
+    padding: 0 20px;
+  }
+
+  .flexum {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
+  }
+
+  .flexdois {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
   }
 `
 
@@ -109,6 +133,10 @@ export const TransactionsTable = styled.div`
   align-items: center;
   padding-bottom: 20px;
 
+  @media (max-width: 768px) {
+    display: none;
+  }
+
   table {
     width: 95%;
     border-collapse: collapse;
@@ -136,10 +164,6 @@ export const TransactionsTable = styled.div`
       td:nth-child(6) {
         display: none;
       }
-    }
-
-    @media (max-width: 768px) {
-      display: none;
     }
   }
 
@@ -327,6 +351,7 @@ export const CardContainer = styled.div`
     gap: 16px;
     padding: 0 16px;
     padding-bottom: 2rem;
+    flex-grow: 1;
 
     .deposit {
       color: var(--secondary);

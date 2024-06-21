@@ -23,6 +23,7 @@ import {
   EditButton,
   DeleteButton,
   PayButton,
+  CardBanner,
 } from './styles'
 
 import { NewAccountModal } from '../../components/NewAccountModal'
@@ -426,7 +427,7 @@ export default function Payables() {
           />
         </Search>
         <FilterContainer>
-          <div className="flex">
+          <div className="flexum">
             <h4>Filtros</h4>
           </div>
           <FilterItem>
@@ -439,26 +440,28 @@ export default function Payables() {
               }}
             />
           </FilterItem>
-          <FilterItem>
-            <Select
-              isMulti
-              options={statusOptions}
-              value={statusOptions.filter((option) =>
-                status.includes(option.value),
-              )}
-              onChange={(selectedOption) => {
-                const selectStatus = selectedOption
-                  ? selectedOption.map((option) => option.value)
-                  : []
-                setStatus(selectStatus)
-              }}
-              classNamePrefix="select"
-              styles={customStyles}
-            />
-          </FilterItem>
-          <FilterButton onClick={handleFilter}>
-            <FiFilter size={20} />
-          </FilterButton>
+          <div className="flexdois">
+            <FilterItem>
+              <Select
+                isMulti
+                options={statusOptions}
+                value={statusOptions.filter((option) =>
+                  status.includes(option.value),
+                )}
+                onChange={(selectedOption) => {
+                  const selectStatus = selectedOption
+                    ? selectedOption.map((option) => option.value)
+                    : []
+                  setStatus(selectStatus)
+                }}
+                classNamePrefix="select"
+                styles={customStyles}
+              />
+            </FilterItem>
+            <FilterButton onClick={handleFilter}>
+              <FiFilter size={20} />
+            </FilterButton>
+          </div>
         </FilterContainer>
         <AddContent>
           <AddButton onClick={() => setIsOpen(true)}>
@@ -590,6 +593,7 @@ export default function Payables() {
           ) : (
             paginatedAccounts.map((payable) => (
               <Card key={payable._id}>
+                <CardBanner status={payable.status} />
                 <CardHeader>
                   {payable.isPaid && <FaCheckCircle color="var(--secondary)" />}
                   {payable.payeeOrPayer}
@@ -597,6 +601,28 @@ export default function Payables() {
                 <CardContent>
                   <p>
                     Descrição: <strong>{payable.description}</strong>
+                  </p>
+                  <p>
+                    Status:{' '}
+                    <strong
+                      className={
+                        payable.status === 'Late'
+                          ? 'late'
+                          : payable.status === 'Paid'
+                            ? 'paid'
+                            : payable.status === 'Pending'
+                              ? 'pending'
+                              : ''
+                      }
+                    >{`${
+                      payable.status === 'Late'
+                        ? 'Conta atrasada'
+                        : payable.status === 'Paid'
+                          ? 'Conta recebida'
+                          : payable.status === 'Pending'
+                            ? 'A vencer'
+                            : 'Desconhecido'
+                    }`}</strong>
                   </p>
                   <p>
                     Data de Vencimento:{' '}

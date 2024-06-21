@@ -20,7 +20,7 @@ interface Account {
   documentType: string
   description: string
   payeeOrPayer: string
-  status?: string
+  status: string
   repeat?: number
   createdBy: string
   repeatInterval: number

@@ -3,8 +3,14 @@ import { DateRangePicker } from 'react-date-range'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import { ptBR } from 'date-fns/locale'
+import { FiCalendar } from 'react-icons/fi'
+import {
+  InputDate,
+  DatePickerWrapper,
+  InputWrapper,
+  IconWrapper,
+} from './styles'
 import './DateFilter.css'
-import { InputDate, DatePickerWrapper } from './styles'
 
 interface DateFilterProps {
   onDateChange: (range: any) => void
@@ -53,12 +59,17 @@ export function DateFilter({ onDateChange, initialRange }: DateFilterProps) {
 
   return (
     <div>
-      <InputDate
-        type="text"
-        value={`${dateRange[0].startDate.toLocaleDateString('pt-BR')} - ${dateRange[0].endDate.toLocaleDateString('pt-BR')}`}
-        onClick={() => setShowPicker(!showPicker)}
-        readOnly
-      />
+      <InputWrapper>
+        <InputDate
+          type="text"
+          value={`${dateRange[0].startDate.toLocaleDateString('pt-BR')} - ${dateRange[0].endDate.toLocaleDateString('pt-BR')}`}
+          onClick={() => setShowPicker(!showPicker)}
+          readOnly
+        />
+        <IconWrapper>
+          <FiCalendar />
+        </IconWrapper>
+      </InputWrapper>
       {showPicker && (
         <DatePickerWrapper ref={pickerRef}>
           <DateRangePicker

@@ -65,11 +65,34 @@ export const FilterContainer = styled.div`
   gap: 20px;
   margin-bottom: 20px;
 
-  .flex {
+  @media (max-width: 560px) {
+    flex-direction: column;
+    gap: 15px;
+
+    .flexdois {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 840px) {
+    padding: 0 20px;
+  }
+
+  .flexum {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
+  }
+
+  .flexdois {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
   }
 `
 
@@ -446,6 +469,7 @@ export const Card = styled.div`
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 16px;
+  position: relative;
 `
 
 export const CardHeader = styled.div`
@@ -461,6 +485,37 @@ export const CardContent = styled.div`
   p {
     margin: 4px 0;
   }
+
+  .paid {
+    white-space: normal;
+    color: var(--secondary);
+  }
+
+  .late {
+    white-space: normal;
+    color: var(--tertiary);
+  }
+
+  .pending {
+    color: var(--primary);
+  }
+`
+export const CardBanner = styled.div<{ status: string }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: ${({ status }) =>
+    status === 'Paid'
+      ? 'var(--secondary)'
+      : status === 'Late'
+        ? 'var(--tertiary)'
+        : status === 'Pending'
+          ? 'var(--primary)'
+          : 'transparent'};
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 `
 
 export const Actions = styled.div`

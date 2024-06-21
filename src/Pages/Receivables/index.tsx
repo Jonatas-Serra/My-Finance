@@ -23,6 +23,7 @@ import {
   EditButton,
   DeleteButton,
   ReceiveButton,
+  CardBanner,
 } from './styles'
 
 import { NewAccountModal } from '../../components/NewAccountModal'
@@ -65,7 +66,7 @@ interface Receivable {
   documentType: string
   description: string
   payeeOrPayer: string
-  status?: string
+  status: string
   repeat?: number
   createdBy: string
   repeatInterval: number
@@ -428,7 +429,7 @@ export default function Receivables() {
           />
         </Search>
         <FilterContainer>
-          <div className="flex">
+          <div className="flexum">
             <h4>Filtros</h4>
           </div>
           <FilterItem>
@@ -441,26 +442,28 @@ export default function Receivables() {
               }}
             />
           </FilterItem>
-          <FilterItem>
-            <Select
-              isMulti
-              options={statusOptions}
-              value={statusOptions.filter((option) =>
-                status.includes(option.value),
-              )}
-              onChange={(selectedOption) => {
-                const selectStatus = selectedOption
-                  ? selectedOption.map((option) => option.value)
-                  : []
-                setStatus(selectStatus)
-              }}
-              classNamePrefix="select"
-              styles={customStyles}
-            />
-          </FilterItem>
-          <FilterButton onClick={handleFilter}>
-            <FiFilter size={20} />
-          </FilterButton>
+          <div className="flexdois">
+            <FilterItem>
+              <Select
+                isMulti
+                options={statusOptions}
+                value={statusOptions.filter((option) =>
+                  status.includes(option.value),
+                )}
+                onChange={(selectedOption) => {
+                  const selectStatus = selectedOption
+                    ? selectedOption.map((option) => option.value)
+                    : []
+                  setStatus(selectStatus)
+                }}
+                classNamePrefix="select"
+                styles={customStyles}
+              />
+            </FilterItem>
+            <FilterButton onClick={handleFilter}>
+              <FiFilter size={20} />
+            </FilterButton>
+          </div>
         </FilterContainer>
         <AddContent>
           <AddButton onClick={() => setIsOpen(true)}>
@@ -592,6 +595,7 @@ export default function Receivables() {
           ) : (
             paginatedAccounts.map((receivable) => (
               <Card key={receivable._id}>
+                <CardBanner status={receivable.status} />
                 <CardHeader>
                   {receivable.isPaid && (
                     <FaCheckCircle color="var(--secondary)" />
@@ -601,6 +605,28 @@ export default function Receivables() {
                 <CardContent>
                   <p>
                     Descrição: <strong>{receivable.description}</strong>
+                  </p>
+                  <p>
+                    Status:{' '}
+                    <strong
+                      className={
+                        receivable.status === 'Late'
+                          ? 'late'
+                          : receivable.status === 'Paid'
+                            ? 'paid'
+                            : receivable.status === 'Pending'
+                              ? 'pending'
+                              : ''
+                      }
+                    >{`${
+                      receivable.status === 'Late'
+                        ? 'Conta atrasada'
+                        : receivable.status === 'Paid'
+                          ? 'Conta recebida'
+                          : receivable.status === 'Pending'
+                            ? 'A vencer'
+                            : 'Desconhecido'
+                    }`}</strong>
                   </p>
                   <p>
                     Data de Vencimento:{' '}
