@@ -91,7 +91,7 @@ export function EditAccountModal({
       setNewCategory('')
     }
 
-    await EditAccount({
+    EditAccount({
       _id: selectedAccount._id,
       type,
       value,
@@ -102,6 +102,11 @@ export function EditAccountModal({
       category: newCategory || category,
       payeeOrPayer,
       walletId,
+      issueDate: '',
+      isPaid: false,
+      createdBy: '',
+      repeatInterval: 0,
+      createdAt: '',
     })
 
     addToast({
