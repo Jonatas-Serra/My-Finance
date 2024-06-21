@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
+import Select from 'react-select'
+import { DateFilter } from '../../components/DateFilter'
 import {
   Container,
   Search,
   SearchInput,
-  SearchButton,
+  FilterContainer,
+  FilterItem,
+  FilterButton,
   AddContent,
   AddButton,
   ReceivablesTable,
@@ -24,11 +28,11 @@ import {
 import { NewAccountModal } from '../../components/NewAccountModal'
 import { EditAccountModal } from '../../components/EditAccountsModal'
 import {
-  FiSearch,
   FiEdit,
   FiTrash2,
   FiCheckSquare,
   FiSquare,
+  FiFilter,
 } from 'react-icons/fi'
 import { FaCheckCircle } from 'react-icons/fa'
 import deleteImg from '../../assets/delete-icon.svg'
@@ -38,6 +42,16 @@ import underpayImg from '../../assets/underpay.svg'
 import { useAccounts } from '../../hooks/useAccounts'
 import { useWallets } from '../../hooks/useWallets'
 import { useToast } from '../../hooks/useToast'
+
+interface DateRange {
+  startDate: Date
+  endDate: Date
+}
+
+interface AppliedFilters {
+  dateRange: DateRange
+  status: string[]
+}
 
 interface Receivable {
   _id: string
@@ -57,6 +71,82 @@ interface Receivable {
   repeatInterval: number
   walletId: string
   createdAt: string
+}
+
+const adjustEndDate = (date: Date) => {
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    23,
+    59,
+    59,
+  )
+}
+
+const statusOptions = [
+  { value: 'Paid', label: 'Recebido', color: '#08C6AB' },
+  { value: 'Pending', label: 'A vencer', color: '#733cf8' },
+  { value: 'Late', label: 'Atrasado', color: '#dc2020' },
+]
+
+const customStyles = {
+  control: (base: any) => ({
+    ...base,
+    borderRadius: '5px',
+    borderColor: 'var(--gray)',
+    boxShadow: 'none',
+    '&:hover': {
+      borderColor: 'var(--gray)',
+    },
+  }),
+  option: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.isFocused ? '#733cf8' : 'white',
+    color: state.data.color,
+    '&:hover': {
+      backgroundColor: '#733cf8',
+      color: 'white',
+    },
+  }),
+  multiValue: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.data.color,
+    color: 'white',
+  }),
+  multiValueLabel: (base: any) => ({
+    ...base,
+    color: 'white',
+  }),
+  multiValueRemove: (base: any) => ({
+    ...base,
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#733cf8',
+      color: 'white',
+    },
+  }),
+}
+
+function getMonthDateRange() {
+  const currentDate = new Date()
+
+  const firstDayCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1,
+  )
+
+  const lastDayNextMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 2,
+    0,
+  )
+
+  return {
+    startDate: firstDayCurrentMonth,
+    endDate: lastDayNextMonth,
+  }
 }
 
 export default function Receivables() {
@@ -81,6 +171,20 @@ export default function Receivables() {
   const [payday, setPayday] = useState(Date)
   const [selectedAccount, setSelectedAccount] = useState({} as Receivable)
   const [page, setPage] = useState(1)
+  const [status, setStatus] = useState<string[]>([])
+  const [dateRange, setDateRange] = useState<DateRange>(getMonthDateRange())
+  const [appliedFilters, setAppliedFilters] = useState<AppliedFilters>({
+    dateRange: getMonthDateRange(),
+    status: [],
+  })
+
+  const handleFilter = () => {
+    setAppliedFilters({
+      dateRange,
+      status,
+    })
+    getAccounts(appliedFilters)
+  }
 
   const loadMore = () => {
     setPage((prevPage) => prevPage + 1)
@@ -151,7 +255,10 @@ export default function Receivables() {
         title: 'Recebimento desfeito',
         description: 'O recebimento da conta foi desfeito',
       })
-      getAccounts()
+      getAccounts({
+        dateRange: getMonthDateRange(),
+        status: [],
+      })
     } catch (error) {
       addToast({
         type: 'error',
@@ -163,8 +270,14 @@ export default function Receivables() {
   }
 
   useEffect(() => {
-    getAccounts()
-  }, [getAccounts])
+    getAccounts({
+      ...appliedFilters,
+      dateRange: {
+        ...appliedFilters.dateRange,
+        endDate: adjustEndDate(appliedFilters.dateRange.endDate),
+      },
+    })
+  }, [getAccounts, appliedFilters])
 
   return (
     <>
@@ -307,18 +420,48 @@ export default function Receivables() {
       </Modal>
       <Container onScroll={handleScroll}>
         <Search>
-          <div className="flex">
-            <SearchInput
-              type="text"
-              placeholder="Buscar conta"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-            />
-            <SearchButton>
-              <FiSearch size={20} />
-            </SearchButton>
-          </div>
+          <SearchInput
+            type="text"
+            placeholder="Buscar conta"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+          />
         </Search>
+        <FilterContainer>
+          <div className="flex">
+            <h4>Filtros</h4>
+          </div>
+          <FilterItem>
+            <DateFilter
+              onDateChange={setDateRange}
+              initialRange={{
+                startDate: dateRange.startDate,
+                endDate: dateRange.endDate,
+                key: 'selection',
+              }}
+            />
+          </FilterItem>
+          <FilterItem>
+            <Select
+              isMulti
+              options={statusOptions}
+              value={statusOptions.filter((option) =>
+                status.includes(option.value),
+              )}
+              onChange={(selectedOption) => {
+                const selectStatus = selectedOption
+                  ? selectedOption.map((option) => option.value)
+                  : []
+                setStatus(selectStatus)
+              }}
+              classNamePrefix="select"
+              styles={customStyles}
+            />
+          </FilterItem>
+          <FilterButton onClick={handleFilter}>
+            <FiFilter size={20} />
+          </FilterButton>
+        </FilterContainer>
         <AddContent>
           <AddButton onClick={() => setIsOpen(true)}>
             Nova conta a receber

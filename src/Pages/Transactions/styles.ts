@@ -64,6 +64,7 @@ export const FilterContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  margin-bottom: 20px;
 
   .flex {
     display: flex;

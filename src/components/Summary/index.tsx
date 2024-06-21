@@ -20,7 +20,6 @@ export function Summary() {
 
     const monthlySummary = transactions.reduce(
       (acc, transaction) => {
-        // Format the transaction date to remove the "Z" and use only the date part
         const transactionDate = new Date(transaction.date.split('T')[0])
         const transactionMonth = transactionDate.getMonth()
         const transactionYear = transactionDate.getFullYear()

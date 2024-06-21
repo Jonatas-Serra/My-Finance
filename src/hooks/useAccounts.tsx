@@ -34,6 +34,32 @@ interface AccountsProviderProps {
   children: React.ReactNode
 }
 
+interface GetAccountsParams {
+  dateRange: { startDate: Date; endDate: Date }
+  status: string[]
+}
+
+function getMonthDateRange() {
+  const currentDate = new Date()
+
+  const firstDayCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1,
+  )
+
+  const lastDayNextMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 2,
+    0,
+  )
+
+  return {
+    startDate: firstDayCurrentMonth,
+    endDate: lastDayNextMonth,
+  }
+}
+
 interface AccountsContextData {
   payables: Account[]
   receivables: Account[]
@@ -46,10 +72,7 @@ interface AccountsContextData {
   handleSelectAccount: (account: Account) => void
   PayAccount: (id: string, walletId: string, payday: Date) => void
   UnpayAccount: (id: string) => void
-  getAccounts: (filters: {
-    dateRange: { startDate: Date; endDate: Date }
-    status: string
-  }) => Promise<void>
+  getAccounts: (filters: GetAccountsParams) => Promise<void>
 }
 
 const AccountsContext = createContext<AccountsContextData>(
@@ -67,7 +90,7 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
   const token = localStorage.getItem('@Myfinance:token')
 
   const getAccounts = useCallback(
-    async ({ dateRange, status }) => {
+    async ({ dateRange, status }: GetAccountsParams) => {
       if (!user?._id || !token) return
 
       setLoading(true)
@@ -101,8 +124,8 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
 
   useEffect(() => {
     getAccounts({
-      dateRange: { startDate: new Date(), endDate: new Date() },
-      status: '',
+      dateRange: getMonthDateRange(),
+      status: [],
     })
   }, [getAccounts])
 
@@ -114,8 +137,8 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
         },
       })
       getAccounts({
-        dateRange: { startDate: new Date(), endDate: new Date() },
-        status: '',
+        dateRange: getMonthDateRange(),
+        status: [],
       })
     } catch (error) {
       console.error('Erro ao criar conta:', error)
@@ -130,8 +153,8 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
         },
       })
       getAccounts({
-        dateRange: { startDate: new Date(), endDate: new Date() },
-        status: '',
+        dateRange: getMonthDateRange(),
+        status: [],
       })
     } catch (error) {
       console.error('Erro ao editar conta:', error)
@@ -146,8 +169,8 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
         },
       })
       getAccounts({
-        dateRange: { startDate: new Date(), endDate: new Date() },
-        status: '',
+        dateRange: getMonthDateRange(),
+        status: [],
       })
     } catch (error) {
       console.error('Erro ao deletar conta:', error)
@@ -173,8 +196,8 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
         },
       )
       getAccounts({
-        dateRange: { startDate: new Date(), endDate: new Date() },
-        status: '',
+        dateRange: getMonthDateRange(),
+        status: [],
       })
     } catch (error) {
       console.error('Erro ao pagar conta:', error)
@@ -193,8 +216,8 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
         },
       )
       getAccounts({
-        dateRange: { startDate: new Date(), endDate: new Date() },
-        status: '',
+        dateRange: getMonthDateRange(),
+        status: [],
       })
     } catch (error) {
       console.error('Erro ao desfazer pagamento:', error)

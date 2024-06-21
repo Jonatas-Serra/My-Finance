@@ -143,18 +143,21 @@ export default function Transactions() {
 
   const handleFilter = () => {
     setAppliedFilters({ dateRange, transactionType })
+    getTransactions(appliedFilters)
   }
 
   const filteredTransactions = transactions.filter(
     (transaction) =>
-      transaction.description
+      (transaction.description
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      transaction.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      transaction.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      transaction.walletId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      transactionType.length === 0 ||
-      transactionType.includes(transaction.type),
+        transaction.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.walletId
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())) &&
+      (transactionType.length === 0 ||
+        transactionType.includes(transaction.type)),
   )
 
   const sortedTransactions = filteredTransactions.sort((a, b) => {
@@ -252,13 +255,12 @@ export default function Transactions() {
               value={transactionTypeOptions.filter((option) =>
                 transactionType.includes(option.value),
               )}
-              onChange={(selectedOptions) =>
-                setTransactionType(
-                  selectedOptions
-                    ? selectedOptions.map((option) => option.value)
-                    : [],
-                )
-              }
+              onChange={(selectedOptions) => {
+                const selectedTypes = selectedOptions
+                  ? selectedOptions.map((option) => option.value)
+                  : []
+                setTransactionType(selectedTypes)
+              }}
               placeholder="Selecione o tipo"
               classNamePrefix="select"
               styles={customStyles}

@@ -112,7 +112,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   }
 
   const formatDate = (date: Date) => {
-    return date.toISOString().split('T')[0] // Formato YYYY-MM-DD
+    return date.toISOString().split('T')[0]
   }
 
   const getTransactions = useCallback(
@@ -129,7 +129,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
           params: {
             startDate: formatDate(dateRange.startDate),
             endDate: formatDate(adjustedEndDate),
-            transactionType: transactionType.join(','),
+            transactionType,
           },
         })
 

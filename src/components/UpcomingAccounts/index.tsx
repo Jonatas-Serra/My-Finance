@@ -22,6 +22,27 @@ interface UpcomingAccountsProps {
   days: number
 }
 
+function getMonthDateRange() {
+  const currentDate = new Date()
+
+  const firstDayCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1,
+  )
+
+  const lastDayNextMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 2,
+    0,
+  )
+
+  return {
+    startDate: firstDayCurrentMonth,
+    endDate: lastDayNextMonth,
+  }
+}
+
 const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
   const { accounts, handleDeleteAccount, PayAccount, getAccounts } =
     useAccounts()
@@ -76,7 +97,10 @@ const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
         title: 'Conta paga/recebida com sucesso',
       })
     }
-    await getAccounts()
+    await getAccounts({
+      dateRange: getMonthDateRange(),
+      status: [],
+    })
   }
 
   return (
