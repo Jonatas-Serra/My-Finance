@@ -363,7 +363,7 @@ export default function Transactions() {
           )}
         </TransactionsTable>
         <CardContainer>
-          {transactions.map((transaction) => (
+          {paginatedTransactions.map((transaction) => (
             <Card key={transaction._id}>
               <CardBanner type={transaction.type} />
               <CardHeader>{transaction.description}</CardHeader>
