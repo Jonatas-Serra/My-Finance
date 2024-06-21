@@ -20,7 +20,7 @@ export function Summary() {
 
     const monthlySummary = transactions.reduce(
       (acc, transaction) => {
-        const transactionDate = new Date(transaction.date)
+        const transactionDate = new Date(transaction.date.split('T')[0])
         const transactionMonth = transactionDate.getMonth()
         const transactionYear = transactionDate.getFullYear()
 

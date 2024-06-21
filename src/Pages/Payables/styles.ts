@@ -10,13 +10,12 @@ const spin = keyframes`
 `
 
 export const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: var(--white);
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-  padding-top: 1rem;
+  height: 100%;
+  padding: 1rem;
+  overflow-y: auto;
+  background-color: var(--white);
 `
 
 export const Search = styled.div`
@@ -47,7 +46,7 @@ export const SearchInput = styled.input`
   }
 `
 
-export const SearchButton = styled.button`
+export const FilterButton = styled.button`
   height: 40px;
   width: 60px;
   background-color: var(--primary);
@@ -57,6 +56,29 @@ export const SearchButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+export const FilterContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+`
+
+export const FilterItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 `
 
 export const AddContent = styled.div`
@@ -416,6 +438,7 @@ export const CardContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding-bottom: 2rem;
   }
 `
 
@@ -463,6 +486,7 @@ export const ReceiveButton = styled(PayButton)`
 export const DeleteButton = styled(PayButton)`
   background-color: var(--tertiary);
 `
+
 export const EditButton = styled(PayButton)`
   background-color: var(--primary);
 `

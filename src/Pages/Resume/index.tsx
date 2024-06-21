@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Container,
   SummaryContainer,
@@ -17,9 +17,36 @@ import ExpensesByCategoryChart from '../../components/ExpensesByCategoryChart'
 import { WalletSummary } from '../../components/WalletSummary'
 import { Summary } from '../../components/Summary'
 import UpcomingAccounts from '../../components/UpcomingAccounts'
+import { useTransactions } from '../../hooks/useTransactions'
+
+function getCurrentMonthDateRange() {
+  const currentDate = new Date()
+
+  const firstDayPrevMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() - 6,
+    1,
+  )
+
+  const lastDayCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0,
+  )
+
+  return { startDate: firstDayPrevMonth, endDate: lastDayCurrentMonth }
+}
 
 export default function Resume() {
   const [selectedDays, setSelectedDays] = useState(30)
+  const { getTransactions } = useTransactions()
+
+  useEffect(() => {
+    getTransactions({
+      dateRange: getCurrentMonthDateRange(),
+      transactionType: [],
+    })
+  }, [getTransactions])
 
   return (
     <Container>

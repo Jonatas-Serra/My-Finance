@@ -55,8 +55,6 @@ const TransactionsChart: React.FC = () => {
       date: transaction.date.split('T')[0], // Removendo a parte de tempo da data
     }))
     setFormattedTransactions(formatted)
-    console.log('transactions', transactions)
-    console.log('Formatada', formatted)
   }, [transactions])
 
   useEffect(() => {

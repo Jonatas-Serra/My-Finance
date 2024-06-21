@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react'
+import Modal from 'react-modal'
+import Select from 'react-select'
+import { DateFilter } from '../../components/DateFilter'
 import {
   Container,
   Search,
   SearchInput,
-  SearchButton,
+  FilterContainer,
+  FilterItem,
+  FilterButton,
   AddContent,
   AddButton,
   PayablesTable,
@@ -17,20 +22,19 @@ import {
   Actions,
   EditButton,
   DeleteButton,
-  ReceiveButton,
+  PayButton,
 } from './styles'
-import Modal from 'react-modal'
+
+import { NewAccountModal } from '../../components/NewAccountModal'
+import { EditAccountModal } from '../../components/EditAccountsModal'
 import {
-  FiSearch,
   FiEdit,
   FiTrash2,
   FiCheckSquare,
   FiSquare,
+  FiFilter,
 } from 'react-icons/fi'
 import { FaCheckCircle } from 'react-icons/fa'
-
-import { NewAccountModal } from '../../components/NewAccountModal'
-import { EditAccountModal } from '../../components/EditAccountsModal'
 import deleteImg from '../../assets/delete-icon.svg'
 import moneyImg from '../../assets/money.svg'
 import underpayImg from '../../assets/underpay.svg'
@@ -38,6 +42,16 @@ import underpayImg from '../../assets/underpay.svg'
 import { useAccounts } from '../../hooks/useAccounts'
 import { useWallets } from '../../hooks/useWallets'
 import { useToast } from '../../hooks/useToast'
+
+interface DateRange {
+  startDate: Date
+  endDate: Date
+}
+
+interface AppliedFilters {
+  dateRange: DateRange
+  status: string[]
+}
 
 interface Payable {
   _id: string
@@ -57,6 +71,82 @@ interface Payable {
   repeatInterval: number
   walletId: string
   createdAt: string
+}
+
+const adjustEndDate = (date: Date) => {
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    23,
+    59,
+    59,
+  )
+}
+
+const statusOptions = [
+  { value: 'Paid', label: 'Pago', color: '#08C6AB' },
+  { value: 'Pending', label: 'A vencer', color: '#733cf8' },
+  { value: 'Late', label: 'Atrasado', color: '#dc2020' },
+]
+
+const customStyles = {
+  control: (base: any) => ({
+    ...base,
+    borderRadius: '5px',
+    borderColor: 'var(--gray)',
+    boxShadow: 'none',
+    '&:hover': {
+      borderColor: 'var(--gray)',
+    },
+  }),
+  option: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.isFocused ? '#733cf8' : 'white',
+    color: state.data.color,
+    '&:hover': {
+      backgroundColor: '#733cf8',
+      color: 'white',
+    },
+  }),
+  multiValue: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.data.color,
+    color: 'white',
+  }),
+  multiValueLabel: (base: any) => ({
+    ...base,
+    color: 'white',
+  }),
+  multiValueRemove: (base: any) => ({
+    ...base,
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#733cf8',
+      color: 'white',
+    },
+  }),
+}
+
+function getMonthDateRange() {
+  const currentDate = new Date()
+
+  const firstDayCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1,
+  )
+
+  const lastDayNextMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 2,
+    0,
+  )
+
+  return {
+    startDate: firstDayCurrentMonth,
+    endDate: lastDayNextMonth,
+  }
 }
 
 export default function Payables() {
@@ -81,6 +171,20 @@ export default function Payables() {
   const [payday, setPayday] = useState(Date)
   const [selectedAccount, setSelectedAccount] = useState({} as Payable)
   const [page, setPage] = useState(1)
+  const [status, setStatus] = useState<string[]>([])
+  const [dateRange, setDateRange] = useState<DateRange>(getMonthDateRange())
+  const [appliedFilters, setAppliedFilters] = useState<AppliedFilters>({
+    dateRange: getMonthDateRange(),
+    status: [],
+  })
+
+  const handleFilter = () => {
+    setAppliedFilters({
+      dateRange,
+      status,
+    })
+    getAccounts(appliedFilters)
+  }
 
   const loadMore = () => {
     setPage((prevPage) => prevPage + 1)
@@ -115,21 +219,22 @@ export default function Payables() {
     walletId: string,
     payday: Date,
   ) => {
-    if (!walletId)
-      return addToast({
+    if (!walletId) {
+      addToast({
         type: 'error',
-        title: 'Erro ao pagar conta',
-        description: 'Selecione uma carteira e uma data de pagamento',
+        title: 'Selecione uma carteira',
+        description: 'Você precisa selecionar uma carteira para pagar a conta',
       })
+      return
+    }
 
     try {
-      await PayAccount(id, walletId, payday)
+      PayAccount(id, walletId, payday)
       addToast({
         type: 'success',
         title: 'Conta paga com sucesso',
         description: 'A conta foi marcada como paga',
       })
-      getAccounts()
       setIsOpenCheck(false)
     } catch (error) {
       addToast({
@@ -149,7 +254,10 @@ export default function Payables() {
         title: 'Pagamento desfeito',
         description: 'O pagamento da conta foi desfeito',
       })
-      getAccounts()
+      getAccounts({
+        dateRange: getMonthDateRange(),
+        status: [],
+      })
     } catch (error) {
       addToast({
         type: 'error',
@@ -159,14 +267,15 @@ export default function Payables() {
     }
   }
 
-  function handleClear() {
-    setWalletId('')
-    setPayday(Date)
-  }
-
   useEffect(() => {
-    getAccounts()
-  }, [getAccounts])
+    getAccounts({
+      ...appliedFilters,
+      dateRange: {
+        ...appliedFilters.dateRange,
+        endDate: adjustEndDate(appliedFilters.dateRange.endDate),
+      },
+    })
+  }, [getAccounts, appliedFilters])
 
   return (
     <>
@@ -217,9 +326,9 @@ export default function Payables() {
       >
         <ContentModalPaid>
           <h2>Pagar</h2>
-          <img src={moneyImg} alt="Fazer pagamento" />
+          <img src={moneyImg} alt="Marcar como pago" />
           <p>
-            Tem certeza que deseja fazer o pagamento da conta{' '}
+            Tem certeza que deseja pagar a conta{' '}
             <strong>{selectedAccount.description}</strong> ?
           </p>
           <div className="flex">
@@ -267,7 +376,6 @@ export default function Payables() {
                   walletId,
                   new Date(payday),
                 )
-                handleClear()
               }}
             >
               Pagar
@@ -310,18 +418,48 @@ export default function Payables() {
       </Modal>
       <Container onScroll={handleScroll}>
         <Search>
-          <div className="flex">
-            <SearchInput
-              type="text"
-              placeholder="Buscar conta"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-            />
-            <SearchButton>
-              <FiSearch size={20} />
-            </SearchButton>
-          </div>
+          <SearchInput
+            type="text"
+            placeholder="Buscar conta"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+          />
         </Search>
+        <FilterContainer>
+          <div className="flex">
+            <h4>Filtros</h4>
+          </div>
+          <FilterItem>
+            <DateFilter
+              onDateChange={setDateRange}
+              initialRange={{
+                startDate: dateRange.startDate,
+                endDate: dateRange.endDate,
+                key: 'selection',
+              }}
+            />
+          </FilterItem>
+          <FilterItem>
+            <Select
+              isMulti
+              options={statusOptions}
+              value={statusOptions.filter((option) =>
+                status.includes(option.value),
+              )}
+              onChange={(selectedOption) => {
+                const selectStatus = selectedOption
+                  ? selectedOption.map((option) => option.value)
+                  : []
+                setStatus(selectStatus)
+              }}
+              classNamePrefix="select"
+              styles={customStyles}
+            />
+          </FilterItem>
+          <FilterButton onClick={handleFilter}>
+            <FiFilter size={20} />
+          </FilterButton>
+        </FilterContainer>
         <AddContent>
           <AddButton onClick={() => setIsOpen(true)}>
             Nova conta a pagar
@@ -338,7 +476,7 @@ export default function Payables() {
                   <th>Descrição</th>
                   <th>Valor</th>
                   <th>Vencimento</th>
-                  <th>Beneficiário</th>
+                  <th>Pagador</th>
                   <th>Carteira</th>
                   <th>Status</th>
                   <th>Ações</th>
@@ -476,18 +614,18 @@ export default function Payables() {
                     </strong>
                   </p>
                   <Actions>
-                    <ReceiveButton
+                    <PayButton
                       onClick={() => {
                         if (payable.isPaid) {
-                          setIsOpenUnderPay(true)
+                          handleUnderPayAccount(payable._id)
                         } else {
                           setSelectedAccount(payable)
                           setIsOpenCheck(true)
                         }
                       }}
                     >
-                      {payable.isPaid ? 'Desfazer recebimento' : 'Pagar'}
-                    </ReceiveButton>
+                      {payable.isPaid ? 'Desfazer pagamento' : 'Pagar'}
+                    </PayButton>
                     <EditButton
                       onClick={() => {
                         setIsOpenEdit(true)

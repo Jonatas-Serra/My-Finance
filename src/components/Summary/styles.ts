@@ -58,13 +58,14 @@ export const Container = styled.div`
     @media (min-width: 1200px) and (max-width: 1919px) {
       width: 100%;
       max-width: 320px;
+      gap: 0.3rem;
 
       header p {
-        font-size: 2rem;
+        font-size: 1.8rem;
       }
 
       strong {
-        font-size: 2rem;
+        font-size: 1.8rem;
       }
     }
   }

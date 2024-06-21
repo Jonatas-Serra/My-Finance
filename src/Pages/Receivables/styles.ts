@@ -46,7 +46,7 @@ export const SearchInput = styled.input`
   }
 `
 
-export const SearchButton = styled.button`
+export const FilterButton = styled.button`
   height: 40px;
   width: 60px;
   background-color: var(--primary);
@@ -56,6 +56,28 @@ export const SearchButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+export const FilterContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+`
+
+export const FilterItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 `
 
 export const AddContent = styled.div`

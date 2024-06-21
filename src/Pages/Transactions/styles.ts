@@ -37,7 +37,7 @@ export const SearchInput = styled.input`
   width: 100%;
   max-width: 400px;
   height: 40px;
-  border: 1px solid var(--gray);
+  border: none;
   border-radius: 5px;
   padding: 0 10px;
 
@@ -46,7 +46,7 @@ export const SearchInput = styled.input`
   }
 `
 
-export const SearchButton = styled.button`
+export const FilterButton = styled.button`
   height: 40px;
   width: 60px;
   background-color: var(--primary);
@@ -56,6 +56,29 @@ export const SearchButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+export const FilterContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+`
+
+export const FilterItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 `
 
 export const AddContent = styled.div`
@@ -269,6 +292,7 @@ export const Spinner = styled.div`
   animation: ${spin} 1s linear infinite;
   margin: 20px auto;
 `
+
 export const Actions = styled.div`
   display: flex;
   gap: 8px;

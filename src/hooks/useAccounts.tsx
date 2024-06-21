@@ -28,23 +28,36 @@ interface Account {
   createdAt: string
 }
 
-interface EditAccountInput {
-  _id: string
-  type: string
-  value: number
-  description: string
-  documentType: string
-  dueDate: string
-  documentNumber: string
-  category: string
-  payeeOrPayer: string
-  walletId: string
-}
-
 type AccountInput = Omit<Account, '_id' | 'createdAt'>
 
 interface AccountsProviderProps {
   children: React.ReactNode
+}
+
+interface GetAccountsParams {
+  dateRange: { startDate: Date; endDate: Date }
+  status: string[]
+}
+
+function getMonthDateRange() {
+  const currentDate = new Date()
+
+  const firstDayCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1,
+  )
+
+  const lastDayNextMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 2,
+    0,
+  )
+
+  return {
+    startDate: firstDayCurrentMonth,
+    endDate: lastDayNextMonth,
+  }
 }
 
 interface AccountsContextData {
@@ -54,12 +67,12 @@ interface AccountsContextData {
   selectedAccount: Account
   loading: boolean
   createAccount: (account: AccountInput) => Promise<void>
-  EditAccount: (account: EditAccountInput) => void
+  EditAccount: (account: Account) => void
   handleDeleteAccount: (id: string) => void
   handleSelectAccount: (account: Account) => void
   PayAccount: (id: string, walletId: string, payday: Date) => void
   UnpayAccount: (id: string) => void
-  getAccounts: () => Promise<void>
+  getAccounts: (filters: GetAccountsParams) => Promise<void>
 }
 
 const AccountsContext = createContext<AccountsContextData>(
@@ -73,35 +86,47 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
   const [receivables, setReceivables] = useState<Account[]>([])
   const [selectedAccount, setSelectedAccount] = useState<Account>({} as Account)
   const [loading, setLoading] = useState(true)
+
   const token = localStorage.getItem('@Myfinance:token')
 
-  const getAccounts = useCallback(async () => {
-    if (!user?._id || !token) return
+  const getAccounts = useCallback(
+    async ({ dateRange, status }: GetAccountsParams) => {
+      if (!user?._id || !token) return
 
-    setLoading(true)
-    try {
-      const response = await api.get(`/accounts/user/${user._id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      const accounts = response.data
-      setAccounts(accounts)
-      setPayables(
-        accounts.filter((account: Account) => account.type === 'payable'),
-      )
-      setReceivables(
-        accounts.filter((account: Account) => account.type === 'receivable'),
-      )
-    } catch (error) {
-      console.error('Erro ao obter contas:', error)
-    } finally {
-      setLoading(false)
-    }
-  }, [user, token])
+      setLoading(true)
+      try {
+        const response = await api.get(`/accounts/user/${user._id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            startDate: dateRange.startDate,
+            endDate: dateRange.endDate,
+            status,
+          },
+        })
+        const accounts = response.data
+        setAccounts(accounts)
+        setPayables(
+          accounts.filter((account: Account) => account.type === 'payable'),
+        )
+        setReceivables(
+          accounts.filter((account: Account) => account.type === 'receivable'),
+        )
+      } catch (error) {
+        console.error('Erro ao obter contas:', error)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [user, token],
+  )
 
   useEffect(() => {
-    getAccounts()
+    getAccounts({
+      dateRange: getMonthDateRange(),
+      status: [],
+    })
   }, [getAccounts])
 
   const createAccount = async (account: AccountInput) => {
@@ -111,20 +136,26 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
           Authorization: `Bearer ${token}`,
         },
       })
-      getAccounts()
+      getAccounts({
+        dateRange: getMonthDateRange(),
+        status: [],
+      })
     } catch (error) {
       console.error('Erro ao criar conta:', error)
     }
   }
 
-  const EditAccount = async (account: EditAccountInput) => {
+  const EditAccount = async (account: Account) => {
     try {
       await api.patch(`/accounts/${account._id}`, account, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      getAccounts()
+      getAccounts({
+        dateRange: getMonthDateRange(),
+        status: [],
+      })
     } catch (error) {
       console.error('Erro ao editar conta:', error)
     }
@@ -137,7 +168,10 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
           Authorization: `Bearer ${token}`,
         },
       })
-      getAccounts()
+      getAccounts({
+        dateRange: getMonthDateRange(),
+        status: [],
+      })
     } catch (error) {
       console.error('Erro ao deletar conta:', error)
     }
@@ -161,7 +195,10 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
           },
         },
       )
-      getAccounts()
+      getAccounts({
+        dateRange: getMonthDateRange(),
+        status: [],
+      })
     } catch (error) {
       console.error('Erro ao pagar conta:', error)
     }
@@ -178,7 +215,10 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
           },
         },
       )
-      getAccounts()
+      getAccounts({
+        dateRange: getMonthDateRange(),
+        status: [],
+      })
     } catch (error) {
       console.error('Erro ao desfazer pagamento:', error)
     }
