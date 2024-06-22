@@ -6,7 +6,6 @@ import React, {
   useCallback,
 } from 'react'
 import { useField } from '@unform/core'
-
 import { IconBaseProps } from 'react-icons'
 import { ImNotification } from 'react-icons/im'
 import { Container, Error } from './styles'
@@ -24,7 +23,6 @@ export function Input({ name, icon: Icon, ...rest }: InputProps) {
 
   const handleInputBlur = useCallback(() => {
     setIsFocused(false)
-
     setIsFilled(!!inputRef.current?.value)
   }, [])
 

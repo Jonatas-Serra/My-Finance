@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components'
-
 import { Tooltip } from '../Tooltip'
 
 interface ContainerProps {
@@ -66,6 +65,7 @@ export const Container = styled.div<ContainerProps>`
     color: var(--primary);
   }
 `
+
 export const Error = styled(Tooltip)`
   height: 16px;
 

@@ -172,14 +172,6 @@ export default function Settings() {
   }
 
   const handleChangePassword = async () => {
-    if (!currentPassword) {
-      addToast({
-        type: 'error',
-        title: 'Senha atual obrigatória',
-        description: 'O campo de senha atual é obrigatório.',
-      })
-      return
-    }
     try {
       formRef.current?.setErrors({})
       const schema = Yup.object().shape({
@@ -189,7 +181,7 @@ export default function Settings() {
           .required('Nova senha obrigatória'),
         confirmNewPassword: Yup.string()
           .oneOf(
-            [Yup.ref('newPassword'), null],
+            [Yup.ref('newPassword'), undefined],
             'Confirmação de senha não coincide',
           )
           .required('Confirmação de senha obrigatória'),
@@ -227,6 +219,13 @@ export default function Settings() {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error)
         formRef.current?.setErrors(errors)
+        addToast({
+          type: 'error',
+          title: 'Erro na troca de senha',
+          description:
+            `${errors.currentPassword || ''} ${errors.newPassword || ''} ${errors.confirmNewPassword || ''}`.trim() ||
+            'Não foi possível trocar a senha. Tente novamente.',
+        })
       } else {
         addToast({
           type: 'error',

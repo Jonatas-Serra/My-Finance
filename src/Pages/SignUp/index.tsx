@@ -79,7 +79,7 @@ export default function Signup() {
         addToast({
           type: 'success',
           title: 'Cadastro realizado!',
-          description: 'Você já pode fazer seu logon no My Finance!',
+          description: 'Você já pode fazer seu login no My Finance!',
         })
         setBtnDisabled(false)
       } catch (err) {
