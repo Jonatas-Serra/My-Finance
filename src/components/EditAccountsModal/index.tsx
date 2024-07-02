@@ -102,7 +102,7 @@ export function EditAccountModal({
       category: newCategory || category,
       payeeOrPayer,
       walletId,
-      issueDate: '',
+      issueDate: selectedAccount.issueDate,
       isPaid: false,
       createdBy: '',
       repeatInterval: 0,
