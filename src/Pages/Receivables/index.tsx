@@ -631,7 +631,9 @@ export default function Receivables() {
                   <p>
                     Data de Vencimento:{' '}
                     <strong>
-                      {new Date(receivable.dueDate).toLocaleDateString()}
+                      {new Intl.DateTimeFormat('pt-BR', {
+                        timeZone: 'UTC',
+                      }).format(new Date(receivable.dueDate))}
                     </strong>
                   </p>
                   <p>

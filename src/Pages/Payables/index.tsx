@@ -66,7 +66,7 @@ interface Payable {
   documentType: string
   description: string
   payeeOrPayer: string
-  status?: string
+  status: string
   repeat?: number
   createdBy: string
   repeatInterval: number
@@ -627,7 +627,9 @@ export default function Payables() {
                   <p>
                     Data de Vencimento:{' '}
                     <strong>
-                      {new Date(payable.dueDate).toLocaleDateString()}
+                      {new Intl.DateTimeFormat('pt-BR', {
+                        timeZone: 'UTC',
+                      }).format(new Date(payable.dueDate))}
                     </strong>
                   </p>
                   <p>

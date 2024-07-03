@@ -28,7 +28,8 @@ interface Account {
   createdAt: string
 }
 
-type AccountInput = Omit<Account, '_id' | 'createdAt'>
+type AccountInput = Omit<Account, '_id' | 'createdAt' | 'status'>
+type PartialAccount = Partial<Account> & { _id: string }
 
 interface AccountsProviderProps {
   children: React.ReactNode
@@ -67,7 +68,7 @@ interface AccountsContextData {
   selectedAccount: Account
   loading: boolean
   createAccount: (account: AccountInput) => Promise<void>
-  EditAccount: (account: Account) => void
+  EditAccount: (account: PartialAccount) => void
   handleDeleteAccount: (id: string) => void
   handleSelectAccount: (account: Account) => void
   PayAccount: (id: string, walletId: string, payday: Date) => void
@@ -145,9 +146,10 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
     }
   }
 
-  const EditAccount = async (account: Account) => {
+  const EditAccount = async (account: PartialAccount) => {
     try {
-      await api.patch(`/accounts/${account._id}`, account, {
+      const { _id, ...updateData } = account
+      await api.patch(`/accounts/${_id}`, updateData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -16,10 +16,28 @@ interface Account {
   description: string
   documentType: string
   dueDate: string
+  issueDate: string
   documentNumber: string
   category: string
   payeeOrPayer: string
   walletId: string
+  isPaid: boolean
+  createdBy: string
+  repeatInterval: number
+  createdAt: string
+  status: string
+}
+
+interface PartialAccount {
+  _id: string
+  value?: number
+  description?: string
+  dueDate?: string
+  documentNumber?: string
+  documentType?: string
+  category?: string
+  payeeOrPayer?: string
+  walletId?: string
 }
 
 interface EditAccountsModalProps {
@@ -43,13 +61,9 @@ export function EditAccountModal({
   const currentDate = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000)
     .toISOString()
     .split('T')[0]
-  const [type, setType] = useState(selectedAccount?.type || '')
   const [value, setValue] = useState(selectedAccount?.value || 0)
   const [description, setDescription] = useState(
     selectedAccount?.description || '',
-  )
-  const [documentType, setDocumentType] = useState(
-    selectedAccount?.documentType || '',
   )
   const [dueDate, setDueDate] = useState(selectedAccount?.dueDate || '')
   const [documentNumber, setDocumentNumber] = useState(
@@ -57,6 +71,9 @@ export function EditAccountModal({
   )
   const [category, setCategory] = useState(selectedAccount?.category || '')
   const [newCategory, setNewCategory] = useState('')
+  const [documentType, setDocumentType] = useState(
+    selectedAccount?.documentType,
+  )
   const [payeeOrPayer, setPayeeOrPayer] = useState(
     selectedAccount?.payeeOrPayer || '',
   )
@@ -65,10 +82,8 @@ export function EditAccountModal({
 
   useEffect(() => {
     if (selectedAccount) {
-      setType(selectedAccount.type)
       setValue(selectedAccount.value)
       setDescription(selectedAccount.description)
-      setDocumentType(selectedAccount.documentType)
       setDueDate(selectedAccount.dueDate)
       setDocumentNumber(selectedAccount.documentNumber)
       setCategory(selectedAccount.category)
@@ -91,23 +106,18 @@ export function EditAccountModal({
       setNewCategory('')
     }
 
-    EditAccount({
+    const updatedAccount: PartialAccount = {
       _id: selectedAccount._id,
-      type,
       value,
       description,
-      documentType,
       dueDate,
       documentNumber,
       category: newCategory || category,
       payeeOrPayer,
       walletId,
-      issueDate: selectedAccount.issueDate,
-      isPaid: false,
-      createdBy: '',
-      repeatInterval: 0,
-      createdAt: '',
-    })
+    }
+
+    EditAccount(updatedAccount)
 
     addToast({
       type: 'success',
@@ -124,12 +134,10 @@ export function EditAccountModal({
   }
 
   const handleClear = () => {
-    setType(typeOfAccount)
     setValue(0)
     setDueDate(currentDate)
     setDocumentNumber('')
     setCategory('')
-    setDocumentType('')
     setDescription('')
     setPayeeOrPayer('')
     setWalletId('')
