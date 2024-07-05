@@ -144,9 +144,19 @@ function getMonthDateRange() {
     0,
   )
 
+  const formatDateToISO = (date) => {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
+  const startDate = new Date(formatDateToISO(firstDayCurrentMonth))
+  const endDate = new Date(formatDateToISO(lastDayNextMonth))
+
   return {
-    startDate: firstDayCurrentMonth,
-    endDate: lastDayNextMonth,
+    startDate,
+    endDate,
   }
 }
 
@@ -203,7 +213,7 @@ export default function Receivables() {
   const sortedAccounts = filteredAccounts.sort((a, b) => {
     const dateA = new Date(a.dueDate)
     const dateB = new Date(b.dueDate)
-    return dateB.getTime() - dateA.getTime()
+    return dateA.getTime() - dateB.getTime()
   })
 
   const paginatedAccounts = sortedAccounts.slice(0, page * 15)
