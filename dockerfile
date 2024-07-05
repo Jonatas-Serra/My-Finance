@@ -1,16 +1,16 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Create app directory
-WORKDIR /usr/src/web
+WORKDIR /web
 
 # Install app dependencies
 COPY --chown=node:node package*.json ./
 
-RUN npm install --global npm@8.19.2 && npm install -g typescript && npm install
+RUN npm i -f
 
 # Bundle app source
 COPY . .
 
 EXPOSE 5173
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev", "--", "--port", "5173"]
