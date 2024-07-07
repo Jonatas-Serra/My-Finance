@@ -68,6 +68,8 @@ export const Container = styled.div<ContainerProps>`
 
 export const Error = styled(Tooltip)`
   height: 16px;
+  margin-right: 16px;
+  z-index: 999;
 
   svg {
     margin: 0px;

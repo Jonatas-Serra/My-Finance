@@ -13,6 +13,7 @@ export const Container = styled.div`
 
 export const Content = styled.div`
   width: 70%;
+  height: 80%;
   margin: auto;
   display: flex;
   align-items: center;
@@ -21,85 +22,31 @@ export const Content = styled.div`
   background-color: var(--white);
   border-radius: 5px;
   box-shadow: 25px 35px 75px 1px rgba(0, 0, 0, 0.85);
+  overflow: hidden;
 
   @media (max-width: 1024px) {
     width: 90%;
+    height: 90%;
   }
 
   @media (max-width: 768px) {
     width: 90%;
+
+    p {
+      padding: 0 5px;
+      text-align: center;
+    }
   }
 
-  form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    div {
-      display: flex;
-      align-items: center;
-      background-color: var(--white);
-      padding: 0 10px;
-    }
-
-    a {
-      font-size: 14px;
-      color: var(--primary);
-      text-decoration: none;
-      margin-bottom: 15px;
-    }
-
-    @media (max-width: 768px) {
-      padding-top: 40px;
-      padding-bottom: 40px;
-
-      div {
-        h1 {
-          font-size: 40px;
-        }
-
-        img {
-          width: 30%;
-        }
-      }
-    }
-
-    @media (max-width: 520px) {
-      padding-top: 30px;
-      padding-bottom: 30px;
-
-      div {
-        h1 {
-          font-size: 40px;
-        }
-
-        img {
-          width: 25%;
-        }
-      }
-    }
-
-    @media (max-width: 480px) {
-      padding-top: 20px;
-      padding-bottom: 20px;
-
-      div {
-        h1 {
-          font-size: 30px;
-        }
-
-        img {
-          width: 25%;
-        }
-      }
-    }
+  @media (max-height: 700px) and (orientation: landscape) {
+    height: 100%;
+    max-height: 400px;
   }
 `
 
 export const Info = styled.div`
-  width: 100%;
+  width: 50%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -119,11 +66,40 @@ export const Info = styled.div`
 
   img {
     width: 100%;
+    max-width: 500px;
+    height: 100%;
+    max-height: 500px;
     margin-bottom: 40px;
+  }
+
+  @media (max-height: 700px) and (orientation: landscape) {
+    display: none;
   }
 
   @media (max-width: 768px) {
     display: none;
+  }
+`
+
+export const FormContainer = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 `
 

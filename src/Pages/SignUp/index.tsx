@@ -5,7 +5,15 @@ import { Form } from '@unform/web'
 import * as Yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { Container, Content, Info, TopLogin, Login, Button } from './styles'
+import {
+  Container,
+  Content,
+  Info,
+  FormContainer,
+  TopLogin,
+  Login,
+  Button,
+} from './styles'
 import { Input } from '../../components/Input'
 import imgSignUp from '../../assets/imgSignUp.png'
 import logoImg from '../../assets/logo.svg'
@@ -124,64 +132,66 @@ export default function Signup() {
           </p>
           <img src={imgSignUp} alt="" />
         </Info>
-        <Form onSubmit={handleSubmit} ref={formRef}>
-          <TopLogin>
-            <img src={logoImg} alt="" />
-            <h1>My Finance</h1>
-          </TopLogin>
-          <Login>
-            <Input
-              name="name"
-              icon={FiUser}
-              type="text"
-              placeholder="Nome"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <Input
-              id="phone"
-              name="phone"
-              icon={FiPhone}
-              type="tel"
-              placeholder="Telefone"
-              value={phone}
-              onChange={handlePhoneChange}
-              maxLength={15}
-            />
-            <Input
-              name="email"
-              icon={FiMail}
-              type="email"
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              name="password"
-              icon={FiLock}
-              type="password"
-              placeholder="Senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Input
-              name="confirm"
-              icon={FiLock}
-              type="password"
-              placeholder="Confirmar senha"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-            />
-          </Login>
+        <FormContainer>
+          <Form onSubmit={handleSubmit} ref={formRef}>
+            <TopLogin>
+              <img src={logoImg} alt="" />
+              <h1>My Finance</h1>
+            </TopLogin>
+            <Login>
+              <Input
+                name="name"
+                icon={FiUser}
+                type="text"
+                placeholder="Nome"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <Input
+                id="phone"
+                name="phone"
+                icon={FiPhone}
+                type="tel"
+                placeholder="Telefone"
+                value={phone}
+                onChange={handlePhoneChange}
+                maxLength={15}
+              />
+              <Input
+                name="email"
+                icon={FiMail}
+                type="email"
+                placeholder="E-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                name="password"
+                icon={FiLock}
+                type="password"
+                placeholder="Senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Input
+                name="confirm"
+                icon={FiLock}
+                type="password"
+                placeholder="Confirmar senha"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+              />
+            </Login>
 
-          <Button disabled={btnDisabled} type="submit">
-            Criar conta
-          </Button>
+            <Button disabled={btnDisabled} type="submit">
+              Criar conta
+            </Button>
 
-          <p>
-            Já possui uma conta? <Link to="/">Entrar</Link>
-          </p>
-        </Form>
+            <p>
+              Já possui uma conta? <Link to="/">Entrar</Link>
+            </p>
+          </Form>
+        </FormContainer>
       </Content>
     </Container>
   )

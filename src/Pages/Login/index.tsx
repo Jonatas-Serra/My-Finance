@@ -6,7 +6,15 @@ import * as Yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom'
 import { FiMail, FiLock } from 'react-icons/fi'
 import { Input } from '../../components/Input'
-import { Container, Content, Info, TopLogin, LoginForm, Button } from './styles'
+import {
+  Container,
+  Content,
+  Info,
+  FormContainer,
+  TopLogin,
+  LoginForm,
+  Button,
+} from './styles'
 import imgLogin from '../../assets/imgLogin.png'
 import logoImg from '../../assets/logo.svg'
 import { useToast } from '../../hooks/useToast'
@@ -86,38 +94,40 @@ export default function Login() {
           </p>
           <img src={imgLogin} alt="" />
         </Info>
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <TopLogin>
-            <img src={logoImg} alt="" />
-            <h1>My Finance</h1>
-          </TopLogin>
-          <LoginForm>
-            <Input
-              name="email"
-              icon={FiMail}
-              type="email"
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              name="password"
-              type="password"
-              icon={FiLock}
-              placeholder="Senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </LoginForm>
-          <Link to="/forgot">Esqueci minha senha</Link>
-          <br />
-          <Button disabled={btnDisabled} type="submit">
-            Entrar
-          </Button>
-          <p>
-            Não possui uma conta? <Link to="/signup"> Cadastre-se</Link>
-          </p>
-        </Form>
+        <FormContainer>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <TopLogin>
+              <img src={logoImg} alt="" />
+              <h1>My Finance</h1>
+            </TopLogin>
+            <LoginForm>
+              <Input
+                name="email"
+                icon={FiMail}
+                type="email"
+                placeholder="E-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                name="password"
+                type="password"
+                icon={FiLock}
+                placeholder="Senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </LoginForm>
+            <Link to="/forgot">Esqueci minha senha</Link>
+            <br />
+            <Button disabled={btnDisabled} type="submit">
+              Entrar
+            </Button>
+            <p>
+              Não possui uma conta? <Link to="/signup"> Cadastre-se</Link>
+            </p>
+          </Form>
+        </FormContainer>
       </Content>
     </Container>
   )
