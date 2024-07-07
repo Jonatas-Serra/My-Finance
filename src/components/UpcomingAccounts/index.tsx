@@ -16,6 +16,7 @@ import {
   Card,
   CardHeader,
   CardContent,
+  CardBanner, // Importar o CardBanner
 } from './styles'
 
 interface UpcomingAccountsProps {
@@ -36,10 +37,19 @@ function getMonthDateRange() {
     currentDate.getMonth() + 2,
     0,
   )
+  const formatDateToISO = (date) => {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
+  const startDate = new Date(formatDateToISO(firstDayCurrentMonth))
+  const endDate = new Date(formatDateToISO(lastDayNextMonth))
 
   return {
-    startDate: firstDayCurrentMonth,
-    endDate: lastDayNextMonth,
+    startDate,
+    endDate,
   }
 }
 
@@ -154,6 +164,7 @@ const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
         <h3>Contas a Pagar</h3>
         {payableAccounts.map((account) => (
           <Card key={account._id}>
+            <CardBanner type={account.type} />
             <CardHeader>{account.payeeOrPayer}</CardHeader>
             <CardContent>
               <p>Descrição: {account.description}</p>
@@ -229,6 +240,7 @@ const UpcomingAccounts: React.FC<UpcomingAccountsProps> = ({ days }) => {
         <h3>Contas a Receber</h3>
         {receivableAccounts.map((account) => (
           <Card key={account._id}>
+            <CardBanner type={account.type} />
             <CardHeader>{account.payeeOrPayer}</CardHeader>
             <CardContent>
               <p>Descrição: {account.description}</p>

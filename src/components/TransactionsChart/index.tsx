@@ -52,25 +52,26 @@ const TransactionsChart: React.FC = () => {
   useEffect(() => {
     const formatted = transactions.map((transaction) => ({
       ...transaction,
-      date: transaction.date.split('T')[0], // Removendo a parte de tempo da data
+      date: transaction.date.split('T')[0],
     }))
     setFormattedTransactions(formatted)
   }, [transactions])
 
   useEffect(() => {
-    const last6Months = Array.from({ length: 6 }, (_, i) => {
+    const numOfMonths = windowWidth < 991 ? 3 : 6
+    const lastMonths = Array.from({ length: numOfMonths }, (_, i) => {
       const date = new Date()
       date.setMonth(date.getMonth() - i)
       return format(date, 'MMM yyyy', { locale: ptBR })
     }).reverse()
 
-    const deposits = new Array(6).fill(0)
-    const withdrawals = new Array(6).fill(0)
+    const deposits = new Array(numOfMonths).fill(0)
+    const withdrawals = new Array(numOfMonths).fill(0)
 
     formattedTransactions.forEach((transaction) => {
       const date = parseISO(transaction.date)
       const formattedMonth = format(date, 'MMM yyyy', { locale: ptBR })
-      const index = last6Months.indexOf(formattedMonth)
+      const index = lastMonths.indexOf(formattedMonth)
 
       if (index !== -1) {
         if (transaction.type === 'Deposit') {
@@ -94,32 +95,10 @@ const TransactionsChart: React.FC = () => {
           color: '#dc2020',
         },
       ],
-      responsive: [
-        {
-          breakpoint: 768,
-          options: {
-            chart: {
-              width: '100%',
-            },
-            plotOptions: {
-              bar: {
-                horizontal: true,
-              },
-            },
-          },
-        },
-      ],
       options: {
         chart: {
           type: 'bar',
           height: 350,
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded',
-          },
         },
         dataLabels: {
           enabled: true,
@@ -161,7 +140,7 @@ const TransactionsChart: React.FC = () => {
           colors: ['transparent'],
         },
         xaxis: {
-          categories: last6Months,
+          categories: lastMonths,
         },
         yaxis: {
           title: {
@@ -180,7 +159,7 @@ const TransactionsChart: React.FC = () => {
         },
       },
     })
-  }, [formattedTransactions])
+  }, [formattedTransactions, windowWidth])
 
   if (!chartData) {
     return (
