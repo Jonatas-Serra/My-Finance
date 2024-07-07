@@ -16,7 +16,7 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardBanner, // Importar o CardBanner
+  CardBanner,
 } from './styles'
 
 interface UpcomingAccountsProps {
@@ -44,8 +44,8 @@ function getMonthDateRange() {
     return `${year}-${month}-${day}`
   }
 
-  const startDate = new Date(formatDateToISO(firstDayCurrentMonth))
-  const endDate = new Date(formatDateToISO(lastDayNextMonth))
+  const startDate = formatDateToISO(firstDayCurrentMonth)
+  const endDate = formatDateToISO(lastDayNextMonth)
 
   return {
     startDate,

@@ -45,8 +45,8 @@ import { useWallets } from '../../hooks/useWallets'
 import { useToast } from '../../hooks/useToast'
 
 interface DateRange {
-  startDate: Date
-  endDate: Date
+  startDate: string
+  endDate: string
 }
 
 interface AppliedFilters {
@@ -72,17 +72,6 @@ interface Payable {
   repeatInterval: number
   walletId: string
   createdAt: string
-}
-
-const adjustEndDate = (date: Date) => {
-  return new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate(),
-    23,
-    59,
-    59,
-  )
 }
 
 const statusOptions = [
@@ -151,14 +140,15 @@ function getMonthDateRange() {
     return `${year}-${month}-${day}`
   }
 
-  const startDate = new Date(formatDateToISO(firstDayCurrentMonth))
-  const endDate = new Date(formatDateToISO(lastDayNextMonth))
+  const startDate = formatDateToISO(firstDayCurrentMonth)
+  const endDate = formatDateToISO(lastDayNextMonth)
 
   return {
     startDate,
     endDate,
   }
 }
+
 export default function Payables() {
   const { addToast } = useToast()
   const { wallets } = useWallets()
@@ -278,13 +268,8 @@ export default function Payables() {
   }
 
   useEffect(() => {
-    getAccounts({
-      ...appliedFilters,
-      dateRange: {
-        ...appliedFilters.dateRange,
-        endDate: adjustEndDate(appliedFilters.dateRange.endDate),
-      },
-    })
+    getAccounts(appliedFilters)
+    console.log('appliedFilters', appliedFilters)
   }, [getAccounts, appliedFilters])
 
   return (

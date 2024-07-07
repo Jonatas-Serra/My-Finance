@@ -71,7 +71,7 @@ export const NavSideList = styled.ul`
   }
 `
 
-export const NavSideItem = styled.li<{ isActive: boolean }>`
+export const NavSideItem = styled.li<{ isActive: boolean; disabled?: boolean }>`
   width: 100%;
   padding: 10px 0;
   display: flex;
@@ -79,13 +79,16 @@ export const NavSideItem = styled.li<{ isActive: boolean }>`
   justify-content: center;
   background-color: ${({ isActive }) =>
     isActive ? 'var(--secondary)' : 'transparent'};
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 
   &:hover {
     background-color: ${({ isActive }) =>
       isActive ? 'var(--secondary)' : 'var(--quinary)'};
   }
 
-  a {
+  a,
+  div {
     width: 100%;
     display: flex;
     align-items: center;
@@ -107,7 +110,8 @@ export const NavSideItem = styled.li<{ isActive: boolean }>`
   }
 
   @media (max-width: 767px) {
-    a {
+    a,
+    div {
       justify-content: center;
       font-size: 0;
     }
@@ -116,7 +120,8 @@ export const NavSideItem = styled.li<{ isActive: boolean }>`
   @media (min-width: 768px) {
     padding: 0;
 
-    a {
+    a,
+    div {
       font-size: 16px;
     }
   }
@@ -167,4 +172,13 @@ export const NavSideFooter = styled.div`
     justify-content: center;
     gap: 14px;
   }
+`
+
+export const Badge = styled.span`
+  background-color: var(--secondary);
+  color: var(--white);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  margin-left: 8px;
 `

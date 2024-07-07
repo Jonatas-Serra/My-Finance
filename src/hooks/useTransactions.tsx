@@ -28,8 +28,8 @@ interface TransactionsProviderProps {
 }
 
 interface DateRange {
-  startDate: Date
-  endDate: Date
+  startDate: string
+  endDate: string
 }
 
 interface GetTransactionsParams {
@@ -74,8 +74,8 @@ function getCurrentMonthDateRange() {
     return `${year}-${month}-${day}`
   }
 
-  const startDate = new Date(formatDateToISO(firstDayPrevMonth))
-  const endDate = new Date(formatDateToISO(lastDayCurrentMonth))
+  const startDate = formatDateToISO(firstDayPrevMonth)
+  const endDate = formatDateToISO(lastDayCurrentMonth)
 
   return {
     startDate,
@@ -105,8 +105,8 @@ function getMonthDateRange() {
     return `${year}-${month}-${day}`
   }
 
-  const startDate = new Date(formatDateToISO(firstDayCurrentMonth))
-  const endDate = new Date(formatDateToISO(lastDayCurrentMonth))
+  const startDate = formatDateToISO(firstDayCurrentMonth)
+  const endDate = formatDateToISO(lastDayCurrentMonth)
 
   return {
     startDate,
@@ -125,30 +125,20 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   const token = localStorage.getItem('@Myfinance:token')
 
-  const adjustEndDate = (date: Date) => {
-    const adjustedDate = new Date(date)
-    adjustedDate.setHours(23, 59, 59, 999)
-    return adjustedDate
-  }
-
-  const formatDate = (date: Date) => {
-    return date.toISOString().split('T')[0]
-  }
-
   const getTransactions = useCallback(
     async ({ dateRange, transactionType }: GetTransactionsParams) => {
       if (!user?._id || !token) return
 
       setLoading(true)
       try {
-        const adjustedEndDate = adjustEndDate(dateRange.endDate)
+        const adjustedEndDate = dateRange.endDate
         const response = await api.get(`/transactions/${user._id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
           params: {
-            startDate: formatDate(dateRange.startDate),
-            endDate: formatDate(adjustedEndDate),
+            startDate: dateRange.startDate,
+            endDate: adjustedEndDate,
             transactionType,
           },
         })

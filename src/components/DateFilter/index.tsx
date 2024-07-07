@@ -14,20 +14,14 @@ import './DateFilter.css'
 
 interface DateFilterProps {
   onDateChange: (range: any) => void
-  initialRange: { startDate: Date; endDate: Date; key: string }
-}
-
-const adjustEndDate = (date: Date) => {
-  const adjustedDate = new Date(date)
-  adjustedDate.setHours(23, 59, 59, 999)
-  return adjustedDate
+  initialRange: { startDate: string; endDate: string; key: string }
 }
 
 export function DateFilter({ onDateChange, initialRange }: DateFilterProps) {
   const [dateRange, setDateRange] = useState([
     {
-      startDate: initialRange.startDate,
-      endDate: adjustEndDate(initialRange.endDate),
+      startDate: new Date(initialRange.startDate),
+      endDate: new Date(initialRange.endDate),
       key: 'selection',
     },
   ])
@@ -35,10 +29,17 @@ export function DateFilter({ onDateChange, initialRange }: DateFilterProps) {
   const pickerRef = useRef<HTMLDivElement>(null)
 
   const handleSelect = (ranges: any) => {
-    const adjustedEndRange = adjustEndDate(ranges.selection.endDate)
-    const newRange = { ...ranges.selection, endDate: adjustedEndRange }
+    const newRange = {
+      startDate: ranges.selection.startDate,
+      endDate: ranges.selection.endDate,
+      key: 'selection',
+    }
     setDateRange([newRange])
-    onDateChange(newRange)
+    onDateChange({
+      startDate: newRange.startDate.toISOString().split('T')[0],
+      endDate: newRange.endDate.toISOString().split('T')[0],
+      key: newRange.key,
+    })
   }
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -62,7 +63,7 @@ export function DateFilter({ onDateChange, initialRange }: DateFilterProps) {
       <InputWrapper>
         <InputDate
           type="text"
-          value={`${dateRange[0].startDate.toLocaleDateString('pt-BR')} - ${dateRange[0].endDate.toLocaleDateString('pt-BR')}`}
+          value={`${new Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC' }).format(new Date(dateRange[0].startDate))} - ${new Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC' }).format(new Date(dateRange[0].endDate))}`}
           onClick={() => setShowPicker(!showPicker)}
           readOnly
         />

@@ -36,7 +36,7 @@ interface AccountsProviderProps {
 }
 
 interface GetAccountsParams {
-  dateRange: { startDate: Date; endDate: Date }
+  dateRange: { startDate: string; endDate: string }
   status: string[]
 }
 
@@ -62,8 +62,8 @@ function getMonthDateRange() {
     return `${year}-${month}-${day}`
   }
 
-  const startDate = new Date(formatDateToISO(firstDayCurrentMonth))
-  const endDate = new Date(formatDateToISO(lastDayNextMonth))
+  const startDate = formatDateToISO(firstDayCurrentMonth)
+  const endDate = formatDateToISO(lastDayNextMonth)
 
   return {
     startDate,

@@ -8,7 +8,7 @@ import {
   FiLogOut,
   FiSettings,
 } from 'react-icons/fi'
-import { IoWalletOutline } from 'react-icons/io5'
+import { IoWalletOutline, IoCardSharp } from 'react-icons/io5'
 import logoImg from '../../assets/logo.svg'
 import { useAuth } from '../../hooks/Auth'
 import {
@@ -17,6 +17,7 @@ import {
   NavSideItem,
   NavSideFooter,
   Logo,
+  Badge,
 } from './styles'
 
 interface NavSideProps {
@@ -63,6 +64,13 @@ export function NavSide({ isMenuOpen }: NavSideProps) {
             <IoWalletOutline />
             Carteiras
           </Link>
+        </NavSideItem>
+        <NavSideItem isActive={activeLink === '/dashboard/cards'} disabled>
+          <div>
+            <IoCardSharp />
+            Cartões
+            <Badge>Em breve</Badge>
+          </div>
         </NavSideItem>
         <NavSideItem isActive={activeLink === '/dashboard/receivables'}>
           <Link

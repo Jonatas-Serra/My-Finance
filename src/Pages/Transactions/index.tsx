@@ -45,8 +45,8 @@ interface Transaction {
 }
 
 interface DateRange {
-  startDate: Date
-  endDate: Date
+  startDate: string
+  endDate: string
 }
 
 interface AppliedFilters {
@@ -58,7 +58,21 @@ const getCurrentMonthDateRange = (): DateRange => {
   const now = new Date()
   const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
   const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0)
-  return { startDate: firstDay, endDate: lastDay }
+
+  const formatDateToISO = (date) => {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
+  const startDate = formatDateToISO(firstDay)
+  const endDate = formatDateToISO(lastDay)
+
+  return {
+    startDate,
+    endDate,
+  }
 }
 
 const transactionTypeOptions = [
@@ -103,17 +117,6 @@ const customStyles = {
       color: 'white',
     },
   }),
-}
-
-const adjustEndDate = (date: Date) => {
-  return new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate(),
-    23,
-    59,
-    59,
-  )
 }
 
 export default function Transactions() {
@@ -174,13 +177,7 @@ export default function Transactions() {
   }
 
   useEffect(() => {
-    getTransactions({
-      ...appliedFilters,
-      dateRange: {
-        ...appliedFilters.dateRange,
-        endDate: adjustEndDate(appliedFilters.dateRange.endDate),
-      },
-    })
+    getTransactions(appliedFilters)
   }, [getTransactions, appliedFilters])
 
   return (
