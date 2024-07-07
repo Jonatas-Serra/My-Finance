@@ -57,24 +57,7 @@ export default function ResetPassword() {
       })
 
       const { email } = response.data
-
-      // Faz o login automaticamente após redefinir a senha
-      try {
-        const loginResponse = await api.post('/auth/login', {
-          email,
-          password,
-        })
-
-        localStorage.setItem('@MyFinance:token', loginResponse.data.token)
-        navigate('/')
-      } catch (loginError) {
-        addToast({
-          type: 'error',
-          title: 'Erro ao fazer login',
-          description:
-            'Ocorreu um erro ao fazer login, por favor, tente novamente.',
-        })
-      }
+      handleLogin(email, password)
     } catch (error) {
       let errorMsg = 'Ocorreu um erro ao resetar sua senha, tente novamente.'
 
@@ -98,6 +81,25 @@ export default function ResetPassword() {
         type: 'error',
         title: 'Erro ao resetar senha',
         description: errorMsg,
+      })
+    }
+  }
+
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      const loginResponse = await api.post('/auth/login', {
+        email,
+        password,
+      })
+
+      localStorage.setItem('@MyFinance:token', loginResponse.data.token)
+      navigate('/')
+    } catch (loginError) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao fazer login',
+        description:
+          'Ocorreu um erro ao fazer login, por favor, tente novamente.',
       })
     }
   }
