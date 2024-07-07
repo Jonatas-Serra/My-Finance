@@ -28,6 +28,15 @@ export default function ResetPassword() {
       return
     }
 
+    if (password.length < 6) {
+      addToast({
+        type: 'error',
+        title: 'Erro na senha',
+        description: 'A senha deve ter no mínimo 6 caracteres.',
+      })
+      return
+    }
+
     if (password !== confirmPassword) {
       addToast({
         type: 'error',
@@ -38,7 +47,7 @@ export default function ResetPassword() {
     }
 
     try {
-      await api.post('/auth/reset-password', {
+      const response = await api.post('/auth/reset-password', {
         token,
         newPassword: password,
       })
@@ -49,12 +58,37 @@ export default function ResetPassword() {
         description: 'Sua senha foi alterada com sucesso.',
       })
 
+      const { email } = response.data
+      const loginResponse = await api.post('/auth/login', {
+        email,
+        password,
+      })
+
+      localStorage.setItem('@MyFinance:token', loginResponse.data.token)
       navigate('/')
     } catch (error) {
+      let errorMsg = 'Ocorreu um erro ao resetar sua senha, tente novamente.'
+
+      if ((error as any).response) {
+        switch ((error as any).response.data.message) {
+          case 'Invalid or expired token':
+            errorMsg = 'O link expirou ou já foi utilizado.'
+            break
+          case 'Token already used':
+            errorMsg = 'O link já foi utilizado.'
+            break
+          case 'Expired token':
+            errorMsg = 'O link expirou. Seu prazo é de 15 minutos.'
+            break
+          default:
+            errorMsg = (error as any).response.data.message || errorMsg
+        }
+      }
+
       addToast({
         type: 'error',
         title: 'Erro ao resetar senha',
-        description: 'Ocorreu um erro ao resetar sua senha, tente novamente.',
+        description: errorMsg,
       })
     }
   }
@@ -69,7 +103,7 @@ export default function ResetPassword() {
             mundo de possibilidades financeiras. Pronto para começar a jornada
             com uma senha mais segura e estilosa?{' '}
           </p>
-          <img src={imgReset} alt="" />
+          <img src={imgReset} alt="Imagem de redefinição de senha" />
         </div>
         <form onSubmit={handleResetPassword}>
           <div>
