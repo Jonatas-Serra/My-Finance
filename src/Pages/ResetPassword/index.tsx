@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useToast } from '../../hooks/useToast'
-
 import api from '../../services/api'
-
 import { Container, Content, Input, Button } from './styles'
 import imgReset from '../../assets/imgReset.png'
 import logoImg from '../../assets/logo.svg'
@@ -59,13 +57,24 @@ export default function ResetPassword() {
       })
 
       const { email } = response.data
-      const loginResponse = await api.post('/auth/login', {
-        email,
-        password,
-      })
 
-      localStorage.setItem('@MyFinance:token', loginResponse.data.token)
-      navigate('/')
+      // Faz o login automaticamente após redefinir a senha
+      try {
+        const loginResponse = await api.post('/auth/login', {
+          email,
+          password,
+        })
+
+        localStorage.setItem('@MyFinance:token', loginResponse.data.token)
+        navigate('/')
+      } catch (loginError) {
+        addToast({
+          type: 'error',
+          title: 'Erro ao fazer login',
+          description:
+            'Ocorreu um erro ao fazer login, por favor, tente novamente.',
+        })
+      }
     } catch (error) {
       let errorMsg = 'Ocorreu um erro ao resetar sua senha, tente novamente.'
 
